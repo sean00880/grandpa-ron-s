@@ -13,7 +13,7 @@ const Mission = () => {
                 src='/img/Joshua.jpg'
                 objectFit="cover"
                 alt="Joshua"
-                width='400px'
+                width='100%'
                 height='auto'
                 priority={true}
               />
