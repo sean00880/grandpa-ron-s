@@ -26,13 +26,11 @@ const Intro = () => {
         
         <p className={style.desc}>
           
-          <Image
+          <img
                 className={style.image}
-                src={`${process.env.NEXT_PUBLIC_URL}/img/GrandpaRon.png`}
-                width="500"
-                height="500"
-                priority={true}
-                objectFit="cover"
+                src='/img/GrandpaRon.png'
+                width="922"
+                height="650"
                 alt=""
               />
           Grandpa Ron and Joshua mowing the lawn [2004]
