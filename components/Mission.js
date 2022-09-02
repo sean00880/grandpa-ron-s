@@ -30,7 +30,7 @@ const Mission = () => {
           
           <h1 className={style.teamtext}>Mission</h1><hr/>
           <h3 className={style.text}>
-          <blockquote>We are experts in residential as well as commercial landscaping and and provide a variety of services inclduing: Tree removal, mulching, mowing, leaf-removal, patio/retaining walls, tree removal services, ice/snow management and more.</blockquote> <br/><blockquote>In order to provide the best possible service, we underpromise and overdeliver. We collaborate closely with our clients and work hard while prioritizing and delivering the highest standards of quality.</blockquote></h3>
+          <blockquote>We are experts in residential as well as commercial landscaping and and provide a variety of services inclduing: Tree removal, mulching, mowing, leaf-removal, patio & retaining walls, tree removal services, ice/snow management and more.</blockquote> <br/><blockquote>In order to provide the best possible service, we underpromise and overdeliver. We collaborate closely with our clients and work hard while prioritizing and delivering the highest standards of quality.</blockquote></h3>
           
           </div>
           </div>
