@@ -164,8 +164,8 @@
   
 
   .service {
-    width: 42vh;
-    height: 42vh;
+    width: 38vh;
+    height: 38vh;
     flex-direction: column;
     align-items: center;
   }

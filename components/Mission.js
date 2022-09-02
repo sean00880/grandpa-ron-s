@@ -10,11 +10,12 @@ const Mission = () => {
         <div className={style.content}>
           <img
                 className={style.image}
-                src='/img/joshua.jpg'
-                width="100%"
-                height="100%"
+                src='/img/Joshua.jpg'
                 objectFit="cover"
                 alt="Joshua"
+                width='400px'
+                height='auto'
+                priority={true}
               />
           <div className={style.textdiv}>
 
