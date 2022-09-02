@@ -1,0 +1,4 @@
+.container{
+    scroll-snap-type: y proximity;
+    height: auto;
+}

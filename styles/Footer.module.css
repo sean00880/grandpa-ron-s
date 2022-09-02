@@ -1,0 +1,89 @@
+.container {
+  height: auto;
+  border-top: 3px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 24px;
+  padding: 50px;
+  background-color: rgb(19, 19, 19);
+  color: rgb(237, 234, 234);
+  flex-direction:column;
+}
+
+.title {
+  font-weight: 400;
+  color: white;
+  background-color: rgba(0, 128, 0, 0.774);
+  border-radius: 10px 90px; 
+  padding: 10px 90px;
+  width: max-content;
+  transition: all 1s ease;
+  width: 100%;
+}
+
+.title:hover {
+  background-color: white;
+  color: rgba(0, 128, 0, 0.774);
+}
+
+.linkTitle {
+  text-decoration: underline;
+  transform-origin: left;
+  transition: all 1s ease;
+  text-align: center;
+}
+
+.cardscontainer{
+  display: flex;
+  flex-direction: row;
+  width:100%;
+  font-size: 24px;
+}
+
+.linkTitle:hover {
+  transform: scale(1.1);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.linkText{
+    margin-right: 20px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 18px;
+}
+
+.cardL {
+  flex: 2;
+}
+
+.cardS {
+  flex: 1;
+}
+
+.cardItem {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .title,
+  .linkTitle {
+    font-size: 30px;
+  }
+
+  .cardItem{
+    text-align: center;
+  }
+}

@@ -1,0 +1,276 @@
+.container {
+  height:150px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  padding: 0px 10px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background-image: url('../public/img/wood.jfif');
+  background-size: cover;
+  background-attachment: fixed;
+  align-items: center;
+  justify-items: center;
+}
+
+.logo {
+  background-image: url('../public/img/logo.jpg');
+  background-size: cover;
+  width: 300px;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo2{
+  border-radius:50%;
+  padding-top:10px;
+  position: relative;
+  border: 20px solid rgb(9, 67, 5);
+}
+
+.wrapper {
+
+  color: rgba(255, 255, 255, 0);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -webkit-text-stroke: .7px rgba(255, 255, 255, 0.494);
+  font-size: 32px;
+  padding: 0px 10px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background-clip: text;
+  border-radius: 10px 30px 10px 10px;
+  padding: 10px;
+  border-bottom: 10px double rgb(166, 170, 166);
+  background-image: url('../public/img/tree.jpg');
+  background-size: contain;
+  background-attachment: fixed; 
+  background: rgba(17, 17, 17, 0.932);
+}
+
+.wrapper a{
+  background: #3232326e;
+  border-radius: 12px;
+  border: 1px solid white;
+  padding: 0px 24px;
+  font-family: 'Smooch Sans';
+}
+
+.listItem {
+  font-family: 'Smooch Sans', sans-serif;
+  text-align: left;
+  padding: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  border-radius:2px 2px;
+  margin-right:10px;
+  display: inline;
+  margin-right: 30px;
+  font-size: 20px;
+  /* font-weight: 300; */
+  color: lightgray;
+  cursor: pointer;
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*input has OS specific font-family*/
+  cursor: pointer;
+}
+
+.hamburger {
+  display: none;
+  width: 25px;
+  height: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+.line {
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow:"0 2px 5px rgb(255, 101, 47, .2)";
+  transition: all 0.5s ease-in-out;
+  
+}
+
+.line::before {
+
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow:"0 2px 5px rgb(255, 101, 47, .2)";
+  transition: all 0.5s ease-in-out;
+  transform: "translate(-10px)";
+}
+
+.line::after {
+
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow:"0 2px 5px rgb(255, 101, 47, .2)";
+  transition: all 0.5s ease-in-out;
+  transform: "translate(10px)";
+}
+
+.menu {
+  display: none;
+  position: fixed;
+  width: 50vw;
+  height: calc(80vh - 50px);
+  background-color: #151515f8;
+  top: 150px;
+  /* right: 0px; */
+  z-index: 9999;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  color: lightgray;
+  list-style: none;
+  transition: all 1s ease;
+}
+
+.content{
+  z-index: 10;
+  background: #1a1919f8;
+  margin-top: 68px;
+  width: 100%;
+  font-size: 22px;
+  padding: 38px 49px;
+  right: -45px;
+  position: relative;
+  border-radius: 20px 120px;
+  border: 1px solid white;
+  margin-right: 44px;
+  color: white;
+}
+
+.content .text:hover a{
+  background: #eae9e9f8;
+  color: rgb(14, 14, 14);
+}
+
+.text{
+  text-align: left;
+  padding: 20px;
+  line-height: 5px;
+  cursor: pointer;
+  border-radius:2px 2px;
+  margin-right:10px;
+}
+
+
+
+.text:first-child{
+  border-radius: 23px 70px 2px 2px;
+}
+
+.text:last-child{
+  border-radius: 2px 30px 30px 110px;
+}
+
+.menuitem{
+  background: 1a1919f8;
+}
+
+@media screen and (max-width: 1400px) {
+  .content{
+    margin-top:89px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+
+  .logo2{
+    border-radius:50%;
+    padding-top:10px;
+    position: relative;
+    border: 20px solid rgb(9, 67, 5);
+    height:50%;
+    width: 50%;
+    transform: scale(.5);
+  }
+  .menuItem {
+    display: inline;
+    margin-right: 30px;
+    /* font-weight: 300; */
+    color: lightgray;
+    cursor: pointer;
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*input has OS specific font-family*/
+    cursor: pointer;
+    text-align: left;
+    padding: 20px;
+    line-height: 5px;
+    border-radius:2px 2px;
+    margin-right:10px;
+    font-weight: 400;
+    font-size:30px;
+  }
+  .container {
+    padding: 0px 20px;
+  }
+
+  .content{
+    z-index: 10;
+    background: #1a1919f8;
+    padding: 38px 49px;
+    right: -2vw;
+    top: 371px;
+    width: 96vw;
+    position: relative;
+    border-radius: 20px 120px;
+    border: 1px solid white;
+  }
+
+  .content a{
+    line-height: 1.2;
+  }
+
+
+  .text{
+    text-align: left;
+    padding: 20px;
+    line-height: 5px;
+    cursor: pointer;
+    border-radius:2px 2px;
+    margin-right:10px;
+    text-transform: uppercase;
+  }
+
+
+  .listItem {
+    display: none;
+  }
+
+  .hamburger {
+    transform:scale(2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-right:50px;
+    cursor: pointer;
+    color: white;
+  }
+  .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+  }
+}
+
