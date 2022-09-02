@@ -8,7 +8,7 @@ const Mission = () => {
       <h1 className={style.title}>About Us</h1>
       <div className={style.wrapper}>
         <div className={style.content}>
-          <Image
+          <img
                 className={style.image}
                 src='/img/joshua.jpg'
                 width="700"

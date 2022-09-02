@@ -26,7 +26,7 @@ const Intro = () => {
         
         <p className={style.desc}>
           
-          <Image
+          <img
                 className={style.image}
                 src='/img/GrandpaRon.png'
                 width="922"
