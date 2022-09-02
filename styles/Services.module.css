@@ -173,12 +173,13 @@
   
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 390px) {
   .cat {
     position: absolute;
     top: 10px;
     left: 10px;
     padding: 0 17px;
+    margin: 0 -16px;
     z-index: 999;
     text-transform: uppercase;
     color: rgb(207, 206, 206);
@@ -187,8 +188,8 @@
     font-weight: 300;
   }
   .service {
-    width: 34vh;
-    height: 34vh;
+    width: 43vh;
+    height: 43vh;
     flex-direction: column;
     align-items: center;
   }
