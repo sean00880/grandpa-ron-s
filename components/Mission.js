@@ -11,8 +11,8 @@ const Mission = () => {
           <img
                 className={style.image}
                 src='/img/joshua.jpg'
-                width="700"
-                height="560"
+                width="100%"
+                height="100%"
                 objectFit="cover"
                 alt="Joshua"
               />
