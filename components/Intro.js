@@ -33,7 +33,7 @@ const Intro = () => {
                 height="650"
                 alt=""
               />
-          Grandpa Ron and Joshua mowing the lawn [2004]
+          Grandpa Ron and Joshua mowing the lawn [2000].
         </p>
         <h2 className={style.subtitle}>Serving Columbus, Ohio</h2>
         <button className={style.button}><Link href={`${process.env.NEXT_PUBLIC_URL}/#services`} passHref>DISCOVER</Link></button>
