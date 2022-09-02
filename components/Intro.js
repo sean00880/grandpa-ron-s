@@ -32,6 +32,7 @@ const Intro = () => {
                 width="922"
                 height="650"
                 alt=""
+                priority={true}
               />
           Grandpa Ron and Joshua mowing the lawn [2000].
         </p>
@@ -51,7 +52,7 @@ const Intro = () => {
           2) Schedule physical consultation. (Optional)<br/> <br/> 
           3) Initiate contract.
         </p>
-        <button className={style.button2}><Link href={`${process.env.NEXT_PUBLIC_URL}/#contact`}>Request a Quote</Link></button>
+        <button className={style.button2}><Link href={`${process.env.NEXT_PUBLIC_URL}/#contact`} passHfref>Request a Quote</Link></button>
         </div>
       </div>
     </div>
