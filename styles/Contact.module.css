@@ -27,10 +27,16 @@
   flex-wrap: wrap;
   border-radius: 10px 80px;
     border: 14px double #4c4c4ca1;
+    background-image: url('../public/img/logo.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: rgba(255, 255, 255, 0.758);
 }
 
 .form input{
   margin: 10px 0px;
+  background: #1b1b1bf8;
+    color: #78ab78;
 }
 
 .inputS {
@@ -53,8 +59,8 @@
 .textArea {
   width: 100%;
   padding-left: 10px;
-  background: #8f8f8f26;
-    color: #aba9a9;
+  background: #1b1b1bf8;
+    color: #78ab78;
     text-decoration: none;
     font-size: 22px;
   margin-top: 10%;
@@ -65,11 +71,15 @@
   border: none;
   border-radius: 10px;
   background-color: rgb(0, 82, 0);
-  color: white;
+  color: rgb(199, 199, 199);
   width: 100%;
   font-size: 16px;
   cursor: pointer;
   padding: 29px 21px;
+  justify-content: center;
+  text-align: center;
+  border: 3px double black;
+  border-radius: 67% 33%;
 }
 
 @media screen and (max-width: 480px) {
