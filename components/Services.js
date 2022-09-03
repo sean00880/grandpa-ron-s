@@ -6,11 +6,8 @@ const Services = ({ services }) => {
   return (
     
     <div className={style.container} exit={{opacity:0}} id={`services`}>
-      <h1 className={style.title}>Services</h1>
+      <h1 className={style.title}>Services</h1> <hr/>
       <div className={style.info}>
-        <h1 className={style.heading}>What We Offer</h1>
-        <h1 className={style.subtitle}>We can help you with:</h1>
-        <hr /><br/>
         <div className={style.services}>
           {services.map((service) => (
             <Link key={service.id} href={`/services/${service.name}`} passHref>

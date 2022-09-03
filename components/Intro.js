@@ -49,7 +49,7 @@ const Intro = () => {
         
         <p className={style.desc2}>
           1) Contact us with a description of your needs and we will respond with an estimate quote. <br/><br/> 
-          2) Schedule physical consultation. (Optional)<br/> <br/> 
+          2) Schedule physical consultation. <br/> <br/> 
           3) Initiate contract.
         </p>
         <button className={style.button2}><Link href={`${process.env.NEXT_PUBLIC_URL}/#contact`} passHfref>Request a Quote</Link></button>
