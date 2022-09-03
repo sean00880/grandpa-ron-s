@@ -5,7 +5,7 @@ import { users } from "../data";
 const Testimonials = () => {
   return (
     <div className={style.container} id="testimonials">
-      <h1 className={style.title}>Tesimonials</h1>
+      <h1 className={style.title}>Testimonials</h1>
       <div className={style.wrapper}>
         {users.map((user) => (
           <div className={style.card} key={user.id}>
