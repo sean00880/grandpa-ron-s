@@ -17,7 +17,7 @@ const Services = ({ services }) => {
                       width="80%"
                       height="80%"
                       layout="responsive"
-                      objectFit="contain"
+                      objectfit="contain"
                       alt=""
                     /></div>
                 <span className={style.cat}>{service.title}</span>
@@ -28,7 +28,7 @@ const Services = ({ services }) => {
                     width="40%"
                     height="40%"
                     layout="responsive"
-                    objectFit="cover"
+                    objectfit="cover"
                     position="center"
                     alt=""
                     priority={true}
@@ -39,7 +39,7 @@ const Services = ({ services }) => {
                       width="40%"
                       height="40%"
                       layout="responsive"
-                      objectFit="cover"
+                      objectfit="cover"
                       position="center"
                       alt=""
                       priority={true}

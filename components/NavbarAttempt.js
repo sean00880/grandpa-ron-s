@@ -20,7 +20,7 @@ const Navbar = () => {
                 src={`${process.env.NEXT_PUBLIC_URL}/img/logo.jpg`}
                 width="260"
                 height="120"
-                objectFit="cover"
+                objectfit="cover"
                 alt=""
               /></Link>
 
@@ -30,7 +30,7 @@ const Navbar = () => {
                 src='/img/stars.png'
                 width="14%"
                 height="14%"
-                objectFit="cover"
+                objectfit="cover"
                 alt=""
               />
       
