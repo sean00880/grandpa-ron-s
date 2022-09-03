@@ -16,6 +16,19 @@
   justify-items: center;
 }
 
+.container h5{
+  font-size: 24px;
+  margin: 4px;
+  color: rgb(0, 0, 0);
+  letter-spacing: 1px;
+  font-weight: 200;
+  background: rgb(253, 253, 253);
+  border: 3px solid rgb(19, 98, 56);
+  -webkit-text-stroke: .7px rgba(46, 46, 46, 0.881);
+  padding: 5px 35px;
+  border-radius: 10px 70px;
+}
+
 .logo {
   background-image: url('../public/img/logo.jpg');
   background-size: cover;
@@ -198,6 +211,11 @@
 }
 
 @media screen and (max-width: 1000px) {
+
+  .container h5{
+    font-size: 18px;
+    margin: 6px;
+  }
 
   .logo2{
     border-radius:50%;
