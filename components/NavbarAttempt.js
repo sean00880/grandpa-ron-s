@@ -24,7 +24,7 @@ const Navbar = () => {
                 alt=""
               /></Link>
 
-              <h5>Licensed & <br/>Insured</h5>
+              <h5>Licensed & Insured</h5>
       <img
                 className={style.logo4}
                 src='/img/stars.png'
