@@ -8,7 +8,7 @@ const Services = ({ services }) => {
     <div className={style.container} exit={{opacity:0}} id={`services`}>
       <h1 className={style.title}>Services</h1>
       <div className={style.info}>
-        <h1 className={style.heading}>What We Can Do?</h1>
+        <h1 className={style.heading}>What We Offer</h1>
         <h1 className={style.subtitle}>Services we can help you with</h1>
         <hr /><br/>
         <div className={style.services}>
