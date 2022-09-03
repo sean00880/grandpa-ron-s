@@ -58,6 +58,7 @@
   cursor: pointer;
   border-radius: 30px 90px;
   align-items: center;
+  margin: 18px;
 }
 
 .service img{

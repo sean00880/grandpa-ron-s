@@ -23,7 +23,14 @@ const Navbar = () => {
                 objectFit="cover"
                 alt=""
               /></Link>
-      
+      <img
+                className={style.logo4}
+                src='/img/stars.png'
+                width="14%"
+                height="14%"
+                objectFit="cover"
+                alt=""
+              />
       
       <ul className={style.list}>
         <li className={style.listItem}>
