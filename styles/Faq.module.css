@@ -144,7 +144,7 @@
 
 @media screen and (max-width: 480px) {
   .container {
-    padding-bottom: 20px;
+    padding-bottom: 20vw 3vw;
     height: auto;
   }
   .wrapper {

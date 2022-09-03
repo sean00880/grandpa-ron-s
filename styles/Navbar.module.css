@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: 18px;
-  padding: 0px 10px;
+  padding: 0px 3px;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -220,7 +220,12 @@
     font-size:30px;
   }
   .container {
-    padding: 0px 20px;
+    padding: 0vw 0vw;
+    border-radius:0;
+  }
+
+  .wrapper {
+    border-radius: 0;
   }
 
   .content {

@@ -26,7 +26,7 @@
   position: relative;
   display: flex;
   background: #080808d3;
-  padding: 2em;
+  padding: 1em;
   justify-content: space-between;
   border: 4px solid rgba(18, 65, 5, 0.684);
 
@@ -39,7 +39,7 @@
 
 .textdiv{
   width: 100%;
-  padding: 15px;
+  padding: 3px;
 }
 
 .teamtext{
@@ -55,7 +55,7 @@
   font-size: 31px;
   line-height: 1.6;
   color: rgb(219 219 219 / 78%);
-  padding: 30px 20px;
+  padding: 30px 4px;
   border-radius: 10px 44px;
   width:100%;
   border: 4px double rgba(53, 53, 53, 0.711);
@@ -121,7 +121,7 @@
 
 @media screen and (max-width: 1600px) {
   .container {
-    padding: 20vw 13vw;
+    padding: 20vw 3vw;
     height: 100%;
   }
 
