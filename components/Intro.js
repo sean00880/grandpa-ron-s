@@ -48,7 +48,7 @@ const Intro = () => {
         </h1>
         
         <p className={style.desc2}>
-          1) Contact us with a description of your needs and we will respond with an estimate quote. <br/><br/> 
+          1) Contact us with a description of your needs and we will provide a free estimate. <br/><br/> 
           2) Schedule physical consultation. <br/> <br/> 
           3) Initiate contract.
         </p>
