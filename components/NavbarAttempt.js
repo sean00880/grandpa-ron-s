@@ -65,24 +65,7 @@ const Navbar = () => {
       <li className={style.menuItem}>
       <Link href={`${process.env.NEXT_PUBLIC_URL}/#about`} passHref>ABOUT</Link>
         </li>
-        <DropdownMenu.Root className={style.services}>
-        <DropdownMenu.Trigger className={style.menuItem}>
-        <Link href={`${process.env.NEXT_PUBLIC_URL}/#about`} passHref> :) SERVICES</Link>
-        </DropdownMenu.Trigger>
-
-        <DropdownMenu.Content className={style.content}>
-        <DropdownMenu.Item className={style.text}><Link href="/allservices" passHref>All Services</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/mulching" passHref>Mulching</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/mowing" passHref>Mowing</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/patio" passHref>Patios/Retaining Walls</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/pruning" passHref>Pruning</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/tree-removal" passHref>Tree Removal</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/leaf-and-junk-removal" passHref>Leaf/Junk Removal</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/demo" passHref>Demo/Installations</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/ice-and-snow-management" passHref>Ice/Snow Management</Link></DropdownMenu.Item><hr/>
-        </DropdownMenu.Content>
-        </DropdownMenu.Root>
-
+        <Link href={`${process.env.NEXT_PUBLIC_URL}/#services`} passHref>SERVICES</Link>
         <li className={style.menuItem}>
           <Link href={`${process.env.NEXT_PUBLIC_URL}/#testimonials`} passHref>TESTIMONIALS</Link>
         </li>
