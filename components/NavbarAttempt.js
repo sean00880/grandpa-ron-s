@@ -31,18 +31,18 @@ const Navbar = () => {
         </li>
         <DropdownMenu.Root className={style.services}>
         <DropdownMenu.Trigger className={style.listItem}>
-          <Link href="/products/development">SERVICES </Link>
+          <Link href="/services/">SERVICES </Link>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content className={style.content}>
           <DropdownMenu.Item className={style.text}><Link href="/allservices" passHref>All Services</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/mulching" passHref>Mulching</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/mowing" passHref>Mowing</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/patio" passHref>Patios/Retaining Walls</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/pruning" passHref>Pruning</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/tree-removal" passHref>Tree Removal</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/leaf-and-junk-removal" passHref>Leaf/Junk Removal</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/demo">Demo/Installations</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/products/ice-and-snow-management" passHref>Ice/Snow Management</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/mulching" passHref>Mulching</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/mowing" passHref>Mowing</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/patio" passHref>Patios/Retaining Walls</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/pruning" passHref>Pruning</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/tree-removal" passHref>Tree Removal</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/leaf-and-junk-removal" passHref>Leaf/Junk Removal</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/demo">Demo/Installations</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/ice-and-snow-management" passHref>Ice/Snow Management</Link></DropdownMenu.Item><hr/>
         </DropdownMenu.Content>
         </DropdownMenu.Root>
 
@@ -63,11 +63,11 @@ const Navbar = () => {
       
       <ul onClick={()=>setOpen(false)} className={style.menu} style={{ right: open ? "0px" : "-50vw", display: open? "flex" : "none" }}>
       <li className={style.menuItem}>
-          <Link href="/products/design" passHref>ABOUT</Link>
+      <Link href={`${process.env.NEXT_PUBLIC_URL}/#about`} passHref>ABOUT</Link>
         </li>
         <DropdownMenu.Root className={style.services}>
         <DropdownMenu.Trigger className={style.menuItem}>
-          <Link href="/products/development" passHref> :) SERVICES</Link>
+        <Link href={`${process.env.NEXT_PUBLIC_URL}/#about`} passHref> :) SERVICES</Link>
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Content className={style.content}>

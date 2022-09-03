@@ -13,7 +13,7 @@ const Services = ({ services }) => {
         <hr /><br/>
         <div className={style.services}>
           {services.map((service) => (
-            <Link key={service.id} href={`/products/${service.name}`} passHref>
+            <Link key={service.id} href={`/services/${service.name}`} passHref>
               <div className={style.service}>
                 <div className={style.catInfo}><Image
                       src={`${process.env.NEXT_PUBLIC_URL}/img/${service.desc}`}
