@@ -21,9 +21,8 @@ const Mission = () => {
 
           <div >
             
-          <h1 className={style.teamtext}>Foundation</h1><hr/>
           <h3 className={style.text}>
-          <blockquote>Grandpa Ron's Landscaping Services was founded in [2021] by Joshua [and ...] with Granda Ron's vision and values in mind. This company is locally owned and operated and serves Columbus, Ohio and surrounding regions. </blockquote>
+          <blockquote> Grandpa Ron's Lawns and Landscape was founded in 2021 by Joshua Reichley with Grandpa Ron's vision and values in mind. This company is locally owned and operated. We service Canal Winchester Ohio and surrounding areas. Our goal is to create a customer expierence and relationship that lasts generations. </blockquote>
           </h3>
           </div>
           <div>
