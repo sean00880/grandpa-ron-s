@@ -11,7 +11,7 @@ export const data = [
     images: [
       {
         id: 1,
-        url: "https://previews.dropbox.com/p/thumb/ABrJexFOjWPI4YYrSu1sgx8z-TqU3CZAo9oQrj9mRcd2cbSNeT2bz0T4efAhqxBR6co10u2KBTcXpx-mJvo2DLciIyZBzoNPlTziuBYN1V6UvGwGJp7cp7GUglOm-wbtrUZ5el4dCEVfXDFd3oolTBaY2fAlze-yrz97Oiu0FhyuQPW8xNM2KInhMVLZxAT4Z7M77xEpbPlwqS6J0BsIRaj2z6oXDUuDsFM_EOysudwk2LL5W93tMwjDRpnEDZKTznkkmWelStVQe6PAXjL8Iic0aYRrTYgZnsf1BD04G5zk1L-HtDJ006ygjhLqAC8uTi4yxCbsjYM-8Z6s0VqkzD2HqqSduNIj04IlPPxVGxGbTMX-ND7uoBZwx_LrNh7dtaM/p.jpeg",
+        url: "https://www.elfslandscaping.com/wp-content/uploads/2015/04/tree-mulch.jpg",
       },
       {
         id: 2,
@@ -42,7 +42,7 @@ export const data = [
     photo: "field.png",
     desc: "dev.jpeg",
     longDesc: 
-      "We follow best landscaping practices and use premium grade materials to get you covered for the season. If you have any ananswered questions, check out the FAQ section and make sure to reach out using Phone or Email to set up an appointment.",
+      "We follow best landscaping practices and use premium grade materials to get you covered for the season. As we takes care of all of your lawn care service needs, you can sit back, unwind, and take in your city. Call Grandpa Ron's right now or fill out the form for a free, quick quote, and let them handle the rest of your lawn care service needs. If you have any ananswered questions, check out the FAQ section.",
     images: [
       {
         id: 1,
@@ -77,7 +77,7 @@ export const data = [
     desc: "production.jpeg",
     photo: "commercial.png",
     longDesc:
-      "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
+      "Reduced branch weight is another benefit of tree cutting. This can be crucial, especially during the monsoon season when heavy rains add to the already hefty weight of tree branches. This can result in a dangerous situation, particularly in windy situations where branches may suddenly fall off and cause damage to landscaping, cars, buildings, or worse. When a tree is dead or becomes dangerous, trimming can also be helpful. Our tree trimming services will be very beneficial to the health and attractiveness of your trees, even for a standard cleanup. You can contact our consultants to get a free quote to start. To provide you with the most accurate price, we will examine your property, go over your options, and address any questions you may have.",
     images: [
       {
         id: 1,
@@ -112,7 +112,7 @@ export const data = [
     photo: "bulldozer.png",
     desc: "photography.jpeg",
     longDesc:
-      "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
+      "Any issues you may have with trees or shrubs can be solved by our cutting-edge machinery and skilled operators. Our stump grinding procedure causes the least amount of interruption possible and doesn't harm any underground power or pipe networks. Grandpa Ron's Lawns and Landscape LLC  uses cutting-edge machinery to remove trees effectively, and cleanliness is always assured. In addition to enhancing and extending the life of the tree, tree surgery also boosts and enhances the landscape of Columbus, North Carolina. The value of trees and plants to Asheville, North Carolina, is well understood by Grandpa Ron's Lawns and Landscape LLC. Making a phone call will swiftly get you our expert and reasonably priced assistance to handle any tree issue you have. The typical property owner does not always have access to the specialist equipment needed for tree removal, which is frequently dangerous. Unfortunately, mishaps do occur when big trees are cut down. Employees of Grandpa Ron's Lawns and Landscape LLC frequently receive training in safety procedures. We have a history of excellent safety. Homeowners should ALWAYS check that the tree business is current on its insurance and has the appropriate coverage. It is imperative that the business offer the homeowner the appropriate general liability and worker's compensation insurance.",
     images: [
       {
         id: 1,
@@ -139,31 +139,31 @@ export const data = [
     photo: "waterscaping.png",
     desc: "waterscaping.jpg",
     longDesc:
-      "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
+      "You need a team with the necessary skillset and tools to successfully clear a lot. Allow the experts at Grandpa Ron's Lawns and Landscape LLC to handle it rather than trying to manage it yourself and running the risk of getting hurt, spending an excessive amount of time, and becoming frustrated. Our dependable team will get the job done fast while employing specialist tools to handle it.",
     images: [
       {
         id: 1,
-        url: "https://previews.dropbox.com/p/thumb/ABo_9l8cB51ygw4HX2fIyjskwoIBJ0Q0HitHpjCng61aI86VbrovFgC4GWUTsD1EMfpQl4XMldt-KqdoepK3xhsa9qoIzlG5qwxZw3DemkZlQfXK50CmNLxBKUKdMzZEi60MMU2Yt9sZsJTq-DArkPmbcdXOSFVOozmkiYSdNiLq7rMiKEutwtpzPVpS65jrri82m55IkVYTxZW4fK-5TEmkYA_bbQqCfpLRmOHt5WNqifiVvuCWZqYGEKhv9NKc1DVrxkYEyt8E8ag-jClck7gYZ-m4te5hsir5WX3ZIqz2wATWI5zCGWTjHQO1OPtb70-dPHqFerwC_8mfMem7JSSmvMENOFQINqmi0EnQpBk08o6V3c7vba07JfTewnBYHAw/p.jpeg",
+        url: "https://lanierlandscapingllc.com/wp-content/uploads/2020/03/AdobeStock_305393156.jpg",
       },
       {
         id: 2,
-        url: "https://previews.dropbox.com/p/thumb/ABrKd4T08Af_nTOTqU7Nc29Xa0mdS-fA1jWve53a9H3KZA5k8okPIN43ZUygpVdo-tNCU51pS-S6B8avQWrMNI7b2Q_1YI8k-Fut8GW9UpiDer90sRCIn_zRS-vj3Mwy8jGklGTF4QurpZ1Y08DP64B8ceVZkYbvF-MYCWNUHww4tXmcqMRCymYzC0UUrjvdkhuTjEvnW8aZuXkhK0-ebtCTMvbRVhbc49lFek2kxwfDM_I4ARGW6liurUF0gwPNh_ROMIvvbK-7js1YVqEoiK9riJVABaTyjta20cvjv46jd7ooNBBJgI64KSB4Arb7cRlziRTRbiPG45-X5xH8R73pGzFTFcfV5aiqwr7IIetfGBHE01RNZdFcBRsbpKSLxsw/p.jpeg",
+        url: "https://cdn.shortpixel.ai/spai/w_973+q_glossy+ret_img+to_auto/https://junkbustersjacksonville.com/wp-content/uploads/2020/10/85021896_125091152353954_3694691559925612544_nr.jpg",
       },
       {
         id: 3,
-        url: "https://images.pexels.com/photos/3593865/pexels-photo-3593865.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://allenslandscaping.com/wp-content/themes/land6/images/service-images/commercial-leaf-removal-service.jpg",
       },
       {
         id: 4,
-        url: "https://images.pexels.com/photos/4065906/pexels-photo-4065906.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://midlandtxlawns.com/wp-content/uploads/2018/09/Midland-TX-Lawns-Yard-Clean-Up-2.jpg",
       },
       {
         id: 5,
-        url: "https://images.pexels.com/photos/6373305/pexels-photo-6373305.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://www.junk-king.com/locations/fairfax/wp-content/uploads/sites/4/2021/04/yard-waste-removal-fairfax-virginia.jpg",
       },
       {
         id: 6,
-        url: "https://images.pexels.com/photos/4197693/pexels-photo-4197693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://www.angelslandscaping.com/wp-content/uploads/2021/10/yad-and-gardden-cleanup.jpg",
       },
     ],
   },
@@ -174,7 +174,7 @@ export const data = [
     desc: "demo.jpg",
     photo: "demo.png",
     longDesc:
-      "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
+      "We are experts in hardscaping, erosion management, drainage mitigation, garden and plant installation, firepit design, grading and resloping, sod installation, outdoor lighting, tree services, and other landscaping-related tasks.",
     images: [
       {
         id: 1,
@@ -190,15 +190,15 @@ export const data = [
       },
       {
         id: 4,
-        url: "https://images.pexels.com/photos/4065906/pexels-photo-4065906.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://www.simple-solutions.ca/wp-content/uploads/2020/08/sod-installation-care-diy-vs-professional-landscaping-services-f.jpg",
       },
       {
         id: 5,
-        url: "https://images.pexels.com/photos/6373305/pexels-photo-6373305.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/blogs/6444/images/rIGIorqURFOAsaknIOji_landscape-installation-tierrasanta-progress-photo.jpg",
       },
       {
         id: 6,
-        url: "https://images.pexels.com/photos/4197693/pexels-photo-4197693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://www.gardeningknowhow.com/wp-content/uploads/2020/11/landscaping-rolling-sod.jpg",
       },
     ],
   },
@@ -209,31 +209,31 @@ export const data = [
     desc: "snow.jpg",
     photo: "snow.png",
     longDesc:
-      "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
+      "Call now for a free quote and ask for any Holiday Spcials on our snow removal services for driveways, parking lots, and sidewalks, among other things.",
     images: [
       {
         id: 1,
-        url: "https://images.pexels.com/photos/962000/pexels-photo-962000.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://www.mvl-llc.com/wp-content/uploads/2020/05/IMG_20200210_093002_01-950x1024.jpg",
       },
       {
         id: 2,
-        url: "https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://www.ashevillenc.gov/wp-content/uploads/2022/01/20220116_081246-scaled.jpg",
       },
       {
         id: 3,
-        url: "https://images.pexels.com/photos/3593865/pexels-photo-3593865.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Snow_removal_13.jpg",
       },
       {
         id: 4,
-        url: "https://images.pexels.com/photos/4065906/pexels-photo-4065906.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://empire-s3-production.bobvila.com/articles/wp-content/uploads/2021/03/best_single_stage_snow_blower_option.jpg",
       },
       {
         id: 5,
-        url: "https://images.pexels.com/photos/6373305/pexels-photo-6373305.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://cdn.shopify.com/s/files/1/0012/4731/4009/products/F198647466_800x.png?v=1649350505",
       },
       {
         id: 6,
-        url: "https://images.pexels.com/photos/4197693/pexels-photo-4197693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://edenapp.com/wp-content/uploads/2020/10/SnowBlog.jpg",
       },
     ],
   },
@@ -248,27 +248,27 @@ export const data = [
     images: [
       {
         id: 1,
-        url: "https://previews.dropbox.com/p/thumb/ABrXIeUN-hoZfEllmOmC191iO08kkb3S6I5vTtsLWO6m_X9YBLk8puyN3TnfBZUraNzC34BdgUxRVybpoY4lPCtYQB1q29qUEI3YWS7Hc75ApzkqRkgh8vyQfnstSr7KxTs1kZdvlUyZImRH4xbeHbMIQiMHosUlTFzwkGNl4Iyo7gFfwhJUjtVhGgZjFiMnp4WjjXfTvbecuRNI1oIuzbhKOIbWG7q57Op57ZwMA0TkmNu64ECuLqQHGC4daGULr2X4FGqqlTpivsRvbl1alrW3-DT10zyRAv6JeaRazpc1U7_nSUV4ZrfpWB005D3UzOB2Rvm8H1-bxfrG45DO2XQxPXI2QfX1AAkQ2IuRuA6j5G6EZs9UvlpH44ZxvY0j6iyjRRDjweiBREIWuZwAG0TO/p.jpeg",
+        url: "https://i.pinimg.com/originals/1f/a6/ce/1fa6cee1d6d2b654e750f91e51ccd66b.jpg",
       },
       {
         id: 2,
-        url: "https://previews.dropbox.com/p/thumb/ABqSAczvk7OnljURmnWh53P6cj2AyHkKqSLEHBhSDARy3I3nuN6pCYS2felfzGQgmh5qfuYR7wSXzzK3IYLn2TcZA6G-3MkmADCG0ujcnwFsob0NkZzpLBqDaHbVxOTTHjF8mkKXwuLrhkYJUg38VtGGJ4z9sgvsNNRfdMEdP0t11KV6VnGDsjgaFfspd2_TmHBVsi9wh8IViLg_ep_vOwt9MBle2aH8q9FmsjqJFDzjk8rptcODnK4xXhQuk1BOHpS9LmerwNfDK492gDqErHs4FtTfdd_DiUc9GA22FDT-HBcfG0g6C3QYPjdtJXP3a5q2NCGbqPosM4ZL3A-2JeN8iNIXapJu8ZuQAFJ5Kc1LYWSfWeqUNjZAGCfmouDftcA/p.jpeg",
+        url: "https://taylorlcs.com/images/boulder-wall-retaining-walls-min.jpg",
       },
       {
         id: 3,
-        url: "https://images.pexels.com/photos/3593865/pexels-photo-3593865.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://i.pinimg.com/736x/6b/2f/d6/6b2fd6bb8cc7f3b3839f027fe9f92556--rock-edging-rock-border.jpg",
       },
       {
         id: 4,
-        url: "https://images.pexels.com/photos/4065906/pexels-photo-4065906.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://i.pinimg.com/originals/d9/9a/73/d99a73a9b20743bf14d9e9a87855df80.jpg",
       },
       {
         id: 5,
-        url: "https://images.pexels.com/photos/6373305/pexels-photo-6373305.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://d2landscaping.com/wp-content/uploads/2021/09/Retaining-Wall-Installation-Cincinnati-Northern-Kentucky.jpg",
       },
       {
         id: 6,
-        url: "https://images.pexels.com/photos/4197693/pexels-photo-4197693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+        url: "https://solidrockland.com/wp-content/uploads/2021/11/IMG_3699-1.jpg",
       },
     ],
   }
