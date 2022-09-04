@@ -7,7 +7,7 @@ export const data = [
     video: "Avocado.mpg",
     photo: "mulch.png",
     longDesc:
-      "We follow best landscaping practices and use premium grade materials to get you covered for the season. If you have any ananswered questions, check out the FAQ section and make sure to reach out using Phone or Email to set up an appointment.",
+      "We locally source all premium grade materials. We have over 20 years of combined expierence. We strive to be the best service money can buy. For any further questions or if you need a free estimate please reach out to us at your convenience.",
     images: [
       {
         id: 1,
@@ -42,7 +42,7 @@ export const data = [
     photo: "field.png",
     desc: "dev.jpeg",
     longDesc: 
-      "We follow best landscaping practices and use premium grade materials to get you covered for the season. As we takes care of all of your lawn care service needs, you can sit back, unwind, and take in your city. Call Grandpa Ron's right now or fill out the form for a free, quick quote, and let them handle the rest of your lawn care service needs. If you have any ananswered questions, check out the FAQ section.",
+      "We can help you with all mowing needs. Our goal is to keep your grass as healthy as possible. We offer weekly mowing as well as bi-weekly mowing. We are not the company to mow when your grass does not need it. We offer overseeding, aeration, de-thatching, yard fertilization and more. For any further questions or if you need a free estimate please reach out to us at your convenience.",
     images: [
       {
         id: 1,
@@ -241,6 +241,41 @@ export const data = [
     id: 8,
     name: "patio",
     title: "Patio/Retaining Walls",
+    desc: "gardening.jpg",
+    photo: "garden.png",
+    longDesc:
+      "Our absolute favorite thing to to is build patios and retaining walls. We have 14 combined years of expierence and absolutely love building them! For any further questions or if you need a free estimate please reach out to us at your convience.",
+    images: [
+      {
+        id: 1,
+        url: "https://i.pinimg.com/originals/1f/a6/ce/1fa6cee1d6d2b654e750f91e51ccd66b.jpg",
+      },
+      {
+        id: 2,
+        url: "https://taylorlcs.com/images/boulder-wall-retaining-walls-min.jpg",
+      },
+      {
+        id: 3,
+        url: "https://i.pinimg.com/736x/6b/2f/d6/6b2fd6bb8cc7f3b3839f027fe9f92556--rock-edging-rock-border.jpg",
+      },
+      {
+        id: 4,
+        url: "https://i.pinimg.com/originals/d9/9a/73/d99a73a9b20743bf14d9e9a87855df80.jpg",
+      },
+      {
+        id: 5,
+        url: "https://d2landscaping.com/wp-content/uploads/2021/09/Retaining-Wall-Installation-Cincinnati-Northern-Kentucky.jpg",
+      },
+      {
+        id: 6,
+        url: "https://solidrockland.com/wp-content/uploads/2021/11/IMG_3699-1.jpg",
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: "emergency-storm-damage",
+    title: "Emergency Storm Damage",
     desc: "gardening.jpg",
     photo: "garden.png",
     longDesc:
