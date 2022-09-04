@@ -41,7 +41,7 @@ const Contact = () => {
         />
         <button className={style.button} onClick={()=>setButtonPopup(true)}>SUBMIT</button>
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          <h3>My popup</h3>
+          <h3>Your message has been sent. We will reach out to you shortly.</h3>
         </Popup>
         </form>
     </div>
