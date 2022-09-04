@@ -12,6 +12,14 @@ const Testimonials = () => {
             <Image src={`${process.env.NEXT_PUBLIC_URL}/img/${user.logo}`} width="30" height="30" alt="" />
             <p className={style.comment}>
               &ldquo;{user.comment}&rdquo;
+              <img
+                className={style.stars}
+                src='/img/stars.png'
+                width="70%"
+                height="70%"
+                objectfit="cover"
+                alt=""
+              />
             </p>
             <div className={style.person}>
               <Image

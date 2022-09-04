@@ -11,8 +11,17 @@ const Testimonials = () => {
         {users.map((user) => (
           <div className={style.card} key={user.id}>
             <Image src={`${process.env.NEXT_PUBLIC_URL}/img/${user.logo}`} width="30" height="30" alt="" />
+            
             <p className={style.comment}>
               &ldquo;{user.comment}&rdquo;
+              <img
+                className={style.stars}
+                src='/img/stars.png'
+                width="70%"
+                height="70%"
+                objectfit="cover"
+                alt=""
+              />
             </p>
             <div className={style.person}>
               <Image
@@ -27,6 +36,7 @@ const Testimonials = () => {
                 <span className={style.username}>{user.name}</span>
                 <span className={style.jobTitle}>{user.title}</span>
               </div>
+              
             </div>
           </div>
         ))}

@@ -43,6 +43,10 @@
   padding: 2vw 0vw;
 }
 
+.stars {
+  margin: 50px;
+}
+
 .card {
   width: 30%;
   background-color: aliceblue;
