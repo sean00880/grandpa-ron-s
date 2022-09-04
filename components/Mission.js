@@ -5,7 +5,7 @@ import { users2 } from "../data";
 const Mission = () => {
   return (
     <div className={style.container} id='about'>
-      <h1 className={style.title}>About Us</h1>
+      <h1 className={style.title}>About Us</h1><hr/>
       <div className={style.wrapper}>
         <div className={style.content}>
           <img

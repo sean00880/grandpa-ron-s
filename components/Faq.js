@@ -21,7 +21,7 @@ const Accordion = () => {
   return (
     <IconContext.Provider value={{ color: '#00FFB9', size: '25px' }}>
         <div className={style.container} id="faq">
-      <h1 className={style.title}>FAQ</h1>
+      <h1 className={style.title}>FAQ</h1><hr/>
       <div className={style.wrapper}>
           {Data.map((item, index) => {
             return (
