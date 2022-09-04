@@ -305,7 +305,7 @@ export const allusers = [
   {
     id: 4,
     logo: "google.png",
-    avatar: "user1.jpeg",
+    avatar: "user3.jpeg",
     comment:
       "We found the Lawn Service to be prompt and courteous.  They took care of all we asked them to do and did a great job cleaning up the brush and weeds.  Definitely will use this service again.",
     name: "Phyllis Chambers",
@@ -314,7 +314,7 @@ export const allusers = [
   {
     id: 5,
     logo: "google.png",
-    avatar: "user2.jpeg",
+    avatar: "user1.jpeg",
     comment:
       "Was very responsive, and on time. Definitely the best around. Yard looks better, and better every time. If you need someone you will be able to count on, Grandpa Ron’s is definitely the go to! Affordable, dependable, and outstanding work!",
     name: "James19968",
@@ -323,7 +323,7 @@ export const allusers = [
   {
     id: 6,
     logo: "google.png",
-    avatar: "user3.jpeg",
+    avatar: "user2.jpeg",
     comment:
       "I've used quite a few residential landscaping businesses in my 15 years in Canal.... glad to say that long journey of unfortunate candidates is now over. Everything you want in a company is right here including affordability... END THAT SEARCH and try them out. You will be pleasantly surprised!!!! 😊",
     name: "Donnell Hughes",
@@ -350,7 +350,7 @@ export const allusers = [
   {
     id: 9,
     logo: "google.png",
-    avatar: "user3.jpeg",
+    avatar: "user1.jpeg",
     comment:
       "I called and got same day service. Josh was extremely professional and helpful, if you need a landscaping project done I definitely recommend them.",
     name: "Will Nargang",
@@ -359,7 +359,7 @@ export const allusers = [
   {
     id: 10,
     logo: "google.png",
-    avatar: "user3.jpeg",
+    avatar: "user1.jpeg",
     comment:
       "Very pleased with quality of service and done in timely friendly manor would recommend there service to others in future",
     name: "Ice Bird",
@@ -377,7 +377,7 @@ export const allusers = [
   {
     id: 12,
     logo: "google.png",
-    avatar: "user3.jpeg",
+    avatar: "user2.jpeg",
     comment:
       "Jeremy was responsive to my questions and inquiry. He was flexible and willing to schedule around me. He made sure of all my requests before starting work and was able to give me a quote based on that. Work was complete and my yard was easily the best for weeks..it looked like just swept grass with trees- it was Beautiful!!! ....I had leaves collected, gutters cleaned, low hanging branches cut for a very reasonable price. I will be calling again! Summer plans in the making.",
     name: "Amanda Kolp",
