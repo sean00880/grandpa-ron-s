@@ -274,6 +274,36 @@ export const data = [
   }
 ];
 
+export const allusers = [
+  {
+    id: 1,
+    logo: "google.png",
+    avatar: "user1.jpeg",
+    comment:
+      "Had them out several times, and let me tell you they did a fantastic job on my yard! I had been using other services for a while, and the job would get done. However it was usually never done to my standards. These guys take the time to get it right, and make sure the job is actually completed. Will give 5 stars, and my business for the foreseeable future!",
+    name: "Luke Buccholz",
+    title: "Customer",
+  },
+  {
+    id: 2,
+    logo: "google.png",
+    avatar: "user2.jpeg",
+    comment:
+      "We had a great experience with the team  at Grandpa Ron’s. They were fast, great with communication and produced quality work. They gave our house and yard the tune up it needed! Highly recommend.",
+    name: "Chelsie Casagrande",
+    title: "Customer",
+  },
+  {
+    id: 3,
+    logo: "google.png",
+    avatar: "user3.jpeg",
+    comment:
+      "Found Grandpa Ron's last spring. I needed the grass cut because my mower wouldn't start. He arrived that day and was able to cut and trim the whole yard. Have also used him to cut grass on another property we own in town. Always let's me know when he will be there and when it is completed. Highly recommend!",
+    name: "Nick B",
+    title: "Customer",
+  },
+];
+
 export const users = [
   {
     id: 1,

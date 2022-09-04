@@ -56,6 +56,22 @@
   font-weight: 300;
 }
 
+.button {
+  border: none;
+  background-color: rgb(224, 221, 221);
+  color: rgb(43, 44, 43);
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100px;
+  cursor: pointer;
+  font-size: 22px;
+  width: 100%;
+  animation: button 1s ease infinite alternate;
+  border: 3px solid rgb(15, 74, 15);
+  border-radius: 10% 30%;
+}
+
 .person {
   display: flex;
   align-items: center;

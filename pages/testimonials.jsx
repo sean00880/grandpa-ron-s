@@ -1,14 +1,13 @@
 import style from "../styles/Testimonials.module.css";
 import Image from "next/image";
-import { users } from "../data";
-import Link from 'next/link'
+import { allusers } from "../data";
 
 const Testimonials = () => {
   return (
-    <div className={style.container} id="testimonials">
+    <div className={style.container}>
       <h1 className={style.title}>Testimonials</h1><hr/>
       <div className={style.wrapper}>
-        {users.map((user) => (
+        {allusers.map((user) => (
           <div className={style.card} key={user.id}>
             <Image src={`${process.env.NEXT_PUBLIC_URL}/img/${user.logo}`} width="30" height="30" alt="" />
             <p className={style.comment}>
@@ -30,10 +29,7 @@ const Testimonials = () => {
             </div>
           </div>
         ))}
-        
       </div>
-      <button className={style.button}><Link href={`${process.env.NEXT_PUBLIC_URL}/testimonials`} passHfref>All Testimonials</Link></button>
-      
     </div>
   );
 };
