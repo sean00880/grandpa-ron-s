@@ -2,6 +2,8 @@ import Circle from "../components/Circle";
 import style from "../styles/Contact.module.css";
 import emailjs from '@emailjs/browser';
 import React, { useRef } from 'react';
+import { useState } from 'react';
+import Popup from "../components/Popup";
 
 const Contact = () => {
     const form = useRef();
@@ -17,6 +19,7 @@ const Contact = () => {
         });
     };
   
+  const [buttonPopup, setButtonPopup] = useState(false);
 
   return (
     <div className={style.container} id={`contact`}>
@@ -24,6 +27,7 @@ const Contact = () => {
         <Circle backgroundColor="green" left="-40vh" top="-20vh" className={style.circle}/>
         <Circle backgroundColor="yellow" right="-30vh" bottom="-60vh" className={style.circle}/>
       <form ref={form} onSubmit={sendEmail} className={style.form}>
+
         <input className={style.inputS} type="text" placeholder="Name" name="name"/>
         <input className={style.inputS} type="text" placeholder="Phone" name="contact" />
         <input className={style.inputL} type="email" placeholder="Email" name="email" />
@@ -35,7 +39,10 @@ const Contact = () => {
           placeholder="Message"
           name="message"
         />
-        <button className={style.button}>SUBMIT</button>
+        <button className={style.button} onClick={()=>setButtonPopup(true)}>SUBMIT</button>
+        <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+          <h3>My popup</h3>
+        </Popup>
         </form>
     </div>
   );

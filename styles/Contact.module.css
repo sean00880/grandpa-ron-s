@@ -10,6 +10,8 @@
   background-image: url('../public/img/lawn.jpeg');
   background-size: cover;
   background-attachment: fixed;
+  border: 13px solid rgb(203, 203, 203);
+  border-radius: 23% 8%;
 }
 
 
@@ -29,17 +31,21 @@
   display: flex;
   flex-wrap: wrap;
   border-radius: 10px 80px;
-    border: 14px double #4c4c4ca1;
+    border: 14px double #0e0e0edf;
     background-image: url('../public/img/logo.jpg');
-    background-size: cover;
+    background-size: contain;
     background-attachment: fixed;
-    background-color: rgba(255, 255, 255, 0.758);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(45, 44, 44, 0.779);
 }
 
 .form input{
   margin: 10px 0px;
-  background: #1b1b1bf8;
-    color: #78ab78;
+  background: #e1e1e1f8;
+    color: #151615;
+    font-size: 20px;
+    border-radius: 10%;
 }
 
 .inputS {
@@ -67,22 +73,30 @@
     text-decoration: none;
     font-size: 22px;
   margin-top: 10%;
+  border-radius: 10px;
 }
 
 .button {
   margin-top: 20px;
   border: none;
   border-radius: 10px;
-  background-color: rgb(0, 82, 0);
-  color: rgb(199, 199, 199);
+  background-color: rgb(230, 235, 230);
+  color: rgb(13, 68, 23);
   width: 100%;
-  font-size: 16px;
+  font-size: 26px;
   cursor: pointer;
   padding: 29px 21px;
   justify-content: center;
   text-align: center;
-  border: 3px double black;
-  border-radius: 67% 33%;
+  border: 10px solid rgb(36, 35, 35);
+  border-radius: 37% 33%;
+}
+.button:hover {
+
+  background-color: rgb(26, 26, 26);
+  color: rgb(166, 159, 159);
+  border: 10px solid rgb(239, 239, 238);
+
 }
 
 @media screen and (max-width: 480px) {
@@ -94,4 +108,48 @@
   .inputS:first-child {
     margin: 0;
   }
+}
+
+body.active-modal {
+  overflow-y: hidden;
+}
+
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: 100px auto 0;
+  font-size: 18px;
+}
+
+.modal, .overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49,49,49,0.8);
+}
+.modal-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 7px;
 }
