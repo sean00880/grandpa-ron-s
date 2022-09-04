@@ -438,7 +438,7 @@ export const faq = [
     answer: "Initial estimations are first generated based on your service requirements, however, the exact pricing will be determined after the first physical consultation.",
     id: 3,
     question: "When do you operate?",
-    answer: "Weekdays 9 AM - 4:30 PM -- Weekends 8 AM - 6 PM",
+    answer: "We operate 24/7 [24 hours 7 days a week].",
     
   }
 ];
@@ -454,7 +454,7 @@ export const Data = [
   },
   {
     question: 'When do you operate?',
-    answer: 'Weekdays 9 AM - 4:30 PM -- Weekends 8 AM - 6 PM'
+    answer: 'We operate 24/7: 24 hours, 7 days a week.'
   }
 ];
 
