@@ -249,7 +249,7 @@ export const data = [
     id: 8,
     name: "emergency-storm-damage",
     title: "Emergency Storm Damage",
-    desc: "gardening.jpg",
+    desc: "stormcover.webp",
     photo: "storm.webp",
     longDesc:
       "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
