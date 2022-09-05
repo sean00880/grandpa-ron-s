@@ -37,7 +37,7 @@ const Navbar = () => {
           <DropdownMenu.Item className={style.text}><Link href="/services/mulching" passHref>Mulching</Link></DropdownMenu.Item><hr/>
           <DropdownMenu.Item className={style.text}><Link href="/services/mowing" passHref>Mowing</Link></DropdownMenu.Item><hr/>
           <DropdownMenu.Item className={style.text}><Link href="/services/patio" passHref>Patios/Retaining Walls</Link></DropdownMenu.Item><hr/>
-          <DropdownMenu.Item className={style.text}><Link href="/services/pruning" passHref>Tree Removal/Pruning</Link></DropdownMenu.Item><hr/>
+          <DropdownMenu.Item className={style.text}><Link href="/services/tree-removal-and-pruning" passHref>Tree Removal/Pruning</Link></DropdownMenu.Item><hr/>
           <DropdownMenu.Item className={style.text}><Link href="/services/leaf-and-junk-removal" passHref>Leaf/Junk Removal</Link></DropdownMenu.Item><hr/>
           <DropdownMenu.Item className={style.text}><Link href="/services/demo">Demo/Installations</Link></DropdownMenu.Item><hr/>
           <DropdownMenu.Item className={style.text}><Link href="/services/ice-and-snow-management" passHref>Ice/Snow Management</Link></DropdownMenu.Item><hr/>
