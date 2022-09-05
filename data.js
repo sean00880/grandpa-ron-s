@@ -77,15 +77,15 @@ export const data = [
     desc: "production.jpeg",
     photo: "commercial.png",
     longDesc:
-      "Reduced branch weight is another benefit of tree cutting. This can be crucial, especially during the monsoon season when heavy rains add to the already hefty weight of tree branches. This can result in a dangerous situation, particularly in windy situations where branches may suddenly fall off and cause damage to landscaping, cars, buildings, or worse. When a tree is dead or becomes dangerous, trimming can also be helpful. Our tree trimming services will be very beneficial to the health and attractiveness of your trees, even for a standard cleanup. You can contact our consultants to get a free quote to start. To provide you with the most accurate price, we will examine your property, go over your options, and address any questions you may have.",
+      "We offer structural pruning, view enhancement pruning and general maintenence pruning. We remove trees and offer stump grinding. We offer 24/7 storm damage aswell. For any further questions, or if you need a free estimate, please reach out to us at your convience.",
     images: [
       {
         id: 1,
-        url: "https://previews.dropbox.com/p/thumb/ABpi6WUB4k53TwbEUANAdMRi66cqkdwPVFKs8DAWoSjX_DwhkwTRo900m2isNZk3SgyHHsi4Uq-MtQuL0z4dOZ29Y06K-N5tgiHX1zP6zzUmbPYLt-A7uwbt8k1_dcp4e3QIfj2BVhWxSoVPo9MRVtjIUPR1OLTMVXVvQRxixzaJI--8kUAcMA49AzD8dL-xNVgNLKoatKrBt0Dtfbf4ANej5lLV4l75AnR_JthZIxFtTXUjGFHPqX5ghfFjy69lMrh8Tq2YXAtEKevkAq2HTEKuPfJe9rfl43Xk2P7j6lrAM9n98JnRcmb6ie9vhsJ4B7JSwDBaOWT1S3bZhfTIu2ky1lkHCdGQNGYy-QgdjLik32HTCOcyCa-OILVP4TIFmc8/p.jpeg",
+        url: "https://previews.dropbox.com/p/thumb/ABouLttnvYQlmeizddZMZil6mCblRxj-EtkGg6Hy2Fs02IFOstem4UffiGTLszWVBrKmz0uVUIm1dk5kcwzc714T1XstSjWk854xssvaf_GA7iqO1rD7RzOU-xkU2Y8C3rmxJOsQ4tlAx3DKZhnxcXpYYQuiIcN39hQ2R7cd8QiCHBToNi9P20lEuep85JKRt8glDv4Zj5CiajHxkN0cgsYQ7gIEw-4BLg_tpmbWWNMkV4_ncqjHylmhO_D166HuGnBw3XWjeoeXSre3oUnbepUjkXyvs_d_Fp5ivsUSv0UaHMbwBKu2jj3Ek7uZB9zZJUEOEsx9K2n3WKac56aIR0o0FfEmmtQg4BBSUnJrLBTpqXndH3jbcz_rpxpdCFI37Bo/p.jpeg",
       },
       {
         id: 2,
-        url: "https://previews.dropbox.com/p/thumb/ABofvTXokKjHOgqBazRUYXKWj9nUfHHrbE2vAa5gw_QhIaXh5IkPZI06CeBht-F5nsoOZVVeNgJh5m91HsN_tPoReL8ooJ_tJXM99hhTWOpBkIHcJybTGyOU-ALIvDZFJYQyqhoGRxl4EMvhsU21qjUCXz91qkamYWi97MEJ839R18yHCfjOeKD_xWosRO4cbzQ4WhPvwoIDihb8iF7PERta6I9YjumuC8ikut6B7XKrmX3piTzd9yjzM-KNQveAq6M2QONd9WgcsJvenNpeIUT7LhVEdidBQWeTHjvVfq-HZ-HS1aELCHF5UtpEDbXolwWOp-SYuioJVC-Smv8WOmDv4d0U2kW-jO02H6p_t-0AXSRa5DV6Xp-h88tNYjGWzxk/p.jpeg",
+        url: "https://previews.dropbox.com/p/thumb/ABonMqyUB_WkUWIgDBuhGYYenHvyQIasy24cM-j6grqo_VH0Dwj-kOz7iHWSNC0IX6OWHNueVegYanpJwOohDdle53UDw-2ADc0FdhGTnTNmDRzO9mgffWlBk8OZIyUGJbR0-2Ku_YnaudbnLs-i3_BBqlqj0RC5AetYeoHwCpy_4AE11rej7gV-T3OmS2x9M8QuYfCmiXcjdFk_TjC74XA-3iUK6NFPcwLjDBHrU6J28UV_vTbQvqsDa7pdhJZitDL6KgnleaZHFe-4HoP7I9be4-68Go4zZVP_hGkCIPNdz_uk8z0boWuCN9lhBH_jJ-fYLsVHLZeReMCK5fmUSL7BnTmwFVDIlO9lF2LOWx1i6zHKobu2uzpg3ScyAXyj2r0/p.jpeg",
       },
       {
         id: 3,
@@ -107,33 +107,6 @@ export const data = [
   },
   {
     id: 4,
-    name: "tree-removal",
-    title: "Tree Removal",
-    photo: "bulldozer.png",
-    desc: "photography.jpeg",
-    longDesc:
-      "Any issues you may have with trees or shrubs can be solved by our cutting-edge machinery and skilled operators. Our stump grinding procedure causes the least amount of interruption possible and doesn't harm any underground power or pipe networks. Grandpa Ron's Lawns and Landscape LLC  uses cutting-edge machinery to remove trees effectively, and cleanliness is always assured. In addition to enhancing and extending the life of the tree, tree surgery also boosts and enhances the landscape of Columbus, North Carolina. The value of trees and plants to Asheville, North Carolina, is well understood by Grandpa Ron's Lawns and Landscape LLC. Making a phone call will swiftly get you our expert and reasonably priced assistance to handle any tree issue you have. The typical property owner does not always have access to the specialist equipment needed for tree removal, which is frequently dangerous. Unfortunately, mishaps do occur when big trees are cut down. Employees of Grandpa Ron's Lawns and Landscape LLC frequently receive training in safety procedures. We have a history of excellent safety. Homeowners should ALWAYS check that the tree business is current on its insurance and has the appropriate coverage. It is imperative that the business offer the homeowner the appropriate general liability and worker's compensation insurance.",
-    images: [
-      {
-        id: 1,
-        url: "https://previews.dropbox.com/p/thumb/ABouLttnvYQlmeizddZMZil6mCblRxj-EtkGg6Hy2Fs02IFOstem4UffiGTLszWVBrKmz0uVUIm1dk5kcwzc714T1XstSjWk854xssvaf_GA7iqO1rD7RzOU-xkU2Y8C3rmxJOsQ4tlAx3DKZhnxcXpYYQuiIcN39hQ2R7cd8QiCHBToNi9P20lEuep85JKRt8glDv4Zj5CiajHxkN0cgsYQ7gIEw-4BLg_tpmbWWNMkV4_ncqjHylmhO_D166HuGnBw3XWjeoeXSre3oUnbepUjkXyvs_d_Fp5ivsUSv0UaHMbwBKu2jj3Ek7uZB9zZJUEOEsx9K2n3WKac56aIR0o0FfEmmtQg4BBSUnJrLBTpqXndH3jbcz_rpxpdCFI37Bo/p.jpeg",
-      },
-      {
-        id: 2,
-        url: "https://previews.dropbox.com/p/thumb/ABonMqyUB_WkUWIgDBuhGYYenHvyQIasy24cM-j6grqo_VH0Dwj-kOz7iHWSNC0IX6OWHNueVegYanpJwOohDdle53UDw-2ADc0FdhGTnTNmDRzO9mgffWlBk8OZIyUGJbR0-2Ku_YnaudbnLs-i3_BBqlqj0RC5AetYeoHwCpy_4AE11rej7gV-T3OmS2x9M8QuYfCmiXcjdFk_TjC74XA-3iUK6NFPcwLjDBHrU6J28UV_vTbQvqsDa7pdhJZitDL6KgnleaZHFe-4HoP7I9be4-68Go4zZVP_hGkCIPNdz_uk8z0boWuCN9lhBH_jJ-fYLsVHLZeReMCK5fmUSL7BnTmwFVDIlO9lF2LOWx1i6zHKobu2uzpg3ScyAXyj2r0/p.jpeg",
-      },
-      {
-        id: 3,
-        url: "https://previews.dropbox.com/p/thumb/ABqJmrOxC-E1W1fiPCljlwHD3wqv7V9c40fhC-vUSfUEgnmhs85WQUxGeftSAwhvY5UVk8lxWdeVEKcHxNNAFvsKEM76tUUxaS1gYHpWoAx0Wr-0hfYpnlkKgTXHCdsBK-txp5fRxxOUEOd-2K_TqyNWu67aBCcJqXISL-4kcFiksRqHVaRBjiJdQ65dAZcSI9iEPgFy09uEG0WXw9V8sHgXEwUJ9B-uJMt_PhW8wzuKcG1XHIc2R6RCMAJuDjtoZcq__OGwLtjld9TeW050-lTvNB8zTqnXijSjFZJKRokvL-wAjZZhaSstzTsnN5ksIGMxvBirtDHdC83VqJUXkg_-PJfnBAfU7Hp9m02IjqlDV39z8phIb3QCo5b86uNAh8k/p.jpeg",
-      },
-      {
-        id: 4,
-        url: "https://previews.dropbox.com/p/thumb/ABruYMDPC4R5ISnXjMpzqRNFWgPWndubRRcgswoUqaJBCqc_dCZOdeVpyH1Lw9HZS2rxE_a8f_H8-OLJcxA5SXTGeXgxZiWS8KyB-Yw0Xr7PefGw8ott7cSJ2xT2O7OX8FGWFYejrGlU9oI-p02nTkhrgVIiqYzBjFkli3QztWCwOxO1J_2wdibCgDc6OEoZ5O5Z9b8X0n_NBmSmNvbeaJEe-GEHBVsjPZipiNdorc35WEdJdBubALRPOyTG-BFS3DfIIw6B6iqtKHf-t5OhC7FU4c_CBL0tozeIPWoqf4c8FdtnyPctYRIgt8WLpmRUQpyuOL-xF99spG2EoNAZDxUMKCT7BGpo2iS51YYV6LhbJyIsqkD3GtUGu46HVMLjXZQ/p.jpeg",
-      },
-    ],
-  },
-  {
-    id: 5,
     name: "leaf-and-junk-removal",
     title: "Leaf/Junk Removal",
     photo: "waterscaping.png",
@@ -168,7 +141,7 @@ export const data = [
     ],
   },
   {
-    id: 6,
+    id: 5,
     name: "demo",
     title: "Demo/Installations",
     desc: "demo.jpg",
@@ -203,7 +176,7 @@ export const data = [
     ],
   },
   {
-    id: 7,
+    id: 6,
     name: "ice-and-snow-management",
     title: "Ice & Snow Management",
     desc: "snow.jpg",
@@ -238,7 +211,7 @@ export const data = [
     ],
   },
   {
-    id: 8,
+    id: 7,
     name: "patio",
     title: "Patio/Retaining Walls",
     desc: "gardening.jpg",
@@ -273,7 +246,7 @@ export const data = [
     ],
   },
   {
-    id: 9,
+    id: 8,
     name: "emergency-storm-damage",
     title: "Emergency Storm Damage",
     desc: "gardening.jpg",
