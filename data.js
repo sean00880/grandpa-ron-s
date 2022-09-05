@@ -443,7 +443,7 @@ export const faq = [
     answer: "Contact us via phone or by sumbitting a quote request with a full description of your needs and will reach out to you ASAP with estimations, initial consultation and preperation details.",
     id: 2,
     question: "What are the costs?",
-    answer: "Initial estimations are first generated based on your service requirements, however, the exact pricing will be determined after the first physical consultation.",
+    answer: "Estimates are generated based on your service requirements.",
     id: 3,
     question: "When do you operate?",
     answer: "We operate 24/7 [24 hours 7 days a week].",
