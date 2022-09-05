@@ -11,27 +11,27 @@ export const data = [
     images: [
       {
         id: 1,
-        url: "https://www.elfslandscaping.com/wp-content/uploads/2015/04/tree-mulch.jpg",
+        url: "https://i.postimg.cc/0jNkjYHH/image1.jpg",
       },
       {
         id: 2,
-        url: "https://jeffries.com.au/wp-content/uploads/2021/07/Jeffries-Forest-Mulch.jpg",
+        url: "https://i.postimg.cc/tgH9WQM6/image2.jpg",
       },
       {
         id: 3,
-        url: "https://previews.dropbox.com/p/thumb/ABp3uoHz838GHTq5-APzOBBW51cpSFwF1vLsYnSCz3VPTDeTKjBYNtSoCAgYQEe40MRh7UFaSYHzC37Cs93r3B_KFDIYqNMUZyU8GdBdrjHMDEOQXj9iz4bqMPESa-zHbTFpT0a7BMWOOVQK7yTlQA1Ff604817iGQixHD7fIyEDU3JbpxFICzVhSk3BkTcHxDgY1bQhJ3Sadnu__MGU4XK9htWpoYXY5OQvTCOvuc0mpB5LkI27JInUI_L2yu0P6VgODDGysjU7P22vptMhqv8VzJrdi4KJkkyl3_LmzHh7AgwkD2olf3BB5xSSEqIro6qX3Iwm_Qs4pmNW_ms1elW00PAjIV35TWMaK-iDRLUOgpqLseFvZcQ6tBFj8olFLXk/p.jpeg",
+        url: "https://i.postimg.cc/X7mjNyKQ/image3.jpg",
       },
       {
         id: 4,
-        url: "https://www.thespruce.com/thmb/Xfio0P6CV0e6TX5q_whZVANopM4=/2121x1414/filters:fill(auto,1)/GettyImages-875329324-5bdcc0d346e0fb00267085c6.jpg",
+        url: "https://i.postimg.cc/8zv17PtD/image4.jpg",
       },
       {
         id: 5,
-        url: "https://previews.dropbox.com/p/thumb/ABodaSjKnJDcZ0VM6-jqbdYfpEi7n52P7qFlC4bwHHzaocLS6I2TH0vDIDyssSTYWXVKNuaPB9_G0YaHKHl6DGVcxY92N_x-4eZOPX3u89B2M4TMLozI7YNpEefBg7zMY2hR8cfWnMK2JIDPoVof12UIXHwCazXsu7WmQDVVhTygLisuJxZ-ksUvypa60Mav-2GHgvGXAyWJMvM9p3NLMtUwpotX5LoQCNjhvvCeDueoX6XuPbAMA07pC0cPPWn8accNd8d3YMKABCLbTXhL_Y_VgQ_mbKc7_6zA5AlyMaireuQXHJm_JryUbdQYX9P45fSE_jCsYK-d1EPyx9UH1j8bml2ZbHRgX4BvlYTXQvRtkAJgA5M8E1NBf_GJhVXHWPo/p.jpeg",
+        url: "https://i.postimg.cc/4Nm4T1cY/image5.jpg",
       },
       {
         id: 6,
-        url: "https://previews.dropbox.com/p/thumb/ABqSTlCkEjJA6F3FhZo4h0If4uBMpzij52PTmA-ld-odIcUv20-APWvWVGMaCd5S8fhefpkOjvWkqTKCiGZG4Ao2DRcJ3aFzacYtRU4J2Tb8AGzmVu_a_Xn_DjohVIb7uCTUiJhL36EQUkSUPDA2fwF_JcSXJxuNPqrFhNZybYpxNk5zO4z8QhFfjm9wgYciXqU4M3OidRZX6Tmxv8R_e76bV5siHILpItigyyRESP5bauzHeB8-oUgMR1eO92TCuw1ZcNRhTQ89Soo3zA5cDLKpXX0yp-1zDoLwUgKDVmSaOqOYGDZrdNIlGJ7OPa6PtUCwAswTdufx45M_1B28Wtj-3p-pHijIgnTj3BnJoIv5eLR3Tnc-jgCaICc5YU-2mjk/p.jpeg",
+        url: "https://i.postimg.cc/3wMx1Ddd/image6.jpg",
       },
     ],
   },
@@ -72,10 +72,10 @@ export const data = [
   },
   {
     id: 3,
-    name: "pruning",
-    title: "Pruning",
+    name: "tree-removal-and-pruning",
+    title: "Tree Removal/Pruning",
     desc: "production.jpeg",
-    photo: "commercial.png",
+    photo: "bulldozer.png",
     longDesc:
       "We offer structural pruning, view enhancement pruning and general maintenence pruning. We remove trees and offer stump grinding. We offer 24/7 storm damage aswell. For any further questions, or if you need a free estimate, please reach out to us at your convience.",
     images: [
@@ -250,7 +250,7 @@ export const data = [
     name: "emergency-storm-damage",
     title: "Emergency Storm Damage",
     desc: "gardening.jpg",
-    photo: "garden.png",
+    photo: "storm.webp",
     longDesc:
       "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
     images: [
