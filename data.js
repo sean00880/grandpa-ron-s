@@ -244,7 +244,7 @@ export const data = [
     desc: "gardening.jpg",
     photo: "garden.png",
     longDesc:
-      "Our absolute favorite thing to to is build patios and retaining walls. We have 14 combined years of expierence and absolutely love building them! For any further questions or if you need a free estimate please reach out to us at your convience.",
+      "Our absolute favorite thing to do is build patios and retaining walls. We have 14 combined years of expierence and absolutely love building them! For any further questions or if you need a free estimate please reach out to us at your convience.",
     images: [
       {
         id: 1,
