@@ -28,7 +28,7 @@ const Contact = () => {
         <Circle backgroundColor="yellow" right="-30vh" bottom="-60vh" className={style.circle}/>
       <form ref={form} onSubmit={sendEmail} className={style.form}>
 
-        <input className={style.inpuL} type="text" placeholder="Name" name="name"/>
+        <input className={style.inputL} type="text" placeholder="Name" name="name"/>
         <input className={style.inputL} type="text" placeholder="Phone" name="contact" />
         <input className={style.inputL} type="email" placeholder="Email" name="email" />
         <input className={style.inputL} type="text" placeholder="Subject" name="subject"/>

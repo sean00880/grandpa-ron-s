@@ -56,6 +56,7 @@
 
 .inputS:first-child {
   margin-right: 20px;
+  width:100%;
 }
 
 .inputL {
@@ -107,6 +108,7 @@
 
   .inputS:first-child {
     margin: 0;
+    width:100%;
   }
 }
 
