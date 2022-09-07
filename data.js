@@ -42,27 +42,27 @@ export const data = [
     photo: "field.png",
     desc: "dev.jpeg",
     longDesc: 
-      "We can help you with all mowing needs. Our goal is to keep your grass as healthy as possible. We offer weekly mowing as well as bi-weekly mowing. We are not the company to mow when your grass does not need it. We offer overseeding, aeration, de-thatching, yard fertilization and more. For any further questions or if you need a free estimate please reach out to us at your convenience.",
+      "We take pride in each yard we have the privilege to take care of! We offer mowing, edging, fertilization, aeration, over-seeding, complete yard removal & installation, for any further questions or if you need a free estimate please reach out to us at your convince.",
     images: [
       {
         id: 1,
-        url: "https://i.ibb.co/Gdz43fw/mowing1.jpg",
+        url: "https://i.postimg.cc/W1V0PKW8/mow1.jpg",
       },
       {
         id: 2,
-        url: "https://previews.dropbox.com/p/thumb/ABoq4dcYJRCDvGe3dxVirStQCmmdBsCu0Sts_7wKqrel_LhH0-aXgcXUyO37cgfROiPsZcYBHiqwzmOTBuoQQvCAcBQuc9-lI0gwv9UlN2SF1czuM8XRhzgE1lNjmqWOVA85f5UMhM3wHbN0qGesXdEg86DSo8Vq6_u-pzKO6qKpRUR-bLv9Io6iWIV4Wy9ggGm8OFUrTmM96Iuaz-L0sBsnqBWjXMeFlOO8GBRWsaFVISMSzQu-sfHXxG830OE9e_Uft1gvN2kzsFyzI-NjyIUeS8cr2bBaPJfU4nknUpkeVut9df2DCT4AHQajArgFh4d4TMXlyQzP4McCqimSUaYwJ_ThEyf_CYuY4Fc9McaEq6DTCW21D-pLgL-2u7fN0J8/p.jpeg",
+        url: "https://i.postimg.cc/gj62wzJh/mow2.jpg",
       },
       {
         id: 3,
-        url: "https://previews.dropbox.com/p/thumb/ABqfN498Kua1lphCVaKTH9r484GCbBfxlFnJ_deVlr3BnfOZrqXz8t-7RI4n-a3PkMUaim3930iPcgGne-Y47s6qzbw6fWMfueLU4zFjNWVpQVJiCdwVXtBJESvCvC488P-kT9OENUrsRPBtPfeCzJMn5q_TeDT3Y7WG8CnSw9XrsfxfMEqCRO1xOmbx1TyCQk1bGIQXfJp5L58ihTN_Fzf5Qb97SQA660wbs_tKKDTnBiSdSPcvW42XqhwFOecNk0LZJvbEYkMcCW3dEwDNXEdOfJc_niaGEc2_hUrlX5wcQ4pDfj-VgPoyunzNpvMrqs8EO-uVSz9DWqqDaHb-oQ-80lSvVXWq-8-STXhAIENxTuQbXf9zoefygeVJGR39Cco/p.jpeg",
+        url: "https://i.postimg.cc/d131Ymc4/mow3.jpg",
       },
       {
         id: 4,
-        url: "https://previews.dropbox.com/p/thumb/ABqchJ_876v_XThc9mpzQBK40H_V9zi2QqoQoaRax65OaqXO_N-WCe24fheUcPJ9c_hikHnwIm_zO5d85L7qAcOlcBBGv83Ohh7vfH_q105LJfNTeLilWbCeySth7Q-Hu_kvrzHf3yN2vsF86iaLoIQGOHGljYpRa7oSxbdySx4LMW0KfAWtsJMIl-lz21lR5XXI-CdUEZGTehSgRIpkTTuuLfC4UEUT4J4hFlIhcp8iFnW8shebaAESIgU05xdpruTiq4tfPSn2k1AJ3G2kScEcPFYe2i_nzxBWzUK5ENA3n1v_PjEPaSU_IGqwvRQNL_CLHKj8Bvy_fiHY9Eg-S9ygD7s9IxeHa0SNG1xyKLH5Z0ycW-KFhLCNIfCG9NreFJQ/p.jpeg",
+        url: "https://i.postimg.cc/44K6vpH6/mow4.jpg",
       },
       {
         id: 5,
-        url: "https://previews.dropbox.com/p/thumb/ABoreFG4XNQDeq_aWqnzW-xhYRVdBiuSvWg8-7l_BarsXFr6xEQmsHkRtxdL8lxsnT0sBTx2iF3EyVEP2-wkMxheTnAjfb-NP5KAzP0ImfGVTgh37yM13NPCX3QAkKvGB98cb1H8Hskc1GQVQPh4ySYcvmyAyEom3lBLwR539F0aQlRlZcAcBRyjlIfxjjq8r8rhJqhn2B2eZoEwrPzd137SPIztPCSoL9uOC1l_tqL9uMgztIfHa_JwfkCxEXHZJYaoFTgysDr-dZV7uzQ1w-kQau5e-lNdi3WhrDlbE67Gfkucz05MzbTW0rUBSXlphFyyRTJPBNgstP6Vx-1aSY4rFJ9uThVoV8MQscIOCU4bvWIOf2qbYHTnaV6LDP021WQ/p.jpeg",
+        url: "https://i.postimg.cc/L8khB8VB/mow5.jpg",
       },
       {
         id: 6,
@@ -81,27 +81,27 @@ export const data = [
     images: [
       {
         id: 1,
-        url: "https://previews.dropbox.com/p/thumb/ABouLttnvYQlmeizddZMZil6mCblRxj-EtkGg6Hy2Fs02IFOstem4UffiGTLszWVBrKmz0uVUIm1dk5kcwzc714T1XstSjWk854xssvaf_GA7iqO1rD7RzOU-xkU2Y8C3rmxJOsQ4tlAx3DKZhnxcXpYYQuiIcN39hQ2R7cd8QiCHBToNi9P20lEuep85JKRt8glDv4Zj5CiajHxkN0cgsYQ7gIEw-4BLg_tpmbWWNMkV4_ncqjHylmhO_D166HuGnBw3XWjeoeXSre3oUnbepUjkXyvs_d_Fp5ivsUSv0UaHMbwBKu2jj3Ek7uZB9zZJUEOEsx9K2n3WKac56aIR0o0FfEmmtQg4BBSUnJrLBTpqXndH3jbcz_rpxpdCFI37Bo/p.jpeg",
+        url: "https://i.postimg.cc/MT0gGg0D/tr1.jpg",
       },
       {
         id: 2,
-        url: "https://previews.dropbox.com/p/thumb/ABonMqyUB_WkUWIgDBuhGYYenHvyQIasy24cM-j6grqo_VH0Dwj-kOz7iHWSNC0IX6OWHNueVegYanpJwOohDdle53UDw-2ADc0FdhGTnTNmDRzO9mgffWlBk8OZIyUGJbR0-2Ku_YnaudbnLs-i3_BBqlqj0RC5AetYeoHwCpy_4AE11rej7gV-T3OmS2x9M8QuYfCmiXcjdFk_TjC74XA-3iUK6NFPcwLjDBHrU6J28UV_vTbQvqsDa7pdhJZitDL6KgnleaZHFe-4HoP7I9be4-68Go4zZVP_hGkCIPNdz_uk8z0boWuCN9lhBH_jJ-fYLsVHLZeReMCK5fmUSL7BnTmwFVDIlO9lF2LOWx1i6zHKobu2uzpg3ScyAXyj2r0/p.jpeg",
+        url: "https://i.postimg.cc/cCXjRYbt/tr2.jpg",
       },
       {
         id: 3,
-        url: "https://previews.dropbox.com/p/thumb/ABq2rUEPV6VZd23UCx834c1PKv_M5rTmdBqS44N8voZQxcsJt5U9LzTDV8Hg3JrYy0-mkv6Ka5woFxPQsJEwYyCBy9nVIX4QnlqWK7EOeikFfq371NN2FE1sW7M13OMd6LM3qX6UhH8kB3Eyv7SuOdhzsFFL6nxOqSvUweLlmUDJ7wGR0Ftrb7f2eHMJFc9_xSD_d_KRJLDpMPDlqK_SSjR5EZwQYgQoi-KItKb8pwwD45s7red5TdAs3zSrKNsguevH2IQNyJpnX40bAZjIIC47v5ylGJhAXP9tVBGzsjAzYq6kneTZWo4x0-fb9JLS221pgRRHuMy79iVVCZA7MBYuaMmrGkQZAO7t_nl6B6Vx6DAOcAFBAzXe0du2r0FRm6c/p.jpeg",
+        url: "https://i.postimg.cc/gcDfbF2c/tr3.jpg",
       },
       {
         id: 4,
-        url: "https://previews.dropbox.com/p/thumb/ABrJ5JZHCjAJ23YGJfLikVaNYNRf5qfmHB7JsiPTlw0U2C3ju6iO7CYn_BJbpdsERt0janhF0rNee4ZNXpcaqKDtniwY5EsH785gVtLGAXV7moMzbCqJh-Y7dMJLNMb4OJjrEcQImSuBNYGQCYQhFYASfMbB0lU2nT6Vvg1SI_jh-S3OqVIgM7hLAn15q6gynhQKng1FEyhKn37j2PzHXHqhZduZydp6WSui84jh7X5k7w58DpsttNlQ1PRJn_DMqf9O2b5rHLUnqqgn0kL0mff-jZTEhTxuXnxvdBeFgqHCtC5Fm-bYBqyo1432rYMdf8F5PqcbTAbpVosMOGjI3Vqepoe6U7McudKZbhfdbemxcnDvD1GVgeQL4tc1Geac9NU/p.jpeg",
+        url: "https://i.postimg.cc/T3SzNVYr/tr4.jpg",
       },
       {
         id: 5,
-        url: "https://previews.dropbox.com/p/thumb/ABrv0ZzRg--v-ewGwtxpF82HgdUK4PtVSCEhnh-ww6ObBuDeBybBzNyvVeUn-d5wTcB53QU7n_3T1lFttapUW-kQk8ZltMrygWIQlEDepfldX0CPUW3p1biY386MLx0xDbM4L4dcU9ZhA4Uaf8lS1zPmaLF9OLE94KuTbiBe7lT74BEodCNSd5cd69aQLEfUJ6qGe4httGWr1MDj54r892DQLOomc96dSvcHozPqfLUz5rGoNOBGSdncNwvOiOcLnlAfrXGKcQThPrRAqp3DrWXyiAS-MB3-5HD2a2jMyf6hl9btu24HzMF24vZ63nqcnc2HFp9uzjxeQ2NnVp-P-XWm7xZZaO-MMuhlKhcvzcT-dx5Xx70BdwnGan25VB9exYhYoxDQUZldspn2u-JaIGTn/p.jpeg",
+        url: "https://i.postimg.cc/qRH94pKq/tr5.jpg",
       },
       {
         id: 6,
-        url: "https://previews.dropbox.com/p/thumb/ABqS7byvBFiun-kXKva64XWGXWDekwtJ66Dxgk6VUTSXXSz34pcjQRFoCT72GUbH5A9u2UI95Wh6xtfsNZfsjSdGYU8kYsDPt9BtIoaEM8DE-WIpUjSgQ77GsyqhNzhM5Vsj6ZCUW3qxhNUbt1rvPX0tWTFVyZpMCQAE7VS-H7IvMMa2aIK7w9aowSxz8CYLhW10xxrHlFaJXSbXeTXVyGY_Oy5Wm4GYldZb9DtvXlqZj_gfVwtRApDCqKH0uZm_h95je4SyO0vWLPUMPOxRmzptVL99nttXELcnmRP9cqNCGK-1sPocknObxawe2omzfIjva8ijN_Pabl4QcK1JhshNesQdGh8WLJ3MD7D0MtOwzbzYas0cALlnxbPyX7TzZ0A/p.jpeg",
+        url: "https://i.postimg.cc/J0xwpSGn/tr6.jpg",
       },
     ],
   },
