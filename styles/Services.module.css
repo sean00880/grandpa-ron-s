@@ -96,6 +96,7 @@
 }
 
 .media {
+  width: 85%;
   height: 85%;
   margin-top: 20%;
   padding: 10%;
@@ -196,6 +197,8 @@
     font-weight: 300;
   }
   .service {
+    width: 37vh;
+    height: 37vh;
     flex-direction: column;
     align-items: center;
   }
