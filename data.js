@@ -116,27 +116,27 @@ export const data = [
     images: [
       {
         id: 1,
-        url: "https://lanierlandscapingllc.com/wp-content/uploads/2020/03/AdobeStock_305393156.jpg",
+        url: "https://i.postimg.cc/C5BrW1Mz/271452878-1580805255613658-4155537821861553764-n.png",
       },
       {
         id: 2,
-        url: "https://cdn.shortpixel.ai/spai/w_973+q_glossy+ret_img+to_auto/https://junkbustersjacksonville.com/wp-content/uploads/2020/10/85021896_125091152353954_3694691559925612544_nr.jpg",
+        url: "https://i.postimg.cc/BZjqqBX1/305004372-651997282688867-8801739322753274733-n.jpg",
       },
       {
         id: 3,
-        url: "https://allenslandscaping.com/wp-content/themes/land6/images/service-images/commercial-leaf-removal-service.jpg",
+        url: "https://i.postimg.cc/Bbr7s0tN/305139507-1149722409312070-6021458431062448183-n.jpg",
       },
       {
         id: 4,
-        url: "https://midlandtxlawns.com/wp-content/uploads/2018/09/Midland-TX-Lawns-Yard-Clean-Up-2.jpg",
+        url: "https://i.postimg.cc/9QY2xxNs/305177840-1477849616021315-3869733746581940821-n.jpg",
       },
       {
         id: 5,
-        url: "https://www.junk-king.com/locations/fairfax/wp-content/uploads/sites/4/2021/04/yard-waste-removal-fairfax-virginia.jpg",
+        url: "https://i.postimg.cc/Rht5wGHs/305317599-388231276809546-4971717182682864043-n.jpg",
       },
       {
         id: 6,
-        url: "https://www.angelslandscaping.com/wp-content/uploads/2021/10/yad-and-gardden-cleanup.jpg",
+        url: "https://i.postimg.cc/s2s8vsmN/305468431-1839840473060824-7703624298536950658-n.jpg",
       },
     ],
   },
@@ -147,7 +147,7 @@ export const data = [
     desc: "demo.jpg",
     photo: "demo.png",
     longDesc:
-      "We are experts in hardscaping, erosion management, drainage mitigation, garden and plant installation, firepit design, grading and resloping, sod installation, outdoor lighting, tree services, and other landscaping-related tasks.",
+      "We are experts in hardscaping, erosion management, drainage mitigation, garden and plant installation, firepit design, grading, resloping, sod installation, and outdoor lighting. For any further questions or if you need a free estimage please reach out to us at your convenience.",
     images: [
       {
         id: 1,
@@ -181,8 +181,8 @@ export const data = [
     title: "Ice & Snow Management",
     desc: "snow.jpg",
     photo: "snow.png",
-    longDesc:
-      "Call now for a free quote and ask for any Holiday Spcials on our snow removal services for driveways, parking lots, and sidewalks, among other things.",
+    longDesc: 
+      "We offer snow removal and ice management services for driveways, parking lots, and sidewalks. For any further questions or if you need a free estimate please reach out to us at your convenience.",
     images: [
       {
         id: 1,
@@ -256,23 +256,23 @@ export const data = [
     images: [
       {
         id: 1,
-        url: "https://i.pinimg.com/originals/1f/a6/ce/1fa6cee1d6d2b654e750f91e51ccd66b.jpg",
+        url: "https://i.postimg.cc/65gsYk0H/286543654-595778792215528-2427475304532270495-n.jpg",
       },
       {
         id: 2,
-        url: "https://taylorlcs.com/images/boulder-wall-retaining-walls-min.jpg",
+        url: "https://i.postimg.cc/WbhLmNMF/305051861-484258750212516-2879773110429000985-n.jpg",
       },
       {
         id: 3,
-        url: "https://i.pinimg.com/736x/6b/2f/d6/6b2fd6bb8cc7f3b3839f027fe9f92556--rock-edging-rock-border.jpg",
+        url: "https://i.postimg.cc/DfC3bJb3/305069710-596188961993733-4594269025562814404-n.jpg",
       },
       {
         id: 4,
-        url: "https://i.pinimg.com/originals/d9/9a/73/d99a73a9b20743bf14d9e9a87855df80.jpg",
+        url: "https://i.postimg.cc/Y9HM85pc/305175446-1079482582753735-5576677572696551692-n.jpg",
       },
       {
         id: 5,
-        url: "https://d2landscaping.com/wp-content/uploads/2021/09/Retaining-Wall-Installation-Cincinnati-Northern-Kentucky.jpg",
+        url: "https://i.postimg.cc/SRt003px/305266471-5981724815179865-7685689892379825267-n.jpg",
       },
       {
         id: 6,

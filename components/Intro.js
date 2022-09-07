@@ -37,7 +37,7 @@ const Intro = () => {
           Grandpa Ron and Joshua mowing the lawn [2000].
         </p>
         <h2 className={style.subtitle}>Serving Columbus, Ohio<br></br>(220) 666 2520</h2>
-        <button className={style.button}><Link href={`${process.env.NEXT_PUBLIC_URL}/#services`} passHref>DISCOVER</Link></button>
+        <button className={style.button}><Link href={`${process.env.NEXT_PUBLIC_URL}/#services`} passHref>Services</Link></button>
         </div>
       </div>
       <div className={style.card2}>
