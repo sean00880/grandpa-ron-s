@@ -252,7 +252,7 @@ export const data = [
     desc: "stormcover.webp",
     photo: "storm.webp",
     longDesc:
-      "Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library. Simply drag and drop photos and videos into your workspace to automatically add them to your Collab Cloud library.",
+      "We are partnered with West Tree Service Inc. For any tree service damage, we work 24/7. For any further questions or if you need a free estimate please reach out to us at your convenience.",
     images: [
       {
         id: 1,
