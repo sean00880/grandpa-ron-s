@@ -41,7 +41,6 @@
 }
 
 .form input{
-  margin: 10px 0px;
   background: #e1e1e1f8;
     color: #151615;
     font-size: 20px;
@@ -52,6 +51,7 @@
   flex: 1;
   height: 50px;
   padding-left: 10px;
+  width: 100%;
 }
 
 .inputS:first-child {
