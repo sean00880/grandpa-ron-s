@@ -186,23 +186,23 @@ export const data = [
     images: [
       {
         id: 1,
-        url: "https://www.mvl-llc.com/wp-content/uploads/2020/05/IMG_20200210_093002_01-950x1024.jpg",
+        url: "https://i.postimg.cc/3JtKFf4N/305134880-820932245741457-5131007496384048128-n.jpg",
       },
       {
         id: 2,
-        url: "https://www.ashevillenc.gov/wp-content/uploads/2022/01/20220116_081246-scaled.jpg",
+        url: "https://i.postimg.cc/wTqqJYBn/305174324-1746048022424570-454384743095193020-n.jpg",
       },
       {
         id: 3,
-        url: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Snow_removal_13.jpg",
+        url: "https://i.postimg.cc/nLDpZHd9/305509039-5370316263048373-4967211266616539891-n.png",
       },
       {
         id: 4,
-        url: "https://empire-s3-production.bobvila.com/articles/wp-content/uploads/2021/03/best_single_stage_snow_blower_option.jpg",
+        url: "https://i.postimg.cc/JzgM9yQW/305536205-5200812793378996-7914840912216960939-n.jpg",
       },
       {
         id: 5,
-        url: "https://cdn.shopify.com/s/files/1/0012/4731/4009/products/F198647466_800x.png?v=1649350505",
+        url: "https://i.postimg.cc/sf9fvg3p/305860439-1021559375197458-5903544820184040066-n.jpg",
       },
       {
         id: 6,
