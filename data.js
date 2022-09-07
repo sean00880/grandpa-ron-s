@@ -206,7 +206,7 @@ export const data = [
       },
       {
         id: 6,
-        url: "https://edenapp.com/wp-content/uploads/2020/10/SnowBlog.jpg",
+        url: "https://i.postimg.cc/x8SKgTZv/305618532-474573881183307-2285092570604209326-n.jpg",
       },
     ],
   },
