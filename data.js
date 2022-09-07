@@ -155,7 +155,7 @@ export const data = [
       },
       {
         id: 2,
-        url: "https://i.postimg.cc/1XQ2hZdP/demonew.jpg",
+        url: "https://i.postimg.cc/xdkhqNsT/neww.jpg",
       },
       {
         id: 3,
