@@ -11,6 +11,25 @@
   flex-direction:column;
 }
 
+.devwrapper{
+  display: flex;
+  float:right;
+
+}
+
+.developer {
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  width: auto;
+  padding: 10px;
+  border:2px solid rgba(0, 128, 0, 0.774)
+}
+
+.developer span {
+  color:rgba(0, 128, 0, 0.774)
+}
+
 .title {
   font-weight: 400;
   color: white;

@@ -1,7 +1,8 @@
 import style from "../styles/Footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
-  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FaFacebookF} from "react-icons/fa";
+import {FcGoogle} from "react-icons/fc";
 
 const Footer = () => {
   return (
@@ -42,18 +43,22 @@ const Footer = () => {
       </div>
       <div className={style.cardS}>
         <div className={style.cardItem}>
-          Find us onnline:
-          <br /><Link href="https://www.facebook.com/"><FontAwesomeIcon icon="fa-brands fa-facebook-f" /> FB</Link>  __ Google <br></br>
-          <br></br>
-          Website Developed by: Shantanu Dwivedi<br></br>
-          <Link href="https://www.decodedweb.us/">https://www.decodedweb.us/</Link>
+          Find us online:
+          <br /><a href="https://www.facebook.com/"><FaFacebookF/></a><a href="https://www.facebook.com/"><FcGoogle/></a><br></br>
+          
         </div>
         <div className={style.cardItem}>
           © 2022 GRANDPA RON'S LAWN AND LANDSCAPE, LLC.
           <br />
 
           ALL RIGHTS RESERVED
+          <br></br>
+          <div className={style.devwrapper}>
+          <a href="https://www.decodedweb.us/"><h4 className={style.developer}>Website Developed by: Shantanu Dwivedi<br></br>
+          <span>https://www.decodedweb.us/</span></h4></a>
+          </div>
         </div>
+        
       </div>
       </div>
     </div>
