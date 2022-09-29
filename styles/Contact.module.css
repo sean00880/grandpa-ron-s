@@ -101,6 +101,9 @@
 }
 
 @media screen and (max-width: 480px) {
+  .container{
+    background-image: url('../public/img/lawn.jpeg');
+  }
 
   .form {
     width: 100%;
