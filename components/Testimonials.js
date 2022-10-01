@@ -42,7 +42,7 @@ const Testimonials = () => {
         ))}
         
       </div>
-      <button className={style.button}><Link href={`${process.env.NEXT_PUBLIC_URL}/testimonials`} passHfref>All Testimonials</Link></button>
+      <button className={style.button}><Link href={`/testimonials`} passHfref>All Testimonials</Link></button>
       
     </div>
   );
