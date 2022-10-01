@@ -1,3 +1,4 @@
+import head from "next/head";
 import style from "../styles/Testimonials.module.css";
 import Image from "next/image";
 import { allusers } from "../data";
@@ -5,7 +6,15 @@ import { allusers } from "../data";
 const Testimonials = () => {
   return (
     <div className={style.container}>
+          <Head>
+        <title>Grandpa Ron's | Lawns and Landscape LLC</title>
+        <meta
+          name="description"
+          content="Landscaping Services | Columbus, Ohio"
+        />
+      </Head>
       <h1 className={style.title}>Testimonials</h1><hr/>
+        <h3>Best Landscaping Services in Columbus, OHIO</h3>
       <div className={style.wrapper}>
         {allusers.map((user) => (
           <div className={style.card} key={user.id}>
