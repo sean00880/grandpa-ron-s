@@ -22,7 +22,7 @@ const Product = ({ product }) => {
         ))}
       </div>
       <div className={style.cardS}>
-        <h1 className={style.title}>{product.title}</h1> service in Columbus, OH
+        <h1 className={style.title}>{product.title} <br/><hr/> service in Columbus, OH</h1> 
         <p className={style.desc}>{product.longDesc}</p>
         <button className={style.button}>
           <Link href="/contact">Contact</Link>
