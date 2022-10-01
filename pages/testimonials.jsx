@@ -1,4 +1,4 @@
-import head from "next/head";
+import Head from "next/head";
 import style from "../styles/Testimonials.module.css";
 import Image from "next/image";
 import { allusers } from "../data";
