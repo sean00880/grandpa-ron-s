@@ -32,7 +32,7 @@
   flex-wrap: wrap;
   border-radius: 10px 80px;
     border: 14px double #0e0e0edf;
-    background-image: url('../public/img/logo.webp');
+    background-image: url('../public/img/logo.jpg');
     background-size: contain;
     background-attachment: fixed;
     background-position: center;
