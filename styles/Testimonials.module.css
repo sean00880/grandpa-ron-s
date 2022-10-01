@@ -31,6 +31,15 @@
   border-radius: 10px 90px;
 }
 
+.subtitle {
+    background: #ffffffd1;
+    line-height: 3;
+    border: 2px solid green;
+    text-align: center;
+    letter-spacing: 4px;
+    font-size: 34px;
+    border-radius: 10px;
+}
 .wrapper {
   display: flex;
   flex-wrap: wrap;
