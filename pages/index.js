@@ -17,7 +17,7 @@ export default function Home({ services }) {
         <title>Grandpa Ron's | Lawns and Landscape LLC</title>
         <meta
           name="description"
-          content="Landscaping Services | Canal Winchester, OH, Ohio"
+          content="Landscaping Services | Canal Winchester, Ohio"
         />
       </Head>
       <Intro />
