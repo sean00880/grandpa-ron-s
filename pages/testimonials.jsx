@@ -10,11 +10,11 @@ const Testimonials = () => {
         <title>Grandpa Ron's | Lawns and Landscape LLC</title>
         <meta
           name="description"
-          content="Landscaping Services | Canal Winchester, OH"
+          content="Landscaping Services | Canal Winchester, Ohio"
         />
       </Head>
       <h1 className={style.title}>Testimonials</h1><hr/>
-        <h3 className={style.subtitle}>Best Landscaping Services in Columbus, OHIO</h3>
+        <h3 className={style.subtitle}>Best Landscaping Services in Canal Winchester, OH</h3>
       <div className={style.wrapper}>
         {allusers.map((user) => (
           <div className={style.card} key={user.id}>
