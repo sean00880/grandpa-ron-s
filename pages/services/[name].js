@@ -11,7 +11,7 @@ const Product = ({ product }) => {
         <title>Grandpa Ron's | Lawns and Landscape LLC</title>
         <meta
           name="description"
-          content="Landscaping Services | Columbus, Ohio"
+          content="Landscaping Services | Canal Winchester, Ohio"
         />
       </Head>
       <div className={style.cardL}>
@@ -22,7 +22,7 @@ const Product = ({ product }) => {
         ))}
       </div>
       <div className={style.cardS}>
-        <h1 className={style.title}>{product.title} <br/><hr/> Services in Columbus, OH</h1> 
+        <h1 className={style.title}>{product.title} <br/><hr/> Services in Canal Winchester, OH</h1> 
         <p className={style.desc}>{product.longDesc}</p>
         <button className={style.button}>
           <Link href="/contact">Contact</Link>
