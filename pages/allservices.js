@@ -10,7 +10,7 @@ export default function Home({ services }) {
         <title>Grandpa Ron's | Lawns and Landscape LLC</title>
         <meta
           name="description"
-          content="Landscaping Services | Columbus, Ohio"
+          content="Landscaping Services | Canal Winchester, OH"
         />
       </Head>
       <Services services={services} />
