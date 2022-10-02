@@ -34,6 +34,8 @@ const Intro = () => {
                 alt=""
                 priority={true}
               />
+          Landscaping Services for all needs.
+           <hr/>
           Grandpa Ron and Joshua mowing the lawn [2000].
         </p>
         <h2 className={style.subtitle}>Serving Canal Winchester & Columbus, Ohio<br></br>(220) 666 2520</h2>
