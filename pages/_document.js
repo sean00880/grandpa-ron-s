@@ -10,10 +10,6 @@ const _pathSliceLength = Math.min.apply(Math, [
 ]);
 const canonicalURL= CANONICAL_DOMAIN + router.asPath.substring(0, _pathSliceLength);
 
-<Head>
-  
-</Head>
-
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx)
