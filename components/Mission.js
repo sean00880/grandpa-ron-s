@@ -12,7 +12,7 @@ const Mission = () => {
                 className={style.image}
                 src='/img/Joshua.jpg'
                 objectFit="cover"
-                alt="Joshua"
+                alt="Grandpa Ron's Landscaping | Joshua mowing"
                 width='50%'
                 height='auto'
                 priority={true}
