@@ -13,11 +13,16 @@ import Contact from "./contact";
 export default function Home({ services }) {
   return (
       <>
-      <Head>
-        <title>Grandpa Ron's | Lawns and Landscape LLC</title>
+              <Head>
+        <title>Grandpa Rons | Lawns and Landscape LLC </title>
+        <link
+          rel="canonical"
+          href="https://grandparonsllc.com"
+          key="canonical"
+        />
         <meta
           name="description"
-          content="Landscaping Services | Canal Winchester, Ohio | Experience the best landscaping services all-year-round by the most preferred landscapers in Canal Winchester, OH. | Serving Canal Winchester & Columbus, OH and surrounding regions.| Family owned & operated | Licensed & Insured."
+          content="Landscaping Services | Canal Winchester, Ohio | Experience the high quality landscaping services by the most preferred landscapers in Canal Winchester, OH. | Serving Canal Winchester & Columbus, OH and surrounding regions.| Family owned & operated | Licensed & Insured. "
         />
       </Head>
       <Intro />
