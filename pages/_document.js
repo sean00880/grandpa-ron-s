@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { useRouter } from "next/router";
 
-const CANONICAL_DOMAIN = 'https://yoursite.com';
+const CANONICAL_DOMAIN = 'https://www.grandparonsllc.com';
 
 const router = useRouter();
 const _pathSliceLength = Math.min.apply(Math, [
