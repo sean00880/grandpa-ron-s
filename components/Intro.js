@@ -31,7 +31,7 @@ const Intro = () => {
                 src='/img/grandpaRon.jpeg'
                 width="100%"
                 height="100%"
-                alt=""
+                alt="Grandpa Ron's Landscaping"
                 priority={true}
               />
           Landscaping Services for all needs.
