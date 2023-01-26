@@ -51,11 +51,7 @@ const Intro = () => {
           <span className={style.brandName2}>Three</span> Simple Steps:
         </h2>             
           <hr />
-          <div className={style.socialWrapper}>
-          Find us online:
-        <div className={style.socialIcons}>
-          <br /><a className={style.socialButton} href="https://www.facebook.com/"><FaFacebookF/></a><a className={style.socialButton} href="https://www.facebook.com/"><FaInstagramSquare/></a><br></br>          
-        </div></div>
+          
         
         
         <p className={style.desc2}>
@@ -63,6 +59,20 @@ const Intro = () => {
           2) Schedule physical consultation. <br/> <br/> 
           3) Initiate contract.
         </p>
+        
+        <div className={style.socialWrapper}>
+          Find us online:
+        <div className={style.socialIcons}>
+        <div className={style.icon}>
+         <h3 className={style.iconHeading}>Facebook</h3>
+          <a className={style.socialButton} href="https://www.facebook.com/"><FaFacebookF/></a>
+         </div>
+         <div className={style.icon}>
+         <h3 className={style.iconHeading}>Instagram</h3>
+          <a className={style.socialButton} href="https://www.facebook.com/"><FaInstagramSquare/></a>
+          </div>
+        </div></div>
+        
         <button className={style.button2}><Link href={`${process.env.NEXT_PUBLIC_URL}/#contact`} passHfref>Request a Quote</Link></button>
           
         </div>
