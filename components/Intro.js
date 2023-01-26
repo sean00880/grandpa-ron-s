@@ -3,6 +3,9 @@ import Image from "next/image";
 import Aos from "aos";
 import React,{ useEffect} from "react";
 import Link from "next/link";
+import {FaFacebookF} from "react-icons/fa";
+import {FaInstagramSquare} from "react-icons/fc";
+
 
 const Intro = () => {
   useEffect(() => {
@@ -46,6 +49,13 @@ const Intro = () => {
       <div className={style.content2}>
         <h2 className={style.title2}>
           <span className={style.brandName2}>Three</span> Simple Steps:
+          
+          < <div className={style.socialWrapper>
+          Find us online:
+        <div className={style.socialIcons}>
+          <br /><a className={style.socialButton} href="https://www.facebook.com/"><FaFacebookF/></a><a className={style.socialButton} href="https://www.facebook.com/"><FaInstagramSquare/></a><br></br>          
+        </div>
+        
           <hr />
         </h2>
         
@@ -55,6 +65,7 @@ const Intro = () => {
           3) Initiate contract.
         </p>
         <button className={style.button2}><Link href={`${process.env.NEXT_PUBLIC_URL}/#contact`} passHfref>Request a Quote</Link></button>
+          
         </div>
       </div>
     </div>
