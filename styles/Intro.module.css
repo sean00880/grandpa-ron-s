@@ -158,6 +158,17 @@
   animation: button 1s ease infinite alternate;
 }
 
+.iconWrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.icon{
+  display: flex;
+flex-direction: row;
+  margin: 3px 11px;
+}
+
 @keyframes button {
   to{
     background-color: rgb(46, 47, 46);
