@@ -50,7 +50,7 @@ const Intro = () => {
         <h2 className={style.title2}>
           <span className={style.brandName2}>Three</span> Simple Steps:
           
-          <div className={style.socialWrapper>
+          <div className={style.socialWrapper}>
           Find us online:
         <div className={style.socialIcons}>
           <br /><a className={style.socialButton} href="https://www.facebook.com/"><FaFacebookF/></a><a className={style.socialButton} href="https://www.facebook.com/"><FaInstagramSquare/></a><br></br>          
