@@ -67,6 +67,7 @@ const Intro = () => {
          <h3 className={style.iconHeading}>Facebook</h3>
           <a className={style.socialButton} href="https://www.facebook.com/profile.php?id=100088737163765"><FaFacebookF/></a>
          </div>
+          <hr />
          <div className={style.icon}>
          <h3 className={style.iconHeading}>Instagram</h3>
           <a className={style.socialButton} href="https://www.instagram.com/grandparonsllc/"><FaInstagramSquare/></a>
