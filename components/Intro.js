@@ -65,11 +65,11 @@ const Intro = () => {
         <div className={style.socialIcons}>
         <div className={style.icon}>
          <h3 className={style.iconHeading}>Facebook</h3>
-          <a className={style.socialButton} href="https://www.facebook.com/"><FaFacebookF/></a>
+          <a className={style.socialButton} href="https://www.facebook.com/profile.php?id=100088737163765"><FaFacebookF/></a>
          </div>
          <div className={style.icon}>
          <h3 className={style.iconHeading}>Instagram</h3>
-          <a className={style.socialButton} href="https://www.facebook.com/"><FaInstagramSquare/></a>
+          <a className={style.socialButton} href="https://www.instagram.com/grandparonsllc/"><FaInstagramSquare/></a>
           </div>
         </div></div>
         
