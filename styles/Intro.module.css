@@ -158,7 +158,7 @@
   animation: button 1s ease infinite alternate;
 }
 
-.iconWrapper{
+.socialWrapper{
   display: flex;
   flex-direction: column;
 }
