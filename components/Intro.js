@@ -4,7 +4,7 @@ import Aos from "aos";
 import React,{ useEffect} from "react";
 import Link from "next/link";
 import {FaFacebookF} from "react-icons/fa";
-import {FaInstagramSquare} from "react-icons/fc";
+import {FaInstagramSquare} from "react-icons/fa";
 
 
 const Intro = () => {
@@ -49,15 +49,14 @@ const Intro = () => {
       <div className={style.content2}>
         <h2 className={style.title2}>
           <span className={style.brandName2}>Three</span> Simple Steps:
-          
+        </h2>             
+          <hr />
           <div className={style.socialWrapper}>
           Find us online:
         <div className={style.socialIcons}>
           <br /><a className={style.socialButton} href="https://www.facebook.com/"><FaFacebookF/></a><a className={style.socialButton} href="https://www.facebook.com/"><FaInstagramSquare/></a><br></br>          
-        </div>
+        </div></div>
         
-          <hr />
-        </h2>
         
         <p className={style.desc2}>
           1) Contact us with a description of your needs and we will provide a free estimate. <br/><br/> 
