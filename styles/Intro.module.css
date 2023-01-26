@@ -160,7 +160,13 @@
 
 .socialWrapper{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-contet: center;
+}
+.socialIcons{
+  display:flex;
+  align-items:center
 }
 
 .icon{
