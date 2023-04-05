@@ -54,8 +54,8 @@ const Footer = () => {
           ALL RIGHTS RESERVED
           <br></br>
           <div className={style.devwrapper}>
-          <a href="https://www.decodedweb.us/"><h4 className={style.developer}>Website Developed by: Shantanu Dwivedi<br></br>
-          <span>https://www.decodedweb.us/</span></h4></a>
+          <a href="https://www.decodedweb.us/"><h4 className={style.developer}>Website Developed by: Site Dominion, LLC<br></br>
+          <span>https://www.sitedominion.com/</span></h4></a>
           </div>
         </div>
         
