@@ -32,10 +32,7 @@ const Footer = () => {
       </div>
       <div className={style.cardscontainer}>
       <div className={style.cardS}>
-        <div className={style.cardItem}>
-        322 MOHICAN ROAD,<br></br>CANAL WINCHESTER, OH <br></br>43110
-          <br /> USA
-        </div>
+       
         <div className={style.cardItem}>
           fgreatful@gmail.com
           <br /> (220) 666-2520
