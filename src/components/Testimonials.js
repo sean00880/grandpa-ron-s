@@ -10,27 +10,27 @@ const Testimonials = () => {
       <div className={style.wrapper}>
         {users.map((user) => (
           <div className={style.card} key={user.id}>
-            <Image src={`${process.env.NEXT_PUBLIC_URL}/img/${user.logo}`} width="30" height="30" alt="" />
+            <Image src={`/img/${user.logo}`} width={30} height={30} alt={user.name || 'Company logo'} />
             
             <p className={style.comment}>
               &ldquo;{user.comment}&rdquo;
-              <img
+              <Image
                 className={style.stars}
                 src='/img/stars.png'
-                width="70%"
-                height="70%"
-                objectfit="cover"
-                alt=""
+                width={70}
+                height={20}
+                style={{ objectFit: 'cover' }}
+                alt="5 star rating"
               />
             </p>
             <div className={style.person}>
               <Image
                 className={style.avatar}
-                src={`${process.env.NEXT_PUBLIC_URL}/img/${user.avatar}`}
-                width="45"
-                height="45"
-                objectFit="cover"
-                alt=""
+                src={`/img/${user.avatar}`}
+                width={45}
+                height={45}
+                style={{ objectFit: 'cover' }}
+                alt={user.name || 'Customer photo'}
               />
               <div className={style.info}>
                 <span className={style.username}>{user.name}</span>
@@ -42,7 +42,7 @@ const Testimonials = () => {
         ))}
         
       </div>
-      <button className={style.button}><Link href={`/testimonials`} passHfref>All Testimonials</Link></button>
+      <button className={style.button}><Link href={`/testimonials`}>All Testimonials</Link></button>
       
     </div>
   );

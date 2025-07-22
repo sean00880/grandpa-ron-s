@@ -11,11 +11,11 @@ const Mission = () => {
           <img
                 className={style.image}
                 src='/img/Joshua.jpg'
-                objectFit="cover"
+                style={{ objectFit: 'cover' }}
                 alt="Grandpa Ron's Landscaping | Joshua mowing"
                 width='50%'
                 height='auto'
-                priority={true}
+                priority
               />
           <div className={style.textdiv}>
 

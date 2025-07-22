@@ -5,7 +5,7 @@
   flex-direction: row;
   overflow: hidden;
   position: relative;
-  background-image: url('../public/img/tree.jpg');
+  background-image: url('/img/tree.jpg');
   background-size: contain;
   background-attachment: fixed;
   border: 3px solid rgb(41, 41, 41);
@@ -20,7 +20,7 @@
   justify-content: space-around;
   position: relative;
   background: #1212122b;
-  background-image: url('../public/img/lawncare.jpg');
+  background-image: url('/img/lawncare.jpg');
   background-size: cover;
   background-attachment: fixed;
   border: 1px solid rgb(207, 206, 206);

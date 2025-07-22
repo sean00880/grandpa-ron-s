@@ -10,21 +10,21 @@ const Footer = () => {
       <div className={style.cardL}>
         <Image
                 className={style.logo2}
-                src={`${process.env.NEXT_PUBLIC_URL}/img/white.png`}
-                width="325"
-                height="150"
-                objectFit="cover"
-                alt=""
+                src="/img/white.png"
+                width={325}
+                height={150}
+                style={{ objectFit: 'cover' }}
+                alt="Grandpa Ron's Landscaping Logo"
               />
         <h1 className={style.linkTitle}>
-          <Link href="/contact" className={style.link} passHref>
+          <Link href="/contact" className={style.link}>
             <>
               <span className={style.linkText}>APPLY TO WORK WITH US</span>
               <Image
-                src={process.env.NEXT_PUBLIC_URL + "/img/link.png"}
-                width="40px"
-                height="40px"
-                alt=""
+                src="/img/link.png"
+                width={40}
+                height={40}
+                alt="Link arrow"
               />
             </>
           </Link>

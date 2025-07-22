@@ -9,7 +9,7 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  background-image: url('../public/img/wood.jfif');
+  background-image: url('/img/wood.jfif');
   background-size: cover;
   background-attachment: fixed;
   align-items: center;
@@ -30,7 +30,7 @@
 }
 
 .logo {
-  background-image: url('../public/img/logo.jpg');
+  background-image: url('/img/logo.jpg');
   background-size: cover;
   width: 300px;
   height: auto;
@@ -69,7 +69,7 @@
   border-radius: 10px 30px 10px 10px;
   padding: 10px;
   border-bottom: 10px double rgb(166, 170, 166);
-  background-image: url('../public/img/tree.jpg');
+  background-image: url('/img/tree.jpg');
   background-size: contain;
   background-attachment: fixed; 
   background: rgba(17, 17, 17, 0.932);
@@ -161,6 +161,10 @@
   transition: all 1s ease;
 }
 
+.services {
+  position: relative;
+}
+
 .content{
   z-index: 10;
   background: #1a1919f8;
@@ -169,11 +173,23 @@
   font-size: 22px;
   padding: 38px 49px;
   right: -45px;
-  position: relative;
+  position: absolute;
   border-radius: 20px 120px;
   border: 1px solid white;
   margin-right: 44px;
   color: white;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.contentOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .content .text:hover a{

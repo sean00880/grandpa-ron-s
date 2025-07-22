@@ -2,7 +2,7 @@
   font-size: 18px;
   height: auto;
   overflow: hidden;
-  background-image: url('../public/img/lawn.jpg');
+  background-image: url('/img/lawn.jpg');
   background-size: cover;
   background-attachment: fixed;
   border: 3px solid white;

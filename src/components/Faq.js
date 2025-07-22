@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Data } from "../data";
 import styled from 'styled-components';
@@ -25,8 +27,8 @@ const Accordion = () => {
       <div className={style.wrapper}>
           {Data.map((item, index) => {
             return (
-              <>
-                <div className={style.wrap} onClick={() => toggle(index)} key={index}>
+              <React.Fragment key={index}>
+                <div className={style.wrap} onClick={() => toggle(index)}>
                   <h1>{item.question}</h1>
                   <span>{clicked === index ? <FiMinus /> : <FiPlus />}</span>
                 </div>
@@ -35,7 +37,7 @@ const Accordion = () => {
                     <p>{item.answer}</p>
                     </div>
                 ) : null}
-              </>
+              </React.Fragment>
             );
           })}
       </div>
