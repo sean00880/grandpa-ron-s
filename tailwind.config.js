@@ -37,8 +37,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-roboto)', 'Roboto', 'system-ui', 'sans-serif'],
         serif: ['Georgia', 'serif'],
+        heading: ['Bahnschrift', 'Arial Black', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

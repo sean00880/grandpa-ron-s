@@ -1,10 +1,15 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import '../styles/globals.css'
-import Navbar from '../components/NavbarAttempt'
+import OverlayNavbar from '../components/OverlayNavbar.js'
 import Footer from '../components/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700'],
+  variable: '--font-roboto',
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   title: 'Professional Landscaping Services in Canal Winchester, OH | Grandpa Ron\'s Lawn and Landscape',
@@ -55,8 +60,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
+      <body className={`${roboto.variable} font-sans`}>
+        <OverlayNavbar />
         <main>{children}</main>
         <Footer />
       </body>

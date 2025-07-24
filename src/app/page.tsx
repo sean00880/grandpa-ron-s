@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
-import Intro from '../components/Intro'
-import Mission from '../components/Mission'
-import Services from '../components/Services'
+import WorldClassHero from '../components/WorldClassHero.js'
+import ProfessionalAbout from '../components/ProfessionalAbout'
+import ModernServices from '../components/ModernServices'
 import Testimonials from '../components/Testimonials'
 import Faq from '../components/Faq'
 import Contact from '../components/Contact'
@@ -17,9 +17,9 @@ export default function HomePage() {
   
   return (
     <>
-      <Intro />
-      <Mission />
-      <Services services={services} />
+      <WorldClassHero />
+      <ProfessionalAbout />
+      <ModernServices services={services} />
       <Testimonials />
       <Faq />
       <Contact />
