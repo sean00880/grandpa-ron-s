@@ -1,10 +1,11 @@
 import { Metadata } from 'next'
-import WorldClassHero from '../components/WorldClassHero.js'
+import ClientHeroWrapper from '../components/ClientHeroWrapper'
 import ProfessionalAbout from '../components/ProfessionalAbout'
 import ModernServices from '../components/ModernServices'
-import Testimonials from '../components/Testimonials'
+import ModernTestimonials from '../components/ModernTestimonials'
 import Faq from '../components/Faq'
 import Contact from '../components/Contact'
+import ModernFooter from '../components/ModernFooter'
 import { data } from '../data'
 
 export const metadata: Metadata = {
@@ -17,12 +18,13 @@ export default function HomePage() {
   
   return (
     <>
-      <WorldClassHero />
+      <ClientHeroWrapper />
       <ProfessionalAbout />
       <ModernServices services={services} />
-      <Testimonials />
+      <ModernTestimonials />
       <Faq />
       <Contact />
+      <ModernFooter />
     </>
   )
 }

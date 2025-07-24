@@ -361,19 +361,159 @@ export default function ProfessionalAbout() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-8 py-4 rounded-xl font-heading font-thin text-lg shadow-xl hover:shadow-emerald-500/25 transition-all duration-300 cursor-pointer"
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
+                  boxShadow: "0 20px 40px rgba(16, 185, 129, 0.3)"
+                }}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  boxShadow: [
+                    "0 0 0 rgba(16, 185, 129, 0)",
+                    "0 0 20px rgba(16, 185, 129, 0.3)",
+                    "0 0 0 rgba(16, 185, 129, 0)"
+                  ]
+                }}
+                transition={{
+                  boxShadow: { duration: 2, repeat: Infinity },
+                  scale: { duration: 0.2 },
+                  y: { duration: 0.2 }
+                }}
+                className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-8 py-4 rounded-xl font-heading font-thin text-lg shadow-xl hover:shadow-emerald-500/25 transition-all duration-300 cursor-pointer relative overflow-hidden group"
               >
-                Get Free Consultation
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-green-500 opacity-0 group-hover:opacity-20"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
+                />
+                <span className="relative z-10">Get Free Consultation</span>
               </motion.button>
+            </div>
+          </motion.div>
+
+          {/* Enhanced Portfolio Showcase Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 1.6 }}
+            className="mt-12 bg-gradient-to-r from-emerald-500/10 via-green-500/5 to-emerald-500/10 backdrop-blur-lg border border-emerald-500/20 p-8 rounded-2xl"
+          >
+            <div className="text-center mb-6">
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="inline-flex items-center gap-3 mb-4"
+              >
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                  className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center"
+                >
+                  <span className="text-emerald-400 text-lg">🎬</span>
+                </motion.div>
+                <h3 className="text-2xl font-heading font-light text-white">
+                  Explore Our <span className="text-emerald-400">Portfolio</span>
+                </h3>
+              </motion.div>
+              
+              <p className="text-white/70 font-sans mb-6 max-w-2xl mx-auto">
+                Discover the transformative power of our landscaping expertise through our curated collection
+                of before-and-after showcases and client success stories.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <motion.button
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-black/20 backdrop-blur-sm border border-white/10 text-white px-8 py-4 rounded-xl font-heading font-thin text-lg hover:bg-black/30 transition-all duration-300 cursor-pointer"
+                whileHover={{
+                  scale: 1.08,
+                  y: -3,
+                  rotateY: 5,
+                  boxShadow: "0 25px 50px rgba(16, 185, 129, 0.4)"
+                }}
+                whileTap={{ scale: 0.92, rotateY: -5 }}
+                animate={{
+                  y: [0, -2, 0],
+                  boxShadow: [
+                    "0 10px 30px rgba(16, 185, 129, 0.2)",
+                    "0 15px 40px rgba(16, 185, 129, 0.3)",
+                    "0 10px 30px rgba(16, 185, 129, 0.2)"
+                  ]
+                }}
+                transition={{
+                  y: { duration: 2, repeat: Infinity },
+                  boxShadow: { duration: 3, repeat: Infinity },
+                  scale: { duration: 0.2 },
+                  rotateY: { duration: 0.3 }
+                }}
+                className="bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white px-10 py-4 rounded-2xl font-heading font-thin text-lg shadow-2xl cursor-pointer relative overflow-hidden group transform-gpu"
+                style={{ transformStyle: 'preserve-3d' }}
               >
-                View Our Portfolio
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20"
+                  initial={{ x: "-200%" }}
+                  whileHover={{ x: "200%" }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-emerald-300/30 to-green-300/30 opacity-0 group-hover:opacity-100"
+                  animate={{
+                    background: [
+                      "linear-gradient(45deg, rgba(52, 211, 153, 0.3), rgba(34, 197, 94, 0.3))",
+                      "linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(52, 211, 153, 0.3))",
+                      "linear-gradient(225deg, rgba(52, 211, 153, 0.3), rgba(34, 197, 94, 0.3))",
+                      "linear-gradient(315deg, rgba(34, 197, 94, 0.3), rgba(52, 211, 153, 0.3))"
+                    ]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                />
+                <motion.span
+                  className="relative z-10 flex items-center justify-center gap-3"
+                  whileHover={{
+                    textShadow: "0 0 20px rgba(255, 255, 255, 0.8)"
+                  }}
+                >
+                  <motion.span
+                    animate={{
+                      rotate: [0, 360],
+                      scale: [1, 1.2, 1]
+                    }}
+                    transition={{
+                      rotate: { duration: 4, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 2, repeat: Infinity }
+                    }}
+                    className="text-xl"
+                  >
+                    🎬
+                  </motion.span>
+                  <motion.span
+                    whileHover={{
+                      scale: 1.05,
+                      letterSpacing: "0.05em"
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    View Portfolio Gallery
+                  </motion.span>
+                </motion.span>
               </motion.button>
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 1.8 }}
+                className="flex items-center gap-2 text-white/60 font-sans text-sm"
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="w-2 h-2 bg-emerald-400 rounded-full"
+                />
+                <span>50+ Featured Projects</span>
+              </motion.div>
             </div>
           </motion.div>
         </motion.div>
