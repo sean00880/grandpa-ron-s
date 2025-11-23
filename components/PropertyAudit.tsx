@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import React, { useState, useRef } from 'react';
 import { Upload, Loader2, TrendingUp, DollarSign, AlertCircle, RefreshCw } from 'lucide-react';
-import { generatePropertyReport } from '../services/geminiService';
+// API route for property audit (server-side only)
 import { PropertyReport } from '../types';
 
 export const PropertyAudit: React.FC = () => {
@@ -35,8 +35,17 @@ export const PropertyAudit: React.FC = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await generatePropertyReport(image);
-      setReport(data);
+      const response = await fetch('/api/audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBase64: image })
+      });
+      const result = await response.json();
+      if (result.success) {
+        setReport(result.data);
+      } else {
+        throw new Error(result.error);
+      }
     } catch (error: any) {
       console.error(error);
       setError("Could not analyze image. Please try a clearer photo.");

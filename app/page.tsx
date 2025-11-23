@@ -1,6 +1,7 @@
 
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
+import { HowItWorks } from "@/components/HowItWorks";
 import { ToolsSection } from "@/components/ToolsSection";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
 import Link from "next/link";
@@ -45,6 +46,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <Services />
+        <HowItWorks />
         <ToolsSection />
         <ReviewsSection />
         <CtaSection />

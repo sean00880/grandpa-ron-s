@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Wand2, Loader2, Image as ImageIcon, RefreshCw, ChevronsLeftRight, Sparkles, DollarSign } from 'lucide-react';
 import { TransformationState, Region } from '../types';
-import { generateLandscapeRender, analyzeImageForSuggestions, generateQuoteEstimation } from '../services/geminiService';
+// API routes for AI services (server-side only)
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 import { ImageAnnotator } from './ImageAnnotator';
 import { QuoteDisplay } from './QuoteDisplay';
@@ -50,8 +50,17 @@ export const VirtualPlanner: React.FC = () => {
         setRegion(null);
 
         try {
-            const suggestions = await analyzeImageForSuggestions(imageBase64);
-            setState(prev => ({ ...prev, suggestions, isAnalyzing: false }));
+            const response = await fetch('/api/analyze', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ imageBase64 })
+            });
+            const result = await response.json();
+            if (result.success) {
+              setState(prev => ({ ...prev, suggestions: result.data, isAnalyzing: false }));
+            } else {
+              throw new Error(result.error);
+            }
         } catch (err) {
             console.error("Analysis failed", err);
             setState(prev => ({ ...prev, isAnalyzing: false }));
@@ -71,22 +80,46 @@ export const VirtualPlanner: React.FC = () => {
     setState(prev => ({ ...prev, isLoading: true, error: null, quote: null }));
 
     try {
-      const result = await generateLandscapeRender(
-          state.originalImage, 
-          state.prompt,
-          region ? region : undefined
-      );
-      
+      const renderResponse = await fetch('/api/landscape', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'render',
+          imageBase64: state.originalImage,
+          instructions: state.prompt,
+          region: region || undefined
+        })
+      });
+      const renderResult = await renderResponse.json();
+
+      if (!renderResult.success) {
+        throw new Error(renderResult.error);
+      }
+
       setState(prev => ({
         ...prev,
-        generatedImage: result,
+        generatedImage: renderResult.data,
         isLoading: false,
         isGeneratingQuote: true
       }));
 
       try {
-        const quote = await generateQuoteEstimation(state.originalImage, result, state.prompt);
-        setState(prev => ({ ...prev, quote, isGeneratingQuote: false }));
+        const quoteResponse = await fetch('/api/landscape', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'quote',
+            originalImage: state.originalImage,
+            generatedImage: renderResult.data,
+            prompt: state.prompt
+          })
+        });
+        const quoteResult = await quoteResponse.json();
+        if (quoteResult.success) {
+          setState(prev => ({ ...prev, quote: quoteResult.data, isGeneratingQuote: false }));
+        } else {
+          throw new Error(quoteResult.error);
+        }
       } catch (quoteErr) {
         console.error("Quote failed", quoteErr);
         setState(prev => ({ ...prev, isGeneratingQuote: false }));
