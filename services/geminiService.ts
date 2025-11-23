@@ -1,8 +1,8 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI, Type } from "@google/genai";
 import { PricingItem, Quote, PropertyReport } from "../types";
 import { getPricingSummary } from "./pricingRegistry";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.API_KEY });
 
 const getBase64Data = (dataUrl: string) => {
   const base64Data = dataUrl.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
@@ -30,7 +30,7 @@ export const generateLandscapeRender = async (
     let fullPrompt = `
       You are an expert landscape architect.
       Task: Edit the provided image strictly following these instructions: "${instructions}".
-      
+
       Requirements:
       1. Hyper-realistic, photorealistic quality.
       2. Maintain the EXACT perspective and lighting of the original.
@@ -41,26 +41,24 @@ export const generateLandscapeRender = async (
     if (region) {
       const vPos = region.y < 33 ? "top" : region.y > 66 ? "bottom" : "middle";
       const hPos = region.x < 33 ? "left" : region.x > 66 ? "right" : "center";
-      
+
       fullPrompt += `
-      CRITICAL: The user has selected a specific region in the ${vPos}-${hPos} area of the image (x:${Math.round(region.x)}%, y:${Math.round(region.y)}%, w:${Math.round(region.width)}%, h:${Math.round(region.height)}%). 
+      CRITICAL: The user has selected a specific region in the ${vPos}-${hPos} area of the image (x:${Math.round(region.x)}%, y:${Math.round(region.y)}%, w:${Math.round(region.width)}%, h:${Math.round(region.height)}%).
       Apply the changes primarily to this area, blending it naturally with the rest of the environment.
       `;
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    const response = await model.generateContent([
-      fullPrompt,
-      {
-        inlineData: {
-          mimeType: mimeType,
-          data: base64Data
-        }
-      }
-    ]);
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-image',
+      contents: {
+        parts: [
+          { inlineData: { mimeType: mimeType, data: base64Data } },
+          { text: fullPrompt },
+        ],
+      },
+    });
 
-    const result = await response.response;
-    const parts = result.candidates?.[0]?.content?.parts;
+    const parts = response.candidates?.[0]?.content?.parts;
     if (!parts) throw new Error("No content generated from Gemini.");
 
     for (const part of parts) {
@@ -81,33 +79,32 @@ export const generateLandscapeRender = async (
 export const analyzeImageForSuggestions = async (imageBase64: string): Promise<string[]> => {
   try {
     const { base64Data, mimeType } = getBase64Data(imageBase64);
-    
+
     const prompt = `
-      Analyze this yard/lawn image. 
-      Suggest 3 specific, distinct, and creative landscaping improvements or renovations suitable for this specific terrain and state. 
-      Keep suggestions short (under 10 words). 
+      Analyze this yard/lawn image.
+      Suggest 3 specific, distinct, and creative landscaping improvements or renovations suitable for this specific terrain and state.
+      Keep suggestions short (under 10 words).
       Return ONLY a JSON array of strings.
     `;
 
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-1.5-flash',
-      generationConfig: {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: {
+        parts: [
+          { inlineData: { mimeType: mimeType, data: base64Data } },
+          { text: prompt },
+        ],
+      },
+      config: {
         responseMimeType: "application/json",
-      }
-    });
-    
-    const response = await model.generateContent([
-      prompt,
-      {
-        inlineData: {
-          mimeType: mimeType,
-          data: base64Data
+        responseSchema: {
+            type: Type.ARRAY,
+            items: { type: Type.STRING }
         }
       }
-    ]);
+    });
 
-    const result = await response.response;
-    const text = result.text();
+    const text = response.text;
     if (!text) return ["Fix patchiness", "Add a flower bed", "Install a pathway"];
     return safeJsonParse(text);
   } catch (error) {
@@ -130,45 +127,57 @@ export const generateQuoteEstimation = async (
     const pricingContext = getPricingSummary();
 
     const systemPrompt = `
-      You are a professional lawncare estimator. 
+      You are a professional lawncare estimator.
       Compare the 'Before' and 'After' images and the user's request ("${prompt}") to generate a realistic quote.
-      
+
       Use ONLY the following pricing registry for costs:
       ${pricingContext}
-      
+
       Rules:
       1. Estimate quantities visually (e.g., estimate sq ft of pavers, number of plants).
       2. Be generous with labor estimates.
       3. Return a JSON object with items, subtotal, tax (8%), total, and estimatedDuration.
     `;
 
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-1.5-flash',
-      generationConfig: {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: {
+        parts: [
+          { text: "Before Image:" },
+          { inlineData: { mimeType: original.mimeType, data: original.base64Data } },
+          { text: "After Image:" },
+          { inlineData: { mimeType: generated.mimeType, data: generated.base64Data } },
+          { text: systemPrompt },
+        ],
+      },
+      config: {
         responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            items: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  serviceId: { type: Type.STRING },
+                  description: { type: Type.STRING },
+                  quantity: { type: Type.NUMBER },
+                  unitPrice: { type: Type.NUMBER },
+                  total: { type: Type.NUMBER }
+                }
+              }
+            },
+            subtotal: { type: Type.NUMBER },
+            tax: { type: Type.NUMBER },
+            total: { type: Type.NUMBER },
+            estimatedDuration: { type: Type.STRING }
+          }
+        }
       }
     });
 
-    const response = await model.generateContent([
-      "Before Image:",
-      {
-        inlineData: {
-          mimeType: original.mimeType,
-          data: original.base64Data
-        }
-      },
-      "After Image:",
-      {
-        inlineData: {
-          mimeType: generated.mimeType,
-          data: generated.base64Data
-        }
-      },
-      systemPrompt
-    ]);
-
-    const result = await response.response;
-    const text = result.text();
+    const text = response.text;
     if (!text) throw new Error("Failed to generate quote JSON");
     return safeJsonParse(text) as Quote;
   } catch (error) {
@@ -186,11 +195,11 @@ export const generatePropertyReport = async (imageBase64: string): Promise<Prope
 
     const prompt = `
       Perform a professional lawncare audit on this image.
-      
+
       1. Analyze condition: Grass health, weed density, edging, debris.
       2. Recommend 3 improvements ranked by ROI (Return on Investment).
       3. Predict curb appeal boost.
-      
+
       Return JSON matching this structure exactly:
       {
         "overallScore": number (0-100),
@@ -208,27 +217,55 @@ export const generatePropertyReport = async (imageBase64: string): Promise<Prope
       }
     `;
 
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-1.5-flash',
-      generationConfig: {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: {
+        parts: [
+          { inlineData: { mimeType: mimeType, data: base64Data } },
+          { text: prompt },
+        ],
+      },
+      config: {
         responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            overallScore: { type: Type.NUMBER },
+            summary: { type: Type.STRING },
+            metrics: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  name: { type: Type.STRING },
+                  score: { type: Type.NUMBER },
+                  status: { type: Type.STRING },
+                  details: { type: Type.STRING }
+                }
+              }
+            },
+            recommendations: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  title: { type: Type.STRING },
+                  description: { type: Type.STRING },
+                  roi: { type: Type.STRING },
+                  estimatedCost: { type: Type.STRING },
+                  impact: { type: Type.STRING }
+                }
+              }
+            },
+            curbAppealPrediction: { type: Type.STRING }
+          }
+        }
       }
     });
 
-    const response = await model.generateContent([
-      {
-        inlineData: {
-          mimeType: mimeType,
-          data: base64Data
-        }
-      },
-      prompt
-    ]);
-
-    const result = await response.response;
-    const text = result.text();
+    const text = response.text;
     if (!text) throw new Error("Failed to generate report");
-    
+
     return safeJsonParse(text) as PropertyReport;
 
   } catch (error) {

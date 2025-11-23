@@ -13,17 +13,17 @@
  * - Caching and optimization
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { 
-  DocumentChunk, 
-  SearchResult, 
-  VectorStoreConfig, 
+import { GoogleGenAI } from '@google/genai';
+import {
+  DocumentChunk,
+  SearchResult,
+  VectorStoreConfig,
   HybridSearchConfig,
-  RetrievalContext 
+  RetrievalContext
 } from './ragTypes';
 
 // Initialize Gemini AI client
-const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.API_KEY });
 
 // Default configuration
 const DEFAULT_CONFIG: VectorStoreConfig = {
@@ -39,10 +39,12 @@ const DEFAULT_CONFIG: VectorStoreConfig = {
  */
 export async function generateEmbedding(text: string, model: string = 'text-embedding-004'): Promise<number[]> {
   try {
-    const embeddingModel = ai.getGenerativeModel({ model: `models/${model}` });
-    const result = await embeddingModel.embedContent(text);
-    
-    return result.embedding.values || [];
+    const result = await ai.models.embedContent({
+      model,
+      contents: text,
+    });
+
+    return result.embeddings?.[0]?.values || [];
   } catch (error) {
     console.error('Error generating embedding:', error);
     throw new Error(`Failed to generate embedding: ${error}`);
