@@ -2,7 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { PricingItem, Quote, PropertyReport } from "../types";
 import { getPricingSummary } from "./pricingRegistry";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.API_KEY });
 
 const getBase64Data = (dataUrl: string) => {
   const base64Data = dataUrl.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
