@@ -1,51 +1,38 @@
 {
-  "name": "next",
+  "name": "grandpa-ron-nextjs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "engines": {
-    "node": "18.x"
+    "start": "next start"
   },
   "dependencies": {
-    "@emailjs/browser": "^3.7.0",
-    "@fortawesome/fontawesome-svg-core": "^6.2.0",
-    "@fortawesome/free-regular-svg-icons": "^6.2.0",
-    "@fortawesome/free-solid-svg-icons": "^6.2.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@heroicons/react": "^2.2.0",
-    "@react-three/drei": "^10.6.0",
-    "@react-three/fiber": "^9.2.0",
-    "@react-three/postprocessing": "^3.0.4",
-    "aos": "^2.3.4",
-    "babel-plugin-macros": "^3.1.0",
-    "framer-motion": "^12.23.6",
-    "hamburger-react": "^2.5.0",
-    "loadash": "^1.0.0",
-    "lucide-react": "^0.525.0",
-    "next": "^15.4.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-icons": "^4.4.0",
-    "react-is": "^19.1.0",
-    "react-router-dom": "^6.3.0",
-    "react-scroll": "^1.8.7",
-    "sharp": "^0.30.7",
-    "styled-components": "^5.3.5",
-    "three": "^0.178.0"
+    "@emailjs/browser": "^4.4.1",
+    "@google/generative-ai": "^0.24.1",
+    "@prisma/client": "^6.7.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "framer-motion": "^12.23.24",
+    "lucide-react": "^0.554.0",
+    "mammoth": "^1.11.0",
+    "next": "16.0.3",
+    "prisma": "^6.7.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-google-recaptcha": "^3.1.0",
+    "react-hot-toast": "^2.6.0",
+    "recharts": "^3.4.1",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.11",
-    "@types/node": "^24.1.0",
-    "@types/react": "^19.1.8",
-    "eslint": "^8.23.0",
-    "eslint-config-next": "^15.4.3",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.11",
-    "typescript": "^5.8.3"
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-google-recaptcha": "^2.1.9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
