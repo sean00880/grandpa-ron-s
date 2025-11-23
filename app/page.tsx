@@ -1,64 +1,53 @@
-import Image from "next/image";
 
-export default function Home() {
+import { Hero } from "@/components/Hero";
+import { Services } from "@/components/Services";
+import { ToolsSection } from "@/components/ToolsSection";
+import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
+import Link from "next/link";
+
+const ReviewsSection = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+    <section className="py-32 bg-white dark:bg-zinc-950">
+      <div className="container mx-auto px-4 md:px-8">
+        <GoogleReviewsWidget maxReviews={6} showHeader={true} />
+      </div>
+    </section>
+  );
+};
+
+const CtaSection = () => {
+  return (
+    <section id="contact" className="py-32 bg-green-900 dark:bg-green-950 text-white relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-green-500 rounded-full filter blur-[120px] opacity-20 translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-600 rounded-full filter blur-[100px] opacity-10 -translate-x-1/3 translate-y-1/3"></div>
+      
+      <div className="container mx-auto px-4 md:px-8 relative z-10 text-center">
+        <h2 className="font-heading font-normal text-5xl md:text-7xl mb-8 tracking-tight">Ready to transform your property?</h2>
+        <p className="font-subheading text-green-100 text-xl max-w-2xl mx-auto mb-12 italic leading-relaxed">
+          Contact us with a description of your needs and we will provide a free estimate. Quality work that lasts generations.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+          <Link href="/quote" className="bg-white text-green-900 px-10 py-5 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] transform hover:-translate-y-1 hover:scale-105">
+            Request a Quote
+          </Link>
+          <a href="tel:2206662520" className="bg-green-700 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-green-600 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)] transform hover:-translate-y-1 hover:scale-105">
+            Call (220) 666-2520
           </a>
         </div>
+      </div>
+    </section>
+  );
+};
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white transition-colors duration-300 overflow-x-hidden">
+      <main>
+        <Hero />
+        <Services />
+        <ToolsSection />
+        <ReviewsSection />
+        <CtaSection />
       </main>
     </div>
   );
