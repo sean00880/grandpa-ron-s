@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
     unoptimized: process.env.NODE_ENV === 'development',
   },
   turbopack: {
-    // Empty config to silence Turbopack warning
+    root: process.cwd(),
   },
 };
 
