@@ -1,0 +1,373 @@
+
+/**
+ * Vector Store Service
+ * 
+ * This module implements a vector storage and retrieval system using
+ * Google Gemini embeddings for semantic search capabilities.
+ * 
+ * Features:
+ * - Gemini text-embedding-004 model integration
+ * - Efficient cosine similarity search
+ * - Batch embedding generation
+ * - Hybrid search (semantic + keyword)
+ * - Caching and optimization
+ */
+
+import { GoogleGenAI } from '@google/genai';
+import {
+  DocumentChunk,
+  SearchResult,
+  VectorStoreConfig,
+  HybridSearchConfig,
+  RetrievalContext
+} from './ragTypes';
+
+// Initialize Gemini AI client
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.API_KEY });
+
+// Default configuration
+const DEFAULT_CONFIG: VectorStoreConfig = {
+  embeddingModel: 'text-embedding-004',
+  maxChunkSize: 400,
+  chunkOverlap: 50,
+  minChunkSize: 30,
+  topK: 5,
+};
+
+/**
+ * Generate embedding for a single text using Gemini
+ */
+export async function generateEmbedding(text: string, model: string = 'text-embedding-004'): Promise<number[]> {
+  try {
+    const result = await ai.models.embedContent({
+      model,
+      contents: text,
+    });
+
+    return result.embeddings?.[0]?.values || [];
+  } catch (error) {
+    console.error('Error generating embedding:', error);
+    throw new Error(`Failed to generate embedding: ${error}`);
+  }
+}
+
+/**
+ * Generate embeddings for multiple texts in batch
+ * More efficient than calling generateEmbedding multiple times
+ */
+export async function generateEmbeddingsBatch(
+  texts: string[],
+  model: string = 'text-embedding-004',
+  batchSize: number = 10
+): Promise<number[][]> {
+  const embeddings: number[][] = [];
+  
+  // Process in batches to avoid rate limits
+  for (let i = 0; i < texts.length; i += batchSize) {
+    const batch = texts.slice(i, i + batchSize);
+    const batchPromises = batch.map(text => generateEmbedding(text, model));
+    
+    try {
+      const batchEmbeddings = await Promise.all(batchPromises);
+      embeddings.push(...batchEmbeddings);
+      
+      // Log progress
+      console.log(`Generated embeddings for ${Math.min(i + batchSize, texts.length)}/${texts.length} chunks`);
+      
+      // Small delay between batches to respect rate limits
+      if (i + batchSize < texts.length) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+    } catch (error) {
+      console.error(`Error in batch ${i / batchSize + 1}:`, error);
+      throw error;
+    }
+  }
+  
+  return embeddings;
+}
+
+/**
+ * Calculate cosine similarity between two vectors
+ */
+export function cosineSimilarity(vecA: number[], vecB: number[]): number {
+  if (vecA.length !== vecB.length) {
+    throw new Error('Vectors must have the same length');
+  }
+  
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+  
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  
+  if (normA === 0 || normB === 0) {
+    return 0;
+  }
+  
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+/**
+ * Keyword-based matching score using TF-IDF-like approach
+ */
+export function keywordSimilarity(query: string, text: string): number {
+  const queryWords = query.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+  const textLower = text.toLowerCase();
+  
+  if (queryWords.length === 0) {
+    return 0;
+  }
+  
+  let matches = 0;
+  let totalWeight = 0;
+  
+  for (const word of queryWords) {
+    // Count occurrences
+    const regex = new RegExp(`\\b${word}\\b`, 'g');
+    const occurrences = (textLower.match(regex) || []).length;
+    
+    if (occurrences > 0) {
+      // Give more weight to rarer words (simple IDF approximation)
+      const weight = Math.log(1 + 1000 / (1 + occurrences));
+      matches += occurrences * weight;
+      totalWeight += weight;
+    }
+  }
+  
+  // Normalize by query length
+  return totalWeight > 0 ? matches / totalWeight : 0;
+}
+
+/**
+ * Vector Store class for managing embeddings and search
+ */
+export class VectorStore {
+  private chunks: DocumentChunk[];
+  private config: VectorStoreConfig;
+  private embeddingsGenerated: boolean = false;
+
+  constructor(chunks: DocumentChunk[], config: Partial<VectorStoreConfig> = {}) {
+    this.chunks = chunks;
+    this.config = { ...DEFAULT_CONFIG, ...config };
+  }
+
+  /**
+   * Generate embeddings for all chunks in the store
+   */
+  async generateAllEmbeddings(): Promise<void> {
+    if (this.embeddingsGenerated) {
+      console.log('Embeddings already generated');
+      return;
+    }
+
+    console.log(`Generating embeddings for ${this.chunks.length} chunks...`);
+    const startTime = Date.now();
+
+    const texts = this.chunks.map(chunk => {
+      // Combine content with metadata for richer embeddings
+      const metaContext = [
+        chunk.metadata.section,
+        chunk.metadata.category,
+        chunk.metadata.serviceType,
+      ].filter(Boolean).join(' - ');
+      
+      return `${metaContext}\n${chunk.content}`;
+    });
+
+    const embeddings = await generateEmbeddingsBatch(texts, this.config.embeddingModel);
+
+    // Assign embeddings to chunks
+    this.chunks.forEach((chunk, i) => {
+      chunk.embedding = embeddings[i];
+    });
+
+    this.embeddingsGenerated = true;
+    const duration = Date.now() - startTime;
+    console.log(`✓ Generated ${embeddings.length} embeddings in ${duration}ms`);
+  }
+
+  /**
+   * Semantic search using vector similarity
+   */
+  async semanticSearch(
+    query: string,
+    topK: number = this.config.topK,
+    filters?: { category?: string; serviceType?: string }
+  ): Promise<SearchResult[]> {
+    if (!this.embeddingsGenerated) {
+      throw new Error('Embeddings not generated. Call generateAllEmbeddings() first.');
+    }
+
+    // Generate query embedding
+    const queryEmbedding = await generateEmbedding(query, this.config.embeddingModel);
+
+    // Calculate similarities
+    let results: SearchResult[] = this.chunks.map(chunk => ({
+      chunk,
+      score: cosineSimilarity(queryEmbedding, chunk.embedding!),
+      matchType: 'semantic' as const,
+    }));
+
+    // Apply filters
+    if (filters) {
+      results = results.filter(result => {
+        if (filters.category && result.chunk.metadata.category !== filters.category) {
+          return false;
+        }
+        if (filters.serviceType && result.chunk.metadata.serviceType !== filters.serviceType) {
+          return false;
+        }
+        return true;
+      });
+    }
+
+    // Sort by score and return top K
+    results.sort((a, b) => b.score - a.score);
+    return results.slice(0, topK);
+  }
+
+  /**
+   * Keyword-based search
+   */
+  keywordSearch(
+    query: string,
+    topK: number = this.config.topK,
+    filters?: { category?: string; serviceType?: string }
+  ): SearchResult[] {
+    let results: SearchResult[] = this.chunks.map(chunk => ({
+      chunk,
+      score: keywordSimilarity(query, chunk.content),
+      matchType: 'keyword' as const,
+    }));
+
+    // Apply filters
+    if (filters) {
+      results = results.filter(result => {
+        if (filters.category && result.chunk.metadata.category !== filters.category) {
+          return false;
+        }
+        if (filters.serviceType && result.chunk.metadata.serviceType !== filters.serviceType) {
+          return false;
+        }
+        return true;
+      });
+    }
+
+    // Sort by score and return top K
+    results.sort((a, b) => b.score - a.score);
+    return results.slice(0, topK);
+  }
+
+  /**
+   * Hybrid search combining semantic and keyword approaches
+   */
+  async hybridSearch(
+    query: string,
+    config: Partial<HybridSearchConfig> = {},
+    filters?: { category?: string; serviceType?: string }
+  ): Promise<SearchResult[]> {
+    const hybridConfig: HybridSearchConfig = {
+      semanticWeight: 0.7,
+      keywordWeight: 0.3,
+      ...config,
+    };
+
+    // Get results from both methods
+    const semanticResults = await this.semanticSearch(query, this.config.topK * 2, filters);
+    const keywordResults = this.keywordSearch(query, this.config.topK * 2, filters);
+
+    // Create a map to combine scores
+    const scoreMap = new Map<string, { chunk: DocumentChunk; semanticScore: number; keywordScore: number }>();
+
+    for (const result of semanticResults) {
+      scoreMap.set(result.chunk.id, {
+        chunk: result.chunk,
+        semanticScore: result.score,
+        keywordScore: 0,
+      });
+    }
+
+    for (const result of keywordResults) {
+      const existing = scoreMap.get(result.chunk.id);
+      if (existing) {
+        existing.keywordScore = result.score;
+      } else {
+        scoreMap.set(result.chunk.id, {
+          chunk: result.chunk,
+          semanticScore: 0,
+          keywordScore: result.score,
+        });
+      }
+    }
+
+    // Calculate hybrid scores
+    const hybridResults: SearchResult[] = Array.from(scoreMap.values()).map(item => ({
+      chunk: item.chunk,
+      score: 
+        item.semanticScore * hybridConfig.semanticWeight + 
+        item.keywordScore * hybridConfig.keywordWeight,
+      matchType: 'hybrid' as const,
+    }));
+
+    // Sort and return top K
+    hybridResults.sort((a, b) => b.score - a.score);
+    return hybridResults.slice(0, this.config.topK);
+  }
+
+  /**
+   * Get chunks by metadata filters (exact matching)
+   */
+  filterByMetadata(filters: {
+    category?: string;
+    serviceType?: string;
+    region?: string;
+    season?: string;
+  }): DocumentChunk[] {
+    return this.chunks.filter(chunk => {
+      if (filters.category && chunk.metadata.category !== filters.category) {
+        return false;
+      }
+      if (filters.serviceType && chunk.metadata.serviceType !== filters.serviceType) {
+        return false;
+      }
+      if (filters.region && chunk.metadata.region !== filters.region) {
+        return false;
+      }
+      if (filters.season && chunk.metadata.season !== filters.season) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  /**
+   * Get total number of chunks
+   */
+  size(): number {
+    return this.chunks.length;
+  }
+
+  /**
+   * Check if embeddings have been generated
+   */
+  hasEmbeddings(): boolean {
+    return this.embeddingsGenerated;
+  }
+}
+
+/**
+ * Create and initialize a vector store from chunks
+ */
+export async function createVectorStore(
+  chunks: DocumentChunk[],
+  config?: Partial<VectorStoreConfig>
+): Promise<VectorStore> {
+  const store = new VectorStore(chunks, config);
+  await store.generateAllEmbeddings();
+  return store;
+}

@@ -1,0 +1,64 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "pnpm",
+      "args": ["dlx", "@upstash/context7-mcp"],
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      }
+    },
+    "github": {
+      "command": "pnpm",
+      "args": ["dlx", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "perplexity": {
+      "command": "pnpm",
+      "args": ["dlx", "perplexity-mcp"],
+      "env": {
+        "PERPLEXITY_API_KEY": "${PERPLEXITY_API_KEY}"
+      }
+    },
+    "firecrawl": {
+      "command": "pnpm",
+      "args": ["dlx", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
+      }
+    },
+    "chrome-devtools": {
+      "command": "pnpm",
+      "args": ["dlx", "chrome-devtools-mcp@latest", "--browserUrl=http://localhost:9222"]
+    },
+    "taskmaster": {
+      "command": "pnpm",
+      "args": ["dlx", "task-master-ai"],
+      "env": {
+        "PERPLEXITY_API_KEY": "${PERPLEXITY_API_KEY}"
+      }
+    },
+    "stripe": {
+      "command": "pnpm",
+      "args": [
+        "dlx",
+        "@stripe/mcp",
+        "--tools=all",
+        "--api-key=${STRIPE_API_KEY}"
+      ]
+    },
+    "ai-elements": {
+      "command": "pnpm",
+      "args": ["dlx", "mcp-remote", "https://registry.ai-sdk.dev/api/mcp"]
+    },
+    "sentry": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-sentry",
+        "--auth-token",
+        "${SENTRY_AUTH_TOKEN}"
+      ]
+    }
+  }
+}

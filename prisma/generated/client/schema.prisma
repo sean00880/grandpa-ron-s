@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Quote {
+  id             String   @id @default(cuid())
+  name           String
+  email          String
+  phone          String
+  address        String
+  propertySize   String
+  services       String[] // Array of selected services
+  additionalInfo String?
+  urgency        String? // immediate, within-week, flexible
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  status         String   @default("pending") // pending, contacted, quoted, completed
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([status])
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  createdAt DateTime @default(now())
+  status    String   @default("new") // new, read, responded
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([status])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  authorName String
+  rating     Int
+  text       String?
+  time       DateTime
+  photoUrl   String?
+  createdAt  DateTime @default(now())
+
+  @@index([rating])
+  @@index([time])
+}
