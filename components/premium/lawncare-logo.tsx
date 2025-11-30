@@ -6,7 +6,7 @@ export const LawncareLogo = ({ className }: { className?: string }) => {
         <div className={cn('flex items-center gap-2', className)}>
             <div className="relative h-10 w-10 md:h-12 md:w-12 rounded-lg overflow-hidden">
                 <Image
-                    src="/img/GrandpaRon.png"
+                    src="/img/logo.png"
                     alt="Grandpa Ron's Logo"
                     fill
                     className="object-contain"

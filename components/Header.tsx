@@ -78,7 +78,7 @@ export const Header: React.FC = () => {
         >
           <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden shadow-lg">
             <Image
-              src="/img/GrandpaRon.png"
+              src="/img/logo.png"
               alt="Grandpa Ron's Logo"
               fill
               className="object-contain"
