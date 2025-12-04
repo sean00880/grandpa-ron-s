@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { MapPin, Phone, ArrowRight, Star, Navigation, Home, CheckCircle } from 'lucide-react';
 import { locations, getLocationBySlug, getNearbyLocations } from '@/data/locations';
 import { Services } from '@/components/Services';
-import { ContactForm } from '@/components/ContactForm';
+import { QuoteRequestForm } from '@/components/QuoteRequestForm';
 
 const testimonials = [
   { customer: "Sarah M.", location: "Canal Winchester", quote: "The best landscaping service we've ever used! Professional, reliable, and affordable." },
@@ -217,7 +217,12 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
               Fill out the form below and we&apos;ll provide a detailed estimate within 24 hours
             </p>
           </div>
-          <ContactForm prefilledLocation={`${location.name}, OH`} />
+          <QuoteRequestForm
+            compact
+            defaultLocation={`${location.name}, OH`}
+            title="Get Your Free Quote"
+            subtitle="Fill out the form below and we'll provide a detailed estimate within 24 hours"
+          />
         </div>
       </section>
 

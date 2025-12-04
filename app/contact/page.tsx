@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
-import { ContactForm } from '@/components/ContactForm';
+import { QuoteRequestForm } from '@/components/QuoteRequestForm';
 
 export default function ContactPage() {
   return (
@@ -21,7 +21,11 @@ export default function ContactPage() {
         <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <ContactForm />
+            <QuoteRequestForm
+              compact
+              title="Get a Free Quote"
+              subtitle="Fill out the form below and we'll get back to you within 24 hours"
+            />
           </div>
 
           {/* Contact Info */}

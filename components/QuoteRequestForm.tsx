@@ -24,9 +24,21 @@ import toast from 'react-hot-toast';
 interface QuoteRequestFormProps {
   defaultLocation?: string;
   onSuccess?: () => void;
+  /** Compact mode shows fewer fields - ideal for sidebars and embedded forms */
+  compact?: boolean;
+  /** Optional title override */
+  title?: string;
+  /** Optional subtitle override */
+  subtitle?: string;
 }
 
-export const QuoteRequestForm: React.FC<QuoteRequestFormProps> = ({ defaultLocation, onSuccess }) => {
+export const QuoteRequestForm: React.FC<QuoteRequestFormProps> = ({
+  defaultLocation,
+  onSuccess,
+  compact = false,
+  title,
+  subtitle
+}) => {
   const [formData, setFormData] = useState<QuoteFormData>({
     name: '',
     email: '',
@@ -104,12 +116,15 @@ export const QuoteRequestForm: React.FC<QuoteRequestFormProps> = ({ defaultLocat
       newErrors.service = 'Please select a service';
     }
 
-    if (!formData?.propertySize) {
-      newErrors.propertySize = 'Please select property size';
-    }
+    // Only require these fields in full mode
+    if (!compact) {
+      if (!formData?.propertySize) {
+        newErrors.propertySize = 'Please select property size';
+      }
 
-    if (!formData?.location) {
-      newErrors.location = 'Please select your location';
+      if (!formData?.location) {
+        newErrors.location = 'Please select your location';
+      }
     }
 
     setErrors(newErrors);
@@ -177,13 +192,14 @@ export const QuoteRequestForm: React.FC<QuoteRequestFormProps> = ({ defaultLocat
     focus:outline-none focus:ring-2
   `;
 
+  // Success state
   if (submitStatus === 'success') {
     return (
-      <div className="max-w-md mx-auto text-center py-12">
-        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 size={40} className="text-green-600 dark:text-green-400" />
+      <div className={`${compact ? 'py-8' : 'max-w-md mx-auto py-12'} text-center`}>
+        <div className={`${compact ? 'w-16 h-16' : 'w-20 h-20'} bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6`}>
+          <CheckCircle2 size={compact ? 32 : 40} className="text-green-600 dark:text-green-400" />
         </div>
-        <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
+        <h3 className={`${compact ? 'text-xl' : 'text-2xl'} font-bold text-zinc-900 dark:text-white mb-3`}>
           Thank You!
         </h3>
         <p className="text-zinc-600 dark:text-zinc-400 mb-6">
@@ -199,6 +215,200 @@ export const QuoteRequestForm: React.FC<QuoteRequestFormProps> = ({ defaultLocat
     );
   }
 
+  // Compact mode - simplified form
+  if (compact) {
+    return (
+      <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-100 dark:border-zinc-800 p-8 md:p-10">
+        {(title || subtitle) && (
+          <div className="mb-8">
+            {title && (
+              <h3 className="text-2xl md:text-3xl font-heading font-bold text-zinc-900 dark:text-white mb-2">
+                {title}
+              </h3>
+            )}
+            {subtitle && (
+              <p className="text-zinc-600 dark:text-zinc-400">{subtitle}</p>
+            )}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name & Email Row */}
+          <div className="grid md:grid-cols-2 gap-5">
+            <div>
+              <label htmlFor="name" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+                Full Name <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData?.name ?? ''}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  className={inputClasses('name')}
+                />
+              </div>
+              {errors?.name && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                  <AlertCircle size={14} /> {errors.name}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+                Email Address <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData?.email ?? ''}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className={inputClasses('email')}
+                />
+              </div>
+              {errors?.email && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                  <AlertCircle size={14} /> {errors.email}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Phone & Service Row */}
+          <div className="grid md:grid-cols-2 gap-5">
+            <div>
+              <label htmlFor="phone" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+                Phone Number <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData?.phone ?? ''}
+                  onChange={handleChange}
+                  placeholder="(555) 123-4567"
+                  className={inputClasses('phone')}
+                />
+              </div>
+              {errors?.phone && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                  <AlertCircle size={14} /> {errors.phone}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="service" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+                Service Needed <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Wrench className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                <select
+                  id="service"
+                  name="service"
+                  value={formData?.service ?? ''}
+                  onChange={handleChange}
+                  className={inputClasses('service')}
+                >
+                  <option value="">Select a service</option>
+                  {services?.map(service => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {errors?.service && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                  <AlertCircle size={14} /> {errors.service}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Location - Show if defaultLocation provided or as text input */}
+          {defaultLocation ? (
+            <input type="hidden" name="location" value={defaultLocation} />
+          ) : (
+            <div>
+              <label htmlFor="location" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+                Your Location
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={formData?.location ?? ''}
+                  onChange={handleChange}
+                  placeholder="City, State"
+                  className={inputClasses('location')}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Message */}
+          <div>
+            <label htmlFor="message" className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
+              Project Details
+            </label>
+            <div className="relative">
+              <FileText className="absolute left-4 top-4 text-zinc-400" size={18} />
+              <textarea
+                id="message"
+                name="message"
+                value={formData?.message ?? ''}
+                onChange={handleChange}
+                rows={4}
+                placeholder="Tell us about your project..."
+                className={`${inputClasses('message')} pt-3.5 resize-none`}
+              />
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 size={20} className="animate-spin" />
+                Sending...
+              </>
+            ) : (
+              <>
+                <Send size={20} />
+                Get Free Quote
+              </>
+            )}
+          </button>
+
+          <p className="text-center text-sm text-zinc-500 dark:text-zinc-400">
+            Or call us at{' '}
+            <a href="tel:2206662520" className="text-green-600 hover:text-green-500 font-semibold">
+              (220) 666-2520
+            </a>
+          </p>
+        </form>
+      </div>
+    );
+  }
+
+  // Full mode - complete form with all fields
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-6">
       {/* Personal Information */}
