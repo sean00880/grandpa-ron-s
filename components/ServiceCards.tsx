@@ -195,6 +195,8 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                     {/* Gradient Overlay */}
                     <div className={`absolute inset-0 bg-gradient-to-t ${service.overlayGradient} opacity-60`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    {/* Bottom blend gradient to card background */}
+                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white dark:from-zinc-900 via-white/80 dark:via-zinc-900/80 to-transparent" />
 
                     {/* Featured Badge */}
                     {service.featured && (
@@ -238,18 +240,22 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                         </Link>
                     </motion.div>
 
-                    {/* Service Icon - Floating with Neumorphism & Grunge */}
+                </div>
+
+                {/* Content Section */}
+                <div className="relative pt-6 pb-6 px-6">
+                    {/* Service Icon with Neumorphism & Grunge */}
                     <motion.div
                         animate={{
-                            y: isHovered ? -8 : 0,
-                            scale: isHovered ? 1.1 : 1,
+                            y: isHovered ? -4 : 0,
+                            scale: isHovered ? 1.05 : 1,
                         }}
                         transition={{ duration: 0.3 }}
-                        className="absolute -bottom-6 left-6 z-20"
+                        className="mb-4"
                         style={{ transform: 'translateZ(30px)' }}
                     >
                         {/* Outer neumorphic container */}
-                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 p-1 shadow-[6px_6px_16px_rgba(0,0,0,0.15),-6px_-6px_16px_rgba(255,255,255,0.8)] dark:shadow-[6px_6px_16px_rgba(0,0,0,0.4),-6px_-6px_16px_rgba(255,255,255,0.05)]">
+                        <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 p-1 shadow-[6px_6px_16px_rgba(0,0,0,0.15),-6px_-6px_16px_rgba(255,255,255,0.8)] dark:shadow-[6px_6px_16px_rgba(0,0,0,0.4),-6px_-6px_16px_rgba(255,255,255,0.05)]">
                             {/* Grunge texture overlay */}
                             <div
                                 className="absolute inset-0 rounded-2xl opacity-20 dark:opacity-30 mix-blend-overlay pointer-events-none"
@@ -268,14 +274,11 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                                 />
                                 {/* Glossy highlight */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/10 pointer-events-none" />
-                                <Icon className="relative z-10 w-7 h-7 text-white drop-shadow-md" strokeWidth={1.5} />
+                                <Icon className="relative z-10 w-6 h-6 text-white drop-shadow-md" strokeWidth={1.5} />
                             </div>
                         </div>
                     </motion.div>
-                </div>
 
-                {/* Content Section */}
-                <div className="relative pt-10 pb-6 px-6">
                     {/* Title & Tagline */}
                     <div className="mb-4">
                         <span
