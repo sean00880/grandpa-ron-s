@@ -233,7 +233,8 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                     >
                         <Link
                             href={`/#gallery`}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 dark:bg-black/80 backdrop-blur-sm text-xs font-medium text-zinc-800 dark:text-white shadow-lg hover:bg-white dark:hover:bg-black transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 dark:bg-black/80 backdrop-blur-sm text-xs tracking-wide uppercase text-zinc-800 dark:text-white shadow-lg hover:bg-white dark:hover:bg-black transition-colors"
+                            style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
                         >
                             <Eye className="w-3.5 h-3.5" />
                             View Work
@@ -343,7 +344,8 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                         >
                             <Link
                                 href="/quote"
-                                className={`flex items-center gap-1 text-sm font-medium transition-colors ${service.ctaColor}`}
+                                className={`flex items-center gap-1 text-sm tracking-wide uppercase transition-colors ${service.ctaColor}`}
+                                style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
                             >
                                 Get Quote
                                 <ChevronRight className="w-4 h-4" />
@@ -435,8 +437,8 @@ export function ServiceCards() {
                 >
                     <Link
                         href="/quote"
-                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-green-600 hover:bg-green-700 text-white font-medium shadow-lg shadow-green-600/25 hover:shadow-xl hover:shadow-green-600/30 transition-all duration-300"
-                        style={{ fontFamily: 'var(--font-body)' }}
+                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/25 hover:shadow-xl hover:shadow-green-600/30 transition-all duration-300 tracking-wider uppercase"
+                        style={{ fontFamily: 'var(--font-cta)', fontWeight: 500, letterSpacing: '0.1em' }}
                     >
                         <span>Get Your Free Quote</span>
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
