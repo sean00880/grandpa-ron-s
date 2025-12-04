@@ -102,9 +102,10 @@ export const Header: React.FC = () => {
             {Object.keys(megaMenuData).map((key) => (
               <div key={key} className="relative group px-4 py-2">
                 <button
-                  className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-1 text-sm uppercase tracking-wide transition-colors ${
                     isScrolled || activeDropdown ? 'text-zinc-600 dark:text-zinc-300 hover:text-green-600 dark:hover:text-green-400' : 'text-white/90 hover:text-white'
                   }`}
+                  style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
                   onMouseEnter={() => setActiveDropdown(key)}
                   onClick={() => setActiveDropdown(activeDropdown === key ? null : key)}
                 >
@@ -119,13 +120,14 @@ export const Header: React.FC = () => {
         <div className="hidden md:flex items-center gap-3">
            {/* Phone Number */}
            {!isDashboard && (
-             <a 
+             <a
                href="tel:2206662520"
-               className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-                 isScrolled 
-                   ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700' 
+               className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm tracking-wide transition-all ${
+                 isScrolled
+                   ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
                    : 'bg-white/10 text-white hover:bg-white/20'
                }`}
+               style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
              >
                <Phone size={16} />
                <span>(220) 666-2520</span>
@@ -134,9 +136,10 @@ export const Header: React.FC = () => {
 
            {/* Get Quote Button */}
            {!isDashboard && (
-             <Link 
+             <Link
                href="/quote"
-               className="bg-green-600 hover:bg-green-500 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-lg hover:-translate-y-0.5"
+               className="bg-green-600 hover:bg-green-500 text-white px-5 py-2 rounded-full text-sm uppercase tracking-wide transition-all shadow-lg hover:-translate-y-0.5"
+               style={{ fontFamily: 'var(--font-cta)', fontWeight: 500 }}
              >
                Get Quote
              </Link>
@@ -156,9 +159,10 @@ export const Header: React.FC = () => {
 
            {user ? (
               <div className="flex items-center gap-3 ml-2">
-                <Link 
+                <Link
                   href="/dashboard"
-                  className="flex items-center gap-2 text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white px-4 py-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                  className="flex items-center gap-2 text-xs uppercase tracking-wide bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white px-4 py-2 rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                  style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
                 >
                   <LayoutDashboard size={14} /> Dashboard
                 </Link>
@@ -169,10 +173,11 @@ export const Header: React.FC = () => {
                 )}
               </div>
             ) : (
-              <button 
+              <button
                 onClick={login}
                 disabled={isLoading}
-                className="ml-2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-5 py-2 rounded-full text-sm font-medium transition-all shadow-lg hover:opacity-90 disabled:opacity-50"
+                className="ml-2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-5 py-2 rounded-full text-sm uppercase tracking-wide transition-all shadow-lg hover:opacity-90 disabled:opacity-50"
+                style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
               >
                 {isLoading ? 'Verifying...' : 'Sign In'}
               </button>
@@ -207,9 +212,9 @@ export const Header: React.FC = () => {
         >
           <div className="container mx-auto px-8">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">{activeDropdown}</h3>
+              <h3 className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-wider" style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}>{activeDropdown}</h3>
               {activeDropdown === 'Locations' && (
-                <Link href="/locations" className="text-sm text-green-600 hover:text-green-500 font-semibold">
+                <Link href="/locations" className="text-sm text-green-600 hover:text-green-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}>
                   View All 24 Locations →
                 </Link>
               )}
@@ -259,16 +264,16 @@ export const Header: React.FC = () => {
                         <div className="flex items-center gap-3 mb-4">
                            <Image src={user.avatar} alt="" className="w-10 h-10 rounded-full" />
                            <div>
-                              <p className="font-bold text-zinc-900 dark:text-white">{user.name}</p>
+                              <p className="text-zinc-900 dark:text-white" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>{user.name}</p>
                               <p className="text-xs text-zinc-500">{user.email}</p>
                            </div>
                         </div>
                       )}
-                      <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="w-full bg-green-600 text-white py-3 rounded-xl font-bold block text-center">Go to Dashboard</Link>
-                      <button onClick={logout} className="w-full text-red-500 py-3 font-medium">Sign Out</button>
+                      <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="w-full bg-green-600 text-white py-3 rounded-xl block text-center uppercase tracking-wide" style={{ fontFamily: 'var(--font-cta)', fontWeight: 500 }}>Go to Dashboard</Link>
+                      <button onClick={logout} className="w-full text-red-500 py-3 uppercase tracking-wide" style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}>Sign Out</button>
                    </div>
                 ) : (
-                   <button onClick={() => {login(); setMobileMenuOpen(false)}} className="w-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 py-3 rounded-xl font-bold">Sign In</button>
+                   <button onClick={() => {login(); setMobileMenuOpen(false)}} className="w-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 py-3 rounded-xl uppercase tracking-wide" style={{ fontFamily: 'var(--font-cta)', fontWeight: 500 }}>Sign In</button>
                 )}
              </div>
           </div>
