@@ -76,7 +76,7 @@ export const Header: React.FC = () => {
           href="/"
           className="cursor-pointer select-none z-50 relative"
         >
-          <div className="relative w-10 h-10 md:w-12 md:h-12">
+          <div className="relative" style={{ width: '270px', height: '40px' }}>
             {/* Light mode logo */}
             <Image
               src="/img/logo_light.png"
