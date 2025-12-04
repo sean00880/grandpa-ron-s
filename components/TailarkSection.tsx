@@ -5,23 +5,39 @@ import Link from 'next/link'
 
 export const TailarkSection = () => {
   return (
-    <section className="relative overflow-hidden bg-transparent">
-      {/* Full-width background image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/img/lawncare3.jpg"
-          alt="Professional landscape transformation"
-          fill
-          className="object-cover"
-        />
-        {/* Gradient overlays for readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-white/90 dark:from-zinc-950/90 dark:via-zinc-950/80 dark:to-zinc-950/90"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-white/50 via-transparent to-white/50 dark:from-zinc-950/50 dark:via-transparent dark:to-zinc-950/50"></div>
-      </div>
+    <section className="relative overflow-hidden bg-white dark:bg-zinc-950">
+      <div className="relative w-full px-6 py-32 lg:py-40">
+        {/* Background Image - positioned on the left */}
+        <div className="absolute inset-0 -mx-4 rounded-3xl p-3">
+          <div className="relative h-full">
+            {/* Radial gradient overlay - transparent on RIGHT, solid on LEFT (mirrored from PC_Gamefi) */}
+            <div
+              className="absolute inset-0 z-[1]"
+              style={{
+                background: 'radial-gradient(ellipse at 35% 50%, transparent 0%, var(--color-background) 60%)'
+              }}
+            ></div>
 
-      {/* Content - Full width, dead center */}
-      <div className="relative z-10 w-full px-6 py-32 lg:py-40">
-        <div className="mx-auto max-w-3xl text-center">
+            {/* Additional gradient for smoother blend */}
+            <div
+              className="absolute inset-0 z-[1]"
+              style={{
+                background: 'linear-gradient(to right, transparent 0%, transparent 20%, var(--color-background) 70%)'
+              }}
+            ></div>
+
+            {/* The background image */}
+            <Image
+              src="/img/lawncare3.jpg"
+              alt="Professional landscape transformation"
+              fill
+              className="object-cover object-center"
+            />
+          </div>
+        </div>
+
+        {/* Content - Full width, dead center */}
+        <div className="relative z-10 mx-auto max-w-3xl text-center">
           {/* Badge */}
           <Link
             href="#tools"
