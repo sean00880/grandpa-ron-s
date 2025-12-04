@@ -233,7 +233,7 @@ export const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-[60px] bg-white dark:bg-zinc-950 z-40 overflow-y-auto md:hidden">
+        <div className="fixed inset-0 top-[60px] bg-white dark:bg-zinc-950 z-[999] overflow-y-auto md:hidden">
           <div className="p-6 space-y-6">
              {Object.entries(megaMenuData).map(([category, items]) => (
                <div key={category}>
