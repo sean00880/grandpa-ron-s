@@ -5,6 +5,7 @@ import { Gallery } from "@/components/Gallery";
 import { HowItWorks } from "@/components/HowItWorks";
 import { ToolsSection } from "@/components/ToolsSection";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
+import { TailarkSection } from "@/components/TailarkSection";
 import Link from "next/link";
 
 const ReviewsSection = () => {
@@ -52,6 +53,7 @@ export default function HomePage() {
         <HowItWorks />
         <ReviewsSection />
         <CtaSection />
+        <TailarkSection />
       </main>
     </div>
   );
