@@ -63,8 +63,6 @@ export const ToolsSection: React.FC = () => {
         </div>
       </div>
       
-      {/* Fluid Gradient Transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 dark:from-zinc-950 to-transparent pointer-events-none"></div>
     </section>
   );
 };
