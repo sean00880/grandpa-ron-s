@@ -47,7 +47,13 @@ async function sendEmailNotification(data: {
   }
 
   // Build template parameters - these must match your EmailJS template variables
+  const serviceText = Array.isArray(data.services) ? data.services.join(', ') : data.services;
+  const addressText = data.address || 'Not provided';
+
   const templateParams = {
+    // Email subject
+    subject: `New ${serviceText} request for ${addressText}`,
+
     // Recipient (business owner)
     to_email: businessEmail,
     to_name: "Grandpa Ron's Team",
@@ -62,9 +68,9 @@ async function sendEmailNotification(data: {
     contact_method: data.contactMethod || 'Not specified',
 
     // Service details
-    service: Array.isArray(data.services) ? data.services.join(', ') : data.services,
+    service: serviceText,
     property_size: data.propertySize || 'Not specified',
-    address: data.address || 'Not provided',
+    address: addressText,
     preferred_date: data.preferredDate || 'Flexible',
     urgency: data.urgency || 'flexible',
 
