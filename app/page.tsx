@@ -3,7 +3,6 @@ import { Hero } from "@/components/Hero";
 import { TailarkHero } from "@/components/TailarkHero";
 import { Services } from "@/components/Services";
 import { Gallery } from "@/components/Gallery";
-import { HowItWorks } from "@/components/HowItWorks";
 import { ToolsSection } from "@/components/ToolsSection";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
 import { TailarkSection } from "@/components/TailarkSection";
@@ -52,7 +51,6 @@ export default function HomePage() {
         <Services />
         <ToolsSection />
         <Gallery />
-        <HowItWorks />
         <ReviewsSection />
         <CtaSection />
         <TailarkSection />
