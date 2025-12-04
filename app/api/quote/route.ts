@@ -5,6 +5,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import emailjs from '@emailjs/nodejs';
 
+// EmailJS Configuration
+const getEmailJSConfig = () => {
+  const serviceId = process.env.EMAILJS_SERVICE_ID || process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY || process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+  const businessEmail = process.env.BUSINESS_EMAIL || 'fgreatful@gmail.com';
+
+  return { serviceId, templateId, publicKey, privateKey, businessEmail };
+};
+
 // Send email notification via EmailJS (server-side)
 async function sendEmailNotification(data: {
   name: string;
@@ -15,40 +26,84 @@ async function sendEmailNotification(data: {
   services: string[];
   additionalInfo?: string;
   urgency?: string;
-}) {
-  const serviceId = process.env.EMAILJS_SERVICE_ID || process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-  const templateId = process.env.EMAILJS_TEMPLATE_ID || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-  const publicKey = process.env.EMAILJS_PUBLIC_KEY || process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+  contactMethod?: string;
+  preferredDate?: string;
+}): Promise<{ success: boolean; error?: string }> {
+  const { serviceId, templateId, publicKey, privateKey, businessEmail } = getEmailJSConfig();
 
+  // Validate configuration
   if (!serviceId || !templateId || !publicKey) {
-    console.warn('EmailJS not configured, skipping email notification');
-    return;
+    const missing = [];
+    if (!serviceId) missing.push('EMAILJS_SERVICE_ID');
+    if (!templateId) missing.push('EMAILJS_TEMPLATE_ID');
+    if (!publicKey) missing.push('EMAILJS_PUBLIC_KEY');
+    console.error(`EmailJS missing configuration: ${missing.join(', ')}`);
+    return { success: false, error: `Missing EmailJS config: ${missing.join(', ')}` };
   }
 
+  if (!privateKey) {
+    console.error('EmailJS PRIVATE_KEY is missing - required for server-side sending');
+    return { success: false, error: 'Missing EMAILJS_PRIVATE_KEY' };
+  }
+
+  // Build template parameters - these must match your EmailJS template variables
   const templateParams = {
+    // Recipient (business owner)
+    to_email: businessEmail,
     to_name: "Grandpa Ron's Team",
+
+    // Sender/Customer info
     from_name: data.name,
     from_email: data.email,
+    reply_to: data.email, // Allows replying directly to customer
+
+    // Contact details
     phone: data.phone,
-    address: data.address,
-    property_size: data.propertySize,
+    contact_method: data.contactMethod || 'Not specified',
+
+    // Service details
     service: Array.isArray(data.services) ? data.services.join(', ') : data.services,
-    message: data.additionalInfo || 'No additional info provided',
+    property_size: data.propertySize || 'Not specified',
+    address: data.address || 'Not provided',
+    preferred_date: data.preferredDate || 'Flexible',
     urgency: data.urgency || 'flexible',
-    submission_date: new Date().toLocaleDateString(),
-    submission_time: new Date().toLocaleTimeString(),
+
+    // Message
+    message: data.additionalInfo || 'No additional details provided',
+
+    // Metadata
+    submission_date: new Date().toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }),
+    submission_time: new Date().toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }),
   };
 
+  console.log('Sending email with params:', {
+    serviceId,
+    templateId,
+    to_email: templateParams.to_email,
+    from_name: templateParams.from_name,
+    from_email: templateParams.from_email,
+  });
+
   try {
-    await emailjs.send(serviceId, templateId, templateParams, {
+    const response = await emailjs.send(serviceId, templateId, templateParams, {
       publicKey,
       privateKey,
     });
-    console.log('Email notification sent successfully');
-  } catch (error) {
-    console.error('Failed to send email notification:', error);
-    // Don't throw - email failure shouldn't fail the quote submission
+    console.log('EmailJS Response:', response.status, response.text);
+    return { success: true };
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('EmailJS Error:', error);
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -109,7 +164,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email notification (server-side EmailJS)
-    await sendEmailNotification({
+    const emailResult = await sendEmailNotification({
       name,
       email,
       phone,
@@ -118,7 +173,14 @@ export async function POST(request: NextRequest) {
       services: Array.isArray(finalServices) ? finalServices : [finalServices],
       additionalInfo: finalAdditionalInfo,
       urgency,
+      contactMethod,
+      preferredDate,
     });
+
+    if (!emailResult.success) {
+      console.error('Email sending failed:', emailResult.error);
+      // Don't fail the request - we still saved to DB if available
+    }
 
     return NextResponse.json({
       success: true,
