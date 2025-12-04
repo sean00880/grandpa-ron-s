@@ -2,17 +2,36 @@
 import { ArrowRight, Leaf, Phone, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState, useRef } from 'react'
 
 export const TailarkSection = () => {
+  const [isHovering, setIsHovering] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    setMousePosition({ x, y })
+  }
+
   return (
     <section className="relative overflow-hidden bg-white dark:bg-zinc-950">
-      <div className="relative w-full px-6 py-32 lg:py-40">
+      <div
+        ref={containerRef}
+        className="relative w-full px-6 py-32 lg:py-40"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+        onMouseMove={handleMouseMove}
+      >
         {/* Background Image - positioned on the left */}
         <div className="absolute inset-0 -mx-4 rounded-3xl p-3">
-          <div className="relative h-full">
-            {/* Radial gradient overlay - transparent on RIGHT, solid on LEFT (mirrored from PC_Gamefi) */}
+          <div className="relative h-full overflow-hidden">
+            {/* Radial gradient overlay - transparent on LEFT, solid on RIGHT (mirrored from PC_Gamefi) */}
             <div
-              className="absolute inset-0 z-[1]"
+              className="absolute inset-0 z-[2] transition-opacity duration-500"
               style={{
                 background: 'radial-gradient(ellipse at 35% 50%, transparent 0%, var(--color-background) 60%)'
               }}
@@ -20,19 +39,42 @@ export const TailarkSection = () => {
 
             {/* Additional gradient for smoother blend */}
             <div
-              className="absolute inset-0 z-[1]"
+              className="absolute inset-0 z-[2] transition-opacity duration-500"
               style={{
                 background: 'linear-gradient(to right, transparent 0%, transparent 20%, var(--color-background) 70%)'
               }}
             ></div>
 
-            {/* The background image */}
+            {/* Hover radial spotlight effect */}
+            <div
+              className="absolute inset-0 z-[3] pointer-events-none transition-opacity duration-300"
+              style={{
+                background: isHovering
+                  ? `radial-gradient(circle 400px at ${mousePosition.x}% ${mousePosition.y}%, rgba(16, 185, 129, 0.15) 0%, transparent 60%)`
+                  : 'transparent',
+                opacity: isHovering ? 1 : 0
+              }}
+            ></div>
+
+            {/* The background image with hover effects */}
             <Image
               src="/img/lawncare3.jpg"
               alt="Professional landscape transformation"
               fill
-              className="object-cover object-center"
+              className={`object-cover object-center transition-all duration-700 ${
+                isHovering ? 'scale-105 brightness-110' : 'scale-100 brightness-100'
+              }`}
             />
+
+            {/* Subtle vignette on hover */}
+            <div
+              className={`absolute inset-0 z-[1] transition-opacity duration-500 ${
+                isHovering ? 'opacity-0' : 'opacity-30'
+              }`}
+              style={{
+                background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.3) 100%)'
+              }}
+            ></div>
           </div>
         </div>
 
