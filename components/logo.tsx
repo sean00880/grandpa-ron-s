@@ -3,32 +3,43 @@ import Image from 'next/image'
 
 export const Logo = ({ className }: { className?: string }) => {
     return (
-        <div className={cn('flex items-center gap-2', className)}>
-            <div className="relative h-8 w-8 rounded-lg overflow-hidden">
-                <Image
-                    src="/img/logo.png"
-                    alt="Grandpa Ron's Logo"
-                    fill
-                    className="object-contain"
-                    priority
-                />
-            </div>
-            <span className="text-lg font-bold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
-                <span className="text-green-600 dark:text-green-400">Grandpa</span>
-                <span className="text-foreground"> Ron&apos;s</span>
-            </span>
+        <div className={cn('relative h-8 w-8', className)}>
+            {/* Light mode logo */}
+            <Image
+                src="/img/logo_light.png"
+                alt="Grandpa Ron's Logo"
+                fill
+                className="object-contain dark:hidden"
+                priority
+            />
+            {/* Dark mode logo */}
+            <Image
+                src="/img/logo_dark.png"
+                alt="Grandpa Ron's Logo"
+                fill
+                className="object-contain hidden dark:block"
+                priority
+            />
         </div>
     )
 }
 
 export const LogoIcon = ({ className }: { className?: string }) => {
     return (
-        <div className={cn('relative size-8 rounded-lg overflow-hidden', className)}>
+        <div className={cn('relative size-8', className)}>
+            {/* Light mode logo */}
             <Image
-                src="/img/logo.png"
+                src="/img/logo_light.png"
                 alt="Grandpa Ron's Logo"
                 fill
-                className="object-contain"
+                className="object-contain dark:hidden"
+            />
+            {/* Dark mode logo */}
+            <Image
+                src="/img/logo_dark.png"
+                alt="Grandpa Ron's Logo"
+                fill
+                className="object-contain hidden dark:block"
             />
         </div>
     )
@@ -36,12 +47,20 @@ export const LogoIcon = ({ className }: { className?: string }) => {
 
 export const LogoStroke = ({ className }: { className?: string }) => {
     return (
-        <div className={cn('relative size-7 w-7 rounded-lg overflow-hidden', className)}>
+        <div className={cn('relative size-7', className)}>
+            {/* Light mode logo */}
             <Image
-                src="/img/logo.png"
+                src="/img/logo_light.png"
                 alt="Grandpa Ron's Logo"
                 fill
-                className="object-contain"
+                className="object-contain dark:hidden"
+            />
+            {/* Dark mode logo */}
+            <Image
+                src="/img/logo_dark.png"
+                alt="Grandpa Ron's Logo"
+                fill
+                className="object-contain hidden dark:block"
             />
         </div>
     )

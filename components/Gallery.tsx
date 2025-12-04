@@ -1,58 +1,26 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
-import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, ZoomIn, Tag } from 'lucide-react'
+import { galleryImages } from '@/data/galleryData'
+import { getUniqueCategories, filterImagesByCategory } from '@/data/taxonomyRegistry'
 
-// Gallery images from /public/img
-const galleryImages = [
-    { src: '/img/IMG_1933.JPG', alt: 'Landscaping project 1', category: 'Landscaping' },
-    { src: '/img/IMG_1934.JPG', alt: 'Landscaping project 2', category: 'Landscaping' },
-    { src: '/img/IMG_1936.JPG', alt: 'Lawn care project 1', category: 'Lawn Care' },
-    { src: '/img/IMG_1938.JPG', alt: 'Lawn care project 2', category: 'Lawn Care' },
-    { src: '/img/IMG_1939.JPG', alt: 'Tree service 1', category: 'Tree Service' },
-    { src: '/img/IMG_1941.JPG', alt: 'Tree service 2', category: 'Tree Service' },
-    { src: '/img/IMG_1942.JPG', alt: 'Mulching project 1', category: 'Mulching' },
-    { src: '/img/IMG_1943.JPG', alt: 'Mulching project 2', category: 'Mulching' },
-    { src: '/img/IMG_1944.JPG', alt: 'Landscaping project 3', category: 'Landscaping' },
-    { src: '/img/IMG_1945.JPG', alt: 'Landscaping project 4', category: 'Landscaping' },
-    { src: '/img/IMG_1946.JPG', alt: 'Lawn care project 3', category: 'Lawn Care' },
-    { src: '/img/IMG_1949.JPG', alt: 'Lawn care project 4', category: 'Lawn Care' },
-    { src: '/img/IMG_1950.JPG', alt: 'Tree service 3', category: 'Tree Service' },
-    { src: '/img/IMG_1951.JPG', alt: 'Tree service 4', category: 'Tree Service' },
-    { src: '/img/IMG_1955.JPG', alt: 'Mulching project 3', category: 'Mulching' },
-    { src: '/img/IMG_1956.JPG', alt: 'Mulching project 4', category: 'Mulching' },
-    { src: '/img/IMG_1958.JPG', alt: 'Landscaping project 5', category: 'Landscaping' },
-    { src: '/img/IMG_1959.JPG', alt: 'Landscaping project 6', category: 'Landscaping' },
-    { src: '/img/IMG_1960.JPG', alt: 'Lawn care project 5', category: 'Lawn Care' },
-    { src: '/img/IMG_1962.JPG', alt: 'Tree service 5', category: 'Tree Service' },
-    { src: '/img/IMG_1964.JPG', alt: 'Tree service 6', category: 'Tree Service' },
-    { src: '/img/IMG_1965.JPG', alt: 'Mulching project 5', category: 'Mulching' },
-    { src: '/img/IMG_1968.JPG', alt: 'Landscaping project 7', category: 'Landscaping' },
-    { src: '/img/IMG_1971.JPG', alt: 'Lawn care project 6', category: 'Lawn Care' },
-    { src: '/img/IMG_1974.JPG', alt: 'Landscaping project 8', category: 'Landscaping' },
-    { src: '/img/IMG_1975.JPG', alt: 'Landscaping project 9', category: 'Landscaping' },
-    { src: '/img/IMG_1977.JPG', alt: 'Tree service 7', category: 'Tree Service' },
-    { src: '/img/IMG_1978.JPG', alt: 'Mulching project 6', category: 'Mulching' },
-    { src: '/img/IMG_1979.JPG', alt: 'Landscaping project 10', category: 'Landscaping' },
-    { src: '/img/IMG_1981.JPG', alt: 'Lawn care project 7', category: 'Lawn Care' },
-    { src: '/img/IMG_1982.JPG', alt: 'Landscaping project 11', category: 'Landscaping' },
-    { src: '/img/IMG_1983.JPG', alt: 'Tree service 8', category: 'Tree Service' },
-    { src: '/img/IMG_1984.JPG', alt: 'Mulching project 7', category: 'Mulching' },
-    { src: '/img/IMG_1985.JPG', alt: 'Landscaping project 12', category: 'Landscaping' },
-    { src: '/img/IMG_1986.jpg', alt: 'Landscaping project 13', category: 'Landscaping' },
-]
-
-const categories = ['All', 'Landscaping', 'Lawn Care', 'Tree Service', 'Mulching']
+// Get unique categories from all images (with multi-category support)
+const categories = ['All', 'Landscaping', 'Lawn Care', 'Tree Service', 'Mulching', 'Hardscaping']
 
 export const Gallery: React.FC = () => {
     const [selectedCategory, setSelectedCategory] = useState('All')
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
     const [isLoading, setIsLoading] = useState<Record<number, boolean>>({})
 
-    const filteredImages = selectedCategory === 'All'
-        ? galleryImages
-        : galleryImages.filter(img => img.category === selectedCategory)
+    // Multi-category filtering - images appear in ALL categories they belong to
+    const filteredImages = useMemo(() => {
+        if (selectedCategory === 'All') return galleryImages
+        return galleryImages.filter(img =>
+            img.tags.displayCategories.includes(selectedCategory)
+        )
+    }, [selectedCategory])
 
     const openLightbox = (index: number) => {
         setLightboxIndex(index)
@@ -164,15 +132,33 @@ export const Gallery: React.FC = () => {
                             />
 
                             {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
-                                <span
-                                    className="text-white text-sm font-medium"
-                                    style={{ fontFamily: 'var(--font-body)' }}
-                                >
-                                    {image.category}
-                                </span>
-                                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                    <ZoomIn className="w-5 h-5 text-white" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-start justify-end p-4">
+                                <div className="flex flex-wrap gap-1 mb-2">
+                                    {image.tags.displayCategories.slice(0, 3).map((cat) => (
+                                        <span
+                                            key={cat}
+                                            className="px-2 py-0.5 bg-green-600/90 text-white text-xs font-medium rounded-full"
+                                            style={{ fontFamily: 'var(--font-body)' }}
+                                        >
+                                            {cat}
+                                        </span>
+                                    ))}
+                                    {image.tags.displayCategories.length > 3 && (
+                                        <span className="px-2 py-0.5 bg-white/30 text-white text-xs rounded-full">
+                                            +{image.tags.displayCategories.length - 3}
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="w-full flex items-center justify-between">
+                                    <span
+                                        className="text-white text-sm font-medium truncate max-w-[70%]"
+                                        style={{ fontFamily: 'var(--font-body)' }}
+                                    >
+                                        {image.title || image.alt}
+                                    </span>
+                                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                                        <ZoomIn className="w-5 h-5 text-white" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -240,12 +226,36 @@ export const Gallery: React.FC = () => {
                         />
                     </div>
 
-                    {/* Image Counter */}
-                    <div
-                        className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm"
-                        style={{ fontFamily: 'var(--font-body)' }}
-                    >
-                        {lightboxIndex + 1} / {filteredImages.length}
+                    {/* Image Info & Counter */}
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+                        {/* Category Tags */}
+                        <div className="flex flex-wrap justify-center gap-1">
+                            {filteredImages[lightboxIndex].tags.displayCategories.map((cat) => (
+                                <span
+                                    key={cat}
+                                    className="px-3 py-1 bg-green-600/90 text-white text-xs font-medium rounded-full"
+                                    style={{ fontFamily: 'var(--font-body)' }}
+                                >
+                                    {cat}
+                                </span>
+                            ))}
+                        </div>
+                        {/* Title */}
+                        {filteredImages[lightboxIndex].title && (
+                            <p
+                                className="text-white text-sm max-w-md text-center"
+                                style={{ fontFamily: 'var(--font-body)' }}
+                            >
+                                {filteredImages[lightboxIndex].title}
+                            </p>
+                        )}
+                        {/* Counter */}
+                        <div
+                            className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm"
+                            style={{ fontFamily: 'var(--font-body)' }}
+                        >
+                            {lightboxIndex + 1} / {filteredImages.length}
+                        </div>
                     </div>
                 </div>
             )}
