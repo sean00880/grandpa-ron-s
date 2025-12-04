@@ -41,7 +41,8 @@ export const GoogleReviewsWidget: React.FC<GoogleReviewsWidgetProps> = ({
       const data = await getCachedReviews();
       setReviews(data?.reviews?.slice(0, maxReviews) ?? []);
       setOverallRating(data?.rating ?? 0);
-      setTotalReviews(data?.user_ratings_total ?? 0);
+      // Support both API response formats (user_ratings_total from service, totalReviews from API)
+      setTotalReviews(data?.user_ratings_total ?? data?.totalReviews ?? 0);
     } catch (err) {
       console.error('Failed to load reviews:', err);
       setError(true);
