@@ -74,25 +74,26 @@ export const Header: React.FC = () => {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2.5 cursor-pointer select-none z-50 relative"
+          className="cursor-pointer select-none z-50 relative"
         >
-          <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden shadow-lg">
+          <div className="relative w-10 h-10 md:w-12 md:h-12">
+            {/* Light mode logo */}
             <Image
-              src="/img/logo.png"
+              src="/img/logo_light.png"
               alt="Grandpa Ron's Logo"
               fill
-              className="object-contain"
+              className="object-contain dark:hidden"
+              priority
+            />
+            {/* Dark mode logo */}
+            <Image
+              src="/img/logo_dark.png"
+              alt="Grandpa Ron's Logo"
+              fill
+              className="object-contain hidden dark:block"
               priority
             />
           </div>
-          <span
-            className={`text-lg font-bold tracking-tight ${
-              isScrolled || isDashboard || mobileMenuOpen ? 'text-zinc-900 dark:text-white' : 'text-white shadow-black drop-shadow-sm'
-            }`}
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Grandpa Ron's
-          </span>
         </Link>
 
         {/* Desktop Nav */}
