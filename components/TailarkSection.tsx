@@ -33,7 +33,8 @@ export const TailarkSection = () => {
             <div
               className="absolute inset-0 z-[2] transition-opacity duration-500"
               style={{
-                background: 'radial-gradient(ellipse at 35% 50%, transparent 0%, var(--color-background) 60%)'
+                background: 'radial-gradient(ellipse at 35% 50%, transparent 0%, var(--color-background) 60%)',
+                opacity: 0.9
               }}
             ></div>
 
@@ -41,18 +42,19 @@ export const TailarkSection = () => {
             <div
               className="absolute inset-0 z-[2] transition-opacity duration-500"
               style={{
-                background: 'linear-gradient(to right, transparent 0%, transparent 20%, var(--color-background) 70%)'
+                background: 'linear-gradient(to right, transparent 0%, transparent 20%, var(--color-background) 70%)',
+                opacity: 0.9
               }}
             ></div>
 
-            {/* Hover radial spotlight effect */}
+            {/* Hover radial spotlight effect - uses background color */}
             <div
               className="absolute inset-0 z-[3] pointer-events-none transition-opacity duration-300"
               style={{
                 background: isHovering
-                  ? `radial-gradient(circle 400px at ${mousePosition.x}% ${mousePosition.y}%, rgba(16, 185, 129, 0.15) 0%, transparent 60%)`
+                  ? `radial-gradient(circle 400px at ${mousePosition.x}% ${mousePosition.y}%, var(--color-background) 0%, transparent 70%)`
                   : 'transparent',
-                opacity: isHovering ? 1 : 0
+                opacity: isHovering ? 0.9 : 0
               }}
             ></div>
 
