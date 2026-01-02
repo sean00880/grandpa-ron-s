@@ -1,10 +1,29 @@
+/**
+ * ENHANCED LANDSCAPE API ROUTE
+ * Integrates seasonal pricing and promotional context into AI quotes
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { generateLandscapeRender, generateQuoteEstimation } from '@/services/geminiService';
+import { getSeasonMarketingContext } from '@/services/pricingEngineService';
+import { getBannerPromotions } from '@/services/promotionEngineService';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { action, imageBase64, instructions, region, originalImage, generatedImage, prompt } = body;
+    const {
+      action,
+      imageBase64,
+      instructions,
+      region,
+      originalImage,
+      generatedImage,
+      prompt,
+      // Enhanced options
+      locationSlug,
+      customerType = 'new',
+      applySeasonalPricing = true
+    } = body;
 
     if (action === 'render') {
       if (!imageBase64 || !instructions) {
@@ -26,8 +45,37 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const quote = await generateQuoteEstimation(originalImage, generatedImage, prompt);
-      return NextResponse.json({ success: true, data: quote });
+      // Generate enhanced quote with seasonal and promotional context
+      const quote = await generateQuoteEstimation(
+        originalImage,
+        generatedImage,
+        prompt,
+        {
+          locationSlug: locationSlug || 'columbus',
+          customerType: customerType as 'new' | 'existing',
+          applySeasonalPricing
+        }
+      );
+
+      // Get current seasonal context for additional UI hints
+      const seasonalContext = getSeasonMarketingContext();
+      const bannerPromotions = getBannerPromotions();
+
+      return NextResponse.json({
+        success: true,
+        data: quote,
+        // Additional context for UI
+        context: {
+          currentSeason: seasonalContext.season,
+          highDemandServices: seasonalContext.highDemandServices.map(s => s.serviceId),
+          suggestedPromotions: seasonalContext.suggestedPromotions,
+          bannerPromotions: bannerPromotions.map(p => ({
+            name: p.name,
+            bannerText: p.bannerText,
+            code: p.code
+          }))
+        }
+      });
     }
 
     return NextResponse.json(

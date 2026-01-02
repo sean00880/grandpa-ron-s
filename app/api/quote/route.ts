@@ -1,116 +1,69 @@
+/**
+ * ENHANCED QUOTE API ROUTE
+ * Integrates lead scoring, seasonality, promotions, and competitor context
+ *
+ * Flow:
+ * 1. Validate input
+ * 2. Determine location from address
+ * 3. Calculate lead score
+ * 4. Get seasonal pricing context
+ * 5. Find applicable promotions
+ * 6. Capture competitor context
+ * 7. Save enhanced quote to database
+ * 8. Return context for UI display
+ */
 
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import emailjs from '@emailjs/nodejs';
+import {
+  generateQuoteContext,
+  validateQuotePromoCode,
+  shouldNotifyImmediately,
+  getFollowUpTimeline,
+  type QuoteInput
+} from '@/services';
 
-// EmailJS Configuration
-const getEmailJSConfig = () => {
-  const serviceId = process.env.EMAILJS_SERVICE_ID || process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-  const templateId = process.env.EMAILJS_TEMPLATE_ID || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-  const publicKey = process.env.EMAILJS_PUBLIC_KEY || process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
-  const businessEmail = process.env.BUSINESS_EMAIL || 'fgreatful@gmail.com';
-
-  return { serviceId, templateId, publicKey, privateKey, businessEmail };
+// Location mapping from address patterns
+const LOCATION_PATTERNS: Record<string, string[]> = {
+  'dublin': ['dublin', '43016', '43017'],
+  'powell': ['powell', '43065'],
+  'delaware': ['delaware', '43015'],
+  'westerville': ['westerville', '43081', '43082'],
+  'upper-arlington': ['upper arlington', 'upper-arlington', '43221', '43220'],
+  'worthington': ['worthington', '43085'],
+  'hilliard': ['hilliard', '43026'],
+  'grove-city': ['grove city', 'grove-city', '43123'],
+  'gahanna': ['gahanna', '43230'],
+  'new-albany': ['new albany', 'new-albany', '43054'],
+  'pickerington': ['pickerington', '43147'],
+  'reynoldsburg': ['reynoldsburg', '43068'],
+  'columbus': ['columbus', '43201', '43202', '43203', '43204', '43205', '43206', '43207', '43209', '43210', '43211', '43212', '43213', '43214', '43215', '43219', '43222', '43223', '43224', '43227', '43228', '43229', '43231', '43232']
 };
 
-// Send email notification via EmailJS (server-side)
-async function sendEmailNotification(data: {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  propertySize: string;
-  services: string[];
-  additionalInfo?: string;
-  urgency?: string;
-  contactMethod?: string;
-  preferredDate?: string;
-}): Promise<{ success: boolean; error?: string }> {
-  const { serviceId, templateId, publicKey, privateKey, businessEmail } = getEmailJSConfig();
+function determineLocationSlug(address: string): string {
+  const normalized = address.toLowerCase();
 
-  // Validate configuration
-  if (!serviceId || !templateId || !publicKey) {
-    const missing = [];
-    if (!serviceId) missing.push('EMAILJS_SERVICE_ID');
-    if (!templateId) missing.push('EMAILJS_TEMPLATE_ID');
-    if (!publicKey) missing.push('EMAILJS_PUBLIC_KEY');
-    console.error(`EmailJS missing configuration: ${missing.join(', ')}`);
-    return { success: false, error: `Missing EmailJS config: ${missing.join(', ')}` };
+  for (const [slug, patterns] of Object.entries(LOCATION_PATTERNS)) {
+    if (patterns.some(pattern => normalized.includes(pattern))) {
+      return slug;
+    }
   }
 
-  if (!privateKey) {
-    console.error('EmailJS PRIVATE_KEY is missing - required for server-side sending');
-    return { success: false, error: 'Missing EMAILJS_PRIVATE_KEY' };
-  }
+  return 'columbus'; // Default fallback
+}
 
-  // Build template parameters - these must match your EmailJS template variables
-  const serviceText = Array.isArray(data.services) ? data.services.join(', ') : data.services;
-  const addressText = data.address || 'Not provided';
+function calculateFollowUpDate(priority: string, urgency?: string): Date {
+  const now = new Date();
+  const hours = (() => {
+    if (priority === 'hot') return urgency === 'immediate' ? 1 : 4;
+    if (priority === 'warm') return 24;
+    if (priority === 'standard') return 48;
+    return 168; // 1 week
+  })();
 
-  const templateParams = {
-    // Email subject
-    subject: `New ${serviceText} request for ${addressText}`,
-
-    // Recipient (business owner)
-    to_email: businessEmail,
-    to_name: "Grandpa Ron's Team",
-
-    // Sender/Customer info
-    from_name: data.name,
-    from_email: data.email,
-    reply_to: data.email, // Allows replying directly to customer
-
-    // Contact details
-    phone: data.phone,
-    contact_method: data.contactMethod || 'Not specified',
-
-    // Service details
-    service: serviceText,
-    property_size: data.propertySize || 'Not specified',
-    address: addressText,
-    preferred_date: data.preferredDate || 'Flexible',
-    urgency: data.urgency || 'flexible',
-
-    // Message
-    message: data.additionalInfo || 'No additional details provided',
-
-    // Metadata
-    submission_date: new Date().toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }),
-    submission_time: new Date().toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    }),
-  };
-
-  console.log('Sending email with params:', {
-    serviceId,
-    templateId,
-    to_email: templateParams.to_email,
-    from_name: templateParams.from_name,
-    from_email: templateParams.from_email,
-  });
-
-  try {
-    const response = await emailjs.send(serviceId, templateId, templateParams, {
-      publicKey,
-      privateKey,
-    });
-    console.log('EmailJS Response:', response.status, response.text);
-    return { success: true };
-  } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error('EmailJS Error:', error);
-    return { success: false, error: errorMessage };
-  }
+  return new Date(now.getTime() + hours * 60 * 60 * 1000);
 }
 
 export async function POST(request: NextRequest) {
@@ -126,77 +79,214 @@ export async function POST(request: NextRequest) {
       services,
       additionalInfo,
       urgency,
-      // Also accept the quoteService format
-      service,
-      location,
-      contactMethod,
-      preferredDate,
-      message,
+      // Enhanced fields
+      promoCode,
+      source = 'organic',
+      customerType = 'new',
+      // Engagement tracking
+      usedAIPlanner = false,
+      usedAudit = false,
+      pageViewCount = 1,
+      isReturnVisit = false
     } = body;
 
-    // Support both formats (quote page and quoteService)
-    const finalServices = services || (service ? [service] : []);
-    const finalAddress = address || location || '';
-    const finalAdditionalInfo = additionalInfo || message || '';
-    const finalPropertySize = propertySize || 'Not specified';
-
     // Validate required fields
-    if (!name || !email || !phone) {
+    if (!name || !email || !phone || !address || !propertySize || !services) {
       return NextResponse.json(
-        { error: 'Missing required fields: name, email, phone' },
+        { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Try to save to database (optional - don't fail if DB unavailable)
-    let quoteId = null;
-    try {
-      const quote = await prisma.quote.create({
-        data: {
-          name,
-          email,
-          phone,
-          address: finalAddress,
-          propertySize: finalPropertySize,
-          services: Array.isArray(finalServices) ? finalServices : [finalServices],
-          additionalInfo: finalAdditionalInfo || null,
-          urgency: urgency || 'flexible',
-          status: 'pending',
-        },
-      });
-      quoteId = quote.id;
-    } catch (dbError) {
-      console.warn('Database save failed, continuing with email:', dbError);
+    const serviceArray = Array.isArray(services) ? services : [services];
+    const locationSlug = determineLocationSlug(address);
+
+    // Generate enhanced quote context
+    const quoteInput: QuoteInput = {
+      locationSlug,
+      serviceIds: serviceArray,
+      source,
+      propertySize,
+      urgency: urgency as 'immediate' | 'within-week' | 'flexible' | undefined,
+      customerType: customerType as 'new' | 'existing',
+      promoCode,
+      engagement: {
+        usedAIPlanner,
+        usedAudit,
+        multiplePageViews: pageViewCount > 1,
+        returnVisit: isReturnVisit
+      }
+    };
+
+    const quoteContext = generateQuoteContext(quoteInput);
+
+    // Validate promo code if provided
+    let promoDiscount = 0;
+    let validatedPromoCode: string | null = null;
+
+    if (promoCode) {
+      const promoResult = validateQuotePromoCode(promoCode, quoteInput);
+      if (promoResult.valid && promoResult.discountAmount) {
+        promoDiscount = promoResult.discountAmount;
+        validatedPromoCode = promoCode;
+      }
     }
 
-    // Send email notification (server-side EmailJS)
-    const emailResult = await sendEmailNotification({
-      name,
-      email,
-      phone,
-      address: finalAddress,
-      propertySize: finalPropertySize,
-      services: Array.isArray(finalServices) ? finalServices : [finalServices],
-      additionalInfo: finalAdditionalInfo,
-      urgency,
-      contactMethod,
-      preferredDate,
+    // Calculate follow-up date
+    const followUpDue = calculateFollowUpDate(
+      quoteContext.priority,
+      urgency
+    );
+
+    // Prepare competitor context snapshot (store as JSON)
+    const competitorSnapshot = {
+      pricePosition: quoteContext.competitorInsights.pricePosition,
+      advantages: quoteContext.competitorInsights.competitiveAdvantages,
+      generatedAt: quoteContext.generatedAt
+    };
+
+    // Save enhanced quote to database
+    const quote = await prisma.quote.create({
+      data: {
+        // Core fields
+        name,
+        email,
+        phone,
+        address,
+        propertySize,
+        services: serviceArray.join(','), // SQLite: comma-separated string
+        additionalInfo: additionalInfo || null,
+        urgency: urgency || 'flexible',
+        status: 'pending',
+
+        // Lead Scoring
+        leadScore: quoteContext.leadScore.totalScore,
+        leadPriority: quoteContext.priority,
+        locationSlug,
+        customerType,
+        source,
+
+        // Engagement
+        usedAIPlanner,
+        usedAudit,
+        pageViewCount,
+        isReturnVisit,
+
+        // Pricing Context
+        estimatedValue: quoteContext.leadScore.clvEstimate.firstYearValue,
+        seasonalModifier: quoteContext.seasonalContext.pricingAdjustment,
+        promoCode: validatedPromoCode,
+        promoDiscount: promoDiscount > 0 ? promoDiscount : null,
+
+        // Business Intelligence
+        clvFirstYear: quoteContext.leadScore.clvEstimate.firstYearValue,
+        clvThreeYear: quoteContext.leadScore.clvEstimate.threeYearValue,
+        competitorContext: JSON.stringify(competitorSnapshot), // SQLite: JSON string
+
+        // Follow-up
+        recommendedAction: quoteContext.recommendedFollowUp,
+        followUpDue
+      }
     });
 
-    if (!emailResult.success) {
-      console.error('Email sending failed:', emailResult.error);
-      // Don't fail the request - we still saved to DB if available
-    }
+    // Determine if immediate notification is needed
+    const needsImmediateNotification = shouldNotifyImmediately(quoteContext.leadScore);
+    const followUpTimeline = getFollowUpTimeline(quoteContext.leadScore);
 
+    // Return enhanced response
     return NextResponse.json({
       success: true,
-      quoteId,
+      quoteId: quote.id,
       message: 'Quote request submitted successfully',
+
+      // Enhanced context for UI
+      context: {
+        leadScore: quoteContext.leadScore.totalScore,
+        priority: quoteContext.priority,
+
+        seasonal: {
+          season: quoteContext.seasonalContext.currentSeason,
+          demandLevel: quoteContext.seasonalContext.demandLevel,
+          message: quoteContext.seasonalContext.pricingMessage
+        },
+
+        promotions: {
+          applied: validatedPromoCode !== null,
+          promoCode: validatedPromoCode,
+          discount: promoDiscount,
+          available: quoteContext.applicablePromotions.map(p => ({
+            name: p.promotion.name,
+            discount: p.discountAmount,
+            code: p.promotion.code
+          }))
+        },
+
+        socialProof: {
+          rating: quoteContext.socialProof.rating,
+          reviewCount: quoteContext.socialProof.reviewCount,
+          trustSignals: quoteContext.socialProof.trustSignals
+        },
+
+        followUp: {
+          timeline: followUpTimeline,
+          needsImmediateNotification
+        }
+      }
     });
   } catch (error) {
     console.error('Quote submission error:', error);
+
+    // Log error details for debugging (in production, send to monitoring)
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack
+      });
+    }
+
     return NextResponse.json(
       { error: 'Failed to submit quote request' },
+      { status: 500 }
+    );
+  }
+}
+
+// GET endpoint for quote status check
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const quoteId = searchParams.get('id');
+
+    if (!quoteId) {
+      return NextResponse.json(
+        { error: 'Quote ID required' },
+        { status: 400 }
+      );
+    }
+
+    const quote = await prisma.quote.findUnique({
+      where: { id: quoteId },
+      select: {
+        id: true,
+        status: true,
+        createdAt: true,
+        leadPriority: true,
+        recommendedAction: true
+      }
+    });
+
+    if (!quote) {
+      return NextResponse.json(
+        { error: 'Quote not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ quote });
+  } catch (error) {
+    console.error('Quote lookup error:', error);
+    return NextResponse.json(
+      { error: 'Failed to lookup quote' },
       { status: 500 }
     );
   }

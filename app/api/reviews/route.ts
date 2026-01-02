@@ -38,51 +38,12 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Try the new Places API (New) first
-    const newApiResponse = await fetch(
-      `https://places.googleapis.com/v1/places/${placeId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': apiKey,
-          'X-Goog-FieldMask': 'displayName,rating,userRatingCount,reviews',
-        },
-      }
-    );
-
-    if (newApiResponse.ok) {
-      const newData = await newApiResponse.json();
-
-      // Transform new API response format to match our expected format
-      const reviews = (newData.reviews || []).map((review: any) => ({
-        author_name: review.authorAttribution?.displayName || 'Anonymous',
-        author_url: review.authorAttribution?.uri || '',
-        profile_photo_url: review.authorAttribution?.photoUri || '',
-        rating: review.rating || 5,
-        relative_time_description: review.relativePublishTimeDescription || '',
-        text: review.text?.text || review.originalText?.text || '',
-        time: review.publishTime ? new Date(review.publishTime).getTime() / 1000 : Date.now() / 1000,
-      }));
-
-      cachedReviews = {
-        success: true,
-        reviews,
-        rating: newData.rating || 4.9,
-        totalReviews: newData.userRatingCount || 0,
-        source: 'google-new',
-      };
-      cacheTime = now;
-
-      return NextResponse.json(cachedReviews);
-    }
-
-    // Fallback to legacy Places API
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=rating,user_ratings_total,reviews&key=${apiKey}`
     );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch reviews from both APIs');
+      throw new Error('Failed to fetch reviews');
     }
 
     const data = await response.json();
@@ -93,10 +54,10 @@ export async function GET(request: NextRequest) {
         reviews: data.result?.reviews || [],
         rating: data.result?.rating || 4.9,
         totalReviews: data.result?.user_ratings_total || 0,
-        source: 'google-legacy',
+        source: 'google',
       };
       cacheTime = now;
-
+      
       return NextResponse.json(cachedReviews);
     } else {
       throw new Error(data.error_message || 'Invalid response from Google');

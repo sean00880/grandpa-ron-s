@@ -195,8 +195,6 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                     {/* Gradient Overlay */}
                     <div className={`absolute inset-0 bg-gradient-to-t ${service.overlayGradient} opacity-60`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                    {/* Bottom blend gradient to card background */}
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white dark:from-zinc-900 via-white/80 dark:via-zinc-900/80 to-transparent" />
 
                     {/* Featured Badge */}
                     {service.featured && (
@@ -233,53 +231,29 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                     >
                         <Link
                             href={`/#gallery`}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 dark:bg-black/80 backdrop-blur-sm text-xs tracking-wide uppercase text-zinc-800 dark:text-white shadow-lg hover:bg-white dark:hover:bg-black transition-colors"
-                            style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 dark:bg-black/80 backdrop-blur-sm text-xs font-medium text-zinc-800 dark:text-white shadow-lg hover:bg-white dark:hover:bg-black transition-colors"
                         >
                             <Eye className="w-3.5 h-3.5" />
                             View Work
                         </Link>
                     </motion.div>
 
+                    {/* Service Icon - Floating */}
+                    <motion.div
+                        animate={{
+                            y: isHovered ? -8 : 0,
+                            scale: isHovered ? 1.1 : 1,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className={`absolute -bottom-6 left-6 w-14 h-14 rounded-2xl ${service.iconBg} flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-zinc-900`}
+                        style={{ transform: 'translateZ(30px)' }}
+                    >
+                        <Icon className="w-7 h-7 text-white" strokeWidth={1.5} />
+                    </motion.div>
                 </div>
 
                 {/* Content Section */}
-                <div className="relative pt-6 pb-6 px-6">
-                    {/* Service Icon with Neumorphism & Grunge */}
-                    <motion.div
-                        animate={{
-                            y: isHovered ? -4 : 0,
-                            scale: isHovered ? 1.05 : 1,
-                        }}
-                        transition={{ duration: 0.3 }}
-                        className="mb-4"
-                        style={{ transform: 'translateZ(30px)' }}
-                    >
-                        {/* Outer neumorphic container */}
-                        <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 p-1 shadow-[6px_6px_16px_rgba(0,0,0,0.15),-6px_-6px_16px_rgba(255,255,255,0.8)] dark:shadow-[6px_6px_16px_rgba(0,0,0,0.4),-6px_-6px_16px_rgba(255,255,255,0.05)]">
-                            {/* Grunge texture overlay */}
-                            <div
-                                className="absolute inset-0 rounded-2xl opacity-20 dark:opacity-30 mix-blend-overlay pointer-events-none"
-                                style={{
-                                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-                                }}
-                            />
-                            {/* Inner icon container with gradient */}
-                            <div className={`relative w-full h-full rounded-xl ${service.iconBg} flex items-center justify-center shadow-inner overflow-hidden`}>
-                                {/* Inner grunge texture */}
-                                <div
-                                    className="absolute inset-0 opacity-10 mix-blend-soft-light pointer-events-none"
-                                    style={{
-                                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E")`,
-                                    }}
-                                />
-                                {/* Glossy highlight */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/10 pointer-events-none" />
-                                <Icon className="relative z-10 w-6 h-6 text-white drop-shadow-md" strokeWidth={1.5} />
-                            </div>
-                        </div>
-                    </motion.div>
-
+                <div className="relative pt-10 pb-6 px-6">
                     {/* Title & Tagline */}
                     <div className="mb-4">
                         <span
@@ -344,8 +318,7 @@ function ServiceCard({ service, index }: { service: typeof servicesData[0]; inde
                         >
                             <Link
                                 href="/quote"
-                                className={`flex items-center gap-1 text-sm tracking-wide uppercase transition-colors ${service.ctaColor}`}
-                                style={{ fontFamily: 'var(--font-button)', fontWeight: 400 }}
+                                className={`flex items-center gap-1 text-sm font-medium transition-colors ${service.ctaColor}`}
                             >
                                 Get Quote
                                 <ChevronRight className="w-4 h-4" />
@@ -437,8 +410,8 @@ export function ServiceCards() {
                 >
                     <Link
                         href="/quote"
-                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/25 hover:shadow-xl hover:shadow-green-600/30 transition-all duration-300 tracking-wider uppercase"
-                        style={{ fontFamily: 'var(--font-cta)', fontWeight: 500, letterSpacing: '0.1em' }}
+                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-green-600 hover:bg-green-700 text-white font-medium shadow-lg shadow-green-600/25 hover:shadow-xl hover:shadow-green-600/30 transition-all duration-300"
+                        style={{ fontFamily: 'var(--font-body)' }}
                     >
                         <span>Get Your Free Quote</span>
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

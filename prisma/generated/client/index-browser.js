@@ -114,9 +114,6 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
-  ReadUncommitted: 'ReadUncommitted',
-  ReadCommitted: 'ReadCommitted',
-  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -132,7 +129,26 @@ exports.Prisma.QuoteScalarFieldEnum = {
   urgency: 'urgency',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  status: 'status'
+  status: 'status',
+  leadScore: 'leadScore',
+  leadPriority: 'leadPriority',
+  locationSlug: 'locationSlug',
+  customerType: 'customerType',
+  source: 'source',
+  usedAIPlanner: 'usedAIPlanner',
+  usedAudit: 'usedAudit',
+  pageViewCount: 'pageViewCount',
+  isReturnVisit: 'isReturnVisit',
+  estimatedValue: 'estimatedValue',
+  seasonalModifier: 'seasonalModifier',
+  promoCode: 'promoCode',
+  promoDiscount: 'promoDiscount',
+  clvFirstYear: 'clvFirstYear',
+  clvThreeYear: 'clvThreeYear',
+  competitorContext: 'competitorContext',
+  recommendedAction: 'recommendedAction',
+  followUpDue: 'followUpDue',
+  assignedTo: 'assignedTo'
 };
 
 exports.Prisma.ContactSubmissionScalarFieldEnum = {
@@ -155,14 +171,47 @@ exports.Prisma.ReviewScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BlogPostScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  excerpt: 'excerpt',
+  content: 'content',
+  coverImage: 'coverImage',
+  author: 'author',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  status: 'status',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
+  keywords: 'keywords',
+  viewCount: 'viewCount',
+  readTime: 'readTime',
+  categoryId: 'categoryId'
+};
+
+exports.Prisma.BlogCategoryScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  description: 'description'
+};
+
+exports.Prisma.BlogTagScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name'
+};
+
+exports.Prisma.BlogPostTagScalarFieldEnum = {
+  postId: 'postId',
+  tagId: 'tagId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
-};
-
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {
@@ -174,7 +223,11 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Quote: 'Quote',
   ContactSubmission: 'ContactSubmission',
-  Review: 'Review'
+  Review: 'Review',
+  BlogPost: 'BlogPost',
+  BlogCategory: 'BlogCategory',
+  BlogTag: 'BlogTag',
+  BlogPostTag: 'BlogPostTag'
 };
 
 /**

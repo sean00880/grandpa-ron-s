@@ -1,8 +1,8 @@
 # Grandpa Ron Next.js - Ecosystem Instructions
 
-> **Last Updated**: 2025-11-22
-> **Version**: 1.0.0
-> **Status**: Initial Configuration
+> **Last Updated**: 2026-01-01
+> **Version**: 2.0.0
+> **Status**: Production-Ready with E2E Testing
 > **Ecosystem**: Grandpa Ron Next.js Application
 
 ## What is Grandpa Ron?
@@ -11,15 +11,16 @@
 
 ### Tech Stack
 
-- **Framework**: Next.js 16.0.3 (App Router)
-- **React**: 19.2.0
+- **Framework**: Next.js 16.0.7 (App Router)
+- **React**: 19.2.1
 - **TypeScript**: 5.x
 - **Styling**: Tailwind CSS 4.x
-- **Database**: Prisma ORM 6.7.0
+- **Database**: Prisma ORM 6.7.0 (SQLite local / PostgreSQL production)
 - **AI**: Google Generative AI
 - **Animations**: Framer Motion
 - **Forms**: EmailJS, Google reCAPTCHA
-- **UI Components**: Lucide Icons, Recharts, class-variance-authority
+- **UI Components**: ShadCN UI, Lucide Icons, Recharts, class-variance-authority
+- **Testing**: Playwright E2E
 
 ## Directory Structure
 
@@ -28,18 +29,38 @@ grandpa-ron-nextjs/
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx         # Root layout
 │   ├── page.tsx           # Home page
-│   └── ...                # Other routes
+│   ├── dashboard/         # Dashboard with sidebar
+│   ├── blog/              # Blog with sidebar
+│   ├── services/          # Services with sidebar
+│   ├── locations/         # Location pages
+│   └── api/               # API routes
+├── components/            # React components
+│   ├── app-sidebar.tsx   # Main sidebar component
+│   ├── nav-main.tsx      # Navigation with active state
+│   └── ui/               # ShadCN UI components
+├── hooks/                 # Custom React hooks
+│   ├── use-breadcrumbs.ts # Dynamic breadcrumb generation
+│   └── use-active-nav.ts  # Active navigation detection
+├── lib/                   # Core utilities
+│   ├── blog.ts           # Blog data access layer
+│   └── prisma.ts         # Prisma client singleton
+├── services/             # Business logic services
+├── e2e/                   # Playwright E2E tests
+│   ├── sidebar.spec.ts   # Sidebar tests (17 tests)
+│   ├── helpers.ts        # Test utilities
+│   └── README.md         # Testing documentation
+├── prisma/                # Database schema
+│   ├── schema.prisma     # Models: Quote, Blog, Contact
+│   ├── seed.ts           # Sample data seeder
+│   └── generated/        # Generated Prisma client
+├── .growsz/              # GROWSZ registry & docs
+│   ├── registries/       # Business registries
+│   └── docs/             # Implementation docs
 ├── public/                # Static assets
-├── nextjs_space/          # Additional Next.js resources
-├── .claude/               # MCP configuration
-│   └── mcp.json          # Claude Code tools
+├── .env                   # Database URL (SQLite)
 ├── .env.local            # Environment variables (not in git)
-├── .env.local.example    # Environment template
+├── playwright.config.ts  # E2E test configuration
 ├── package.json          # Dependencies
-├── next.config.ts        # Next.js configuration
-├── tsconfig.json         # TypeScript configuration
-├── tailwind.config.js    # Tailwind configuration
-├── postcss.config.mjs    # PostCSS configuration
 └── CLAUDE.md             # This file
 ```
 
@@ -75,9 +96,16 @@ The application will be available at http://localhost:3000
 ### Available Scripts
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run start    # Start production server
+npm run dev           # Start development server
+npm run build         # Build for production
+npm run start         # Start production server
+
+# E2E Testing (Playwright)
+npm run test:e2e      # Run all E2E tests
+npm run test:e2e:ui   # Interactive UI test runner
+npm run test:e2e:headed # Run with visible browser
+npm run test:e2e:debug  # Debug mode with inspector
+npm run test:e2e:report # View last test report
 ```
 
 ## Environment Variables
@@ -260,14 +288,36 @@ app/
 
 ## Testing
 
-### Add Testing Framework (Recommended)
+### E2E Testing with Playwright
+
+Playwright is already configured. Run tests:
+
+```bash
+# Run all tests (headless)
+npm run test:e2e
+
+# Interactive UI mode - best for development
+npm run test:e2e:ui
+
+# Debug mode with Playwright Inspector
+npm run test:e2e:debug
+```
+
+**Test Coverage:**
+- Sidebar desktop functionality (17 tests)
+- Mobile sidebar (Sheet) behavior
+- Navigation and routing
+- Active state management
+- Location registry integration
+- Accessibility (ARIA, keyboard navigation)
+
+See `e2e/README.md` for comprehensive documentation.
+
+### Unit Testing (Optional)
 
 ```bash
 # Install Vitest and Testing Library
 npm install -D vitest @testing-library/react @testing-library/jest-dom
-
-# Install Playwright for E2E testing
-npm install -D @playwright/test
 ```
 
 ## Performance Optimization
@@ -309,11 +359,42 @@ npm install
 
 ## Documentation
 
+### Internal Documentation
 - **Biosphere Guide**: `../../CLAUDE.md`
+- **Sidebar Implementation**: `.growsz/docs/SIDEBAR_IMPLEMENTATION.md`
+- **E2E Testing Guide**: `e2e/README.md`
+- **Navigation Hooks**: `hooks/README.md`
+
+### External References
 - **Next.js Docs**: https://nextjs.org/docs
 - **React 19 Docs**: https://react.dev
 - **Tailwind CSS**: https://tailwindcss.com/docs
 - **Prisma Docs**: https://www.prisma.io/docs
+- **ShadCN UI**: https://ui.shadcn.com/docs
+- **Playwright**: https://playwright.dev/docs
+
+## Key Features (v2.0)
+
+### ShadCN Sidebar System
+- Icon-collapsible mode with cookie persistence
+- Dynamic location items from locationSeoRegistry
+- Active state highlighting based on current route
+- Mobile-responsive Sheet-based navigation
+
+### Navigation Hooks
+- `useBreadcrumbs()` - Dynamic breadcrumb generation with SEO schema
+- `useActiveNav()` - Route-based active state detection
+
+### Blog System
+- Prisma models: BlogPost, BlogCategory, BlogTag
+- Data access layer with typed queries
+- View count tracking, search functionality
+
+### Lead Scoring (Quote API)
+- Composite scoring (0-100)
+- Seasonal pricing adjustments
+- Competitor context capture
+- CLV estimation
 
 ## Support
 
@@ -323,4 +404,5 @@ For ecosystem-specific questions, refer to this file.
 ---
 
 **Part of the GROWSZ Biosphere**
-**Built with Next.js 16 + React 19 + TypeScript**
+**Built with Next.js 16 + React 19 + TypeScript + Playwright**
+**Last Updated: 2026-01-01 | Version 2.0.0**

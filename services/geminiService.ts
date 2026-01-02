@@ -1,6 +1,21 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { PricingItem, Quote, PropertyReport } from "../types";
 import { getPricingSummary } from "./pricingRegistry";
+import {
+  getSeasonalPricingSummary,
+  applySeasonalPricing,
+  calculateSeasonalQuoteTotals,
+  getSeasonMarketingContext,
+  type QuoteLineItemWithSeasonal
+} from "./pricingEngineService";
+import {
+  findApplicablePromotions,
+  formatPromotionDisplay,
+  type PromotionContext
+} from "./promotionEngineService";
+import {
+  getSocialProofPackage
+} from "./socialProofService";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.API_KEY });
 
@@ -114,20 +129,62 @@ export const analyzeImageForSuggestions = async (imageBase64: string): Promise<s
 };
 
 /**
+ * Enhanced quote result with seasonal and promotional context
+ */
+export interface EnhancedQuote extends Quote {
+  // Seasonal adjustments
+  seasonalContext?: {
+    season: string;
+    demandLevel: string;
+    adjustedItems: QuoteLineItemWithSeasonal[];
+    seasonalSavings: number;
+    seasonalPremium: number;
+  };
+  // Available promotions
+  promotions?: Array<{
+    name: string;
+    discount: number;
+    code?: string;
+    badge: string;
+  }>;
+  // Social proof
+  socialProof?: {
+    rating: number;
+    reviewCount: number;
+  };
+  // Original vs adjusted totals
+  originalSubtotal?: number;
+  adjustedSubtotal?: number;
+}
+
+/**
  * Generates a quote based on the transformation using the Pricing Registry.
+ * Enhanced with seasonal pricing and promotional context.
  */
 export const generateQuoteEstimation = async (
   originalImage: string,
   generatedImage: string,
-  prompt: string
-): Promise<Quote> => {
+  prompt: string,
+  options?: {
+    locationSlug?: string;
+    customerType?: 'new' | 'existing';
+    applySeasonalPricing?: boolean;
+  }
+): Promise<EnhancedQuote> => {
   try {
     const original = getBase64Data(originalImage);
     const generated = getBase64Data(generatedImage);
-    const pricingContext = getPricingSummary();
+
+    // Get enhanced pricing context with seasonality
+    const pricingContext = options?.applySeasonalPricing !== false
+      ? getSeasonalPricingSummary()
+      : getPricingSummary();
+
+    // Get current seasonal marketing context
+    const seasonalMarketingContext = getSeasonMarketingContext();
 
     const systemPrompt = `
-      You are a professional lawncare estimator.
+      You are a professional lawncare estimator for Columbus, Ohio.
       Compare the 'Before' and 'After' images and the user's request ("${prompt}") to generate a realistic quote.
 
       Use ONLY the following pricing registry for costs:
@@ -137,6 +194,8 @@ export const generateQuoteEstimation = async (
       1. Estimate quantities visually (e.g., estimate sq ft of pavers, number of plants).
       2. Be generous with labor estimates.
       3. Return a JSON object with items, subtotal, tax (8%), total, and estimatedDuration.
+      4. For each item, include a serviceId that matches our pricing registry.
+      5. Consider current season (${seasonalMarketingContext.season}) for appropriate service suggestions.
     `;
 
     const response = await ai.models.generateContent({
@@ -179,7 +238,67 @@ export const generateQuoteEstimation = async (
 
     const text = response.text;
     if (!text) throw new Error("Failed to generate quote JSON");
-    return safeJsonParse(text) as Quote;
+
+    const baseQuote = safeJsonParse(text) as Quote;
+
+    // Apply seasonal pricing if enabled (default: true)
+    if (options?.applySeasonalPricing !== false && baseQuote.items) {
+      const seasonalItems = applySeasonalPricing(baseQuote.items);
+      const seasonalTotals = calculateSeasonalQuoteTotals(seasonalItems);
+
+      // Find applicable promotions
+      const serviceIds = baseQuote.items.map(item => item.serviceId);
+      const promotionContext: PromotionContext = {
+        serviceIds,
+        locationSlug: options?.locationSlug || 'columbus',
+        customerType: options?.customerType || 'new',
+        orderValue: seasonalTotals.subtotal
+      };
+
+      const applicablePromotions = findApplicablePromotions(promotionContext);
+
+      // Get social proof
+      const socialProof = getSocialProofPackage(options?.locationSlug, serviceIds);
+
+      // Build enhanced quote
+      const enhancedQuote: EnhancedQuote = {
+        ...baseQuote,
+        // Override with seasonal totals
+        subtotal: seasonalTotals.subtotal,
+        tax: seasonalTotals.tax,
+        total: seasonalTotals.total,
+        // Add seasonal context
+        seasonalContext: {
+          season: seasonalMarketingContext.season,
+          demandLevel: seasonalItems[0]?.seasonalNote ? 'adjusted' : 'standard',
+          adjustedItems: seasonalItems,
+          seasonalSavings: seasonalTotals.totalSavings,
+          seasonalPremium: seasonalTotals.totalPremium
+        },
+        // Add promotions
+        promotions: applicablePromotions.map(p => {
+          const display = formatPromotionDisplay(p.promotion);
+          return {
+            name: p.promotion.name,
+            discount: p.discountAmount,
+            code: p.promotion.code,
+            badge: display.badge
+          };
+        }),
+        // Add social proof
+        socialProof: {
+          rating: socialProof.overallRating,
+          reviewCount: socialProof.totalReviews
+        },
+        // Track original vs adjusted
+        originalSubtotal: baseQuote.subtotal,
+        adjustedSubtotal: seasonalTotals.subtotal
+      };
+
+      return enhancedQuote;
+    }
+
+    return baseQuote;
   } catch (error) {
     console.error("Quote Generation Error:", error);
     throw new Error("Could not calculate estimate.");

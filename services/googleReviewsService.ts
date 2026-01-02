@@ -35,7 +35,7 @@ export const fetchGoogleReviews = async (): Promise<GooglePlaceDetails> => {
   // In production, this should go through a backend proxy to avoid CORS
   // For now, we'll return a structure that can be filled by a backend endpoint
   const response = await fetch(
-    `/api/reviews`,
+    `/api/google-reviews?placeId=${placeId}`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -48,19 +48,6 @@ export const fetchGoogleReviews = async (): Promise<GooglePlaceDetails> => {
   }
 
   const data = await response.json();
-
-  // Handle both API response formats
-  // New format: { success, reviews, rating, totalReviews, source }
-  // Legacy format: { result: { reviews, rating, user_ratings_total } }
-  if (data?.success) {
-    return {
-      name: 'Grandpa Ron\'s Lawns and Landscape',
-      rating: data.rating ?? 4.9,
-      user_ratings_total: data.totalReviews ?? 58,
-      reviews: data.reviews ?? []
-    };
-  }
-
   return data?.result ?? {
     name: 'Grandpa Ron\'s Lawns and Landscape',
     rating: 4.9,
