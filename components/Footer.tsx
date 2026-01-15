@@ -15,12 +15,24 @@ export const Footer: React.FC = () => {
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2.5 mb-8">
-              <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-green-900/20">
-                <Sprout size={22} />
+            <Link href="/" className="inline-block mb-8">
+              <div className="relative" style={{ width: '180px', height: '56px' }}>
+                {/* Light mode logo */}
+                <Image
+                  src="/img/logo_light.png"
+                  alt="Grandpa Ron's Logo"
+                  fill
+                  className="object-contain dark:hidden"
+                />
+                {/* Dark mode logo */}
+                <Image
+                  src="/img/logo_dark.png"
+                  alt="Grandpa Ron's Logo"
+                  fill
+                  className="object-contain hidden dark:block"
+                />
               </div>
-              <span className="text-2xl font-heading font-bold tracking-tight text-zinc-900 dark:text-white">Grandpa Ron's</span>
-            </div>
+            </Link>
             <p className="text-zinc-500 dark:text-zinc-400 max-w-md mb-8 text-lg leading-relaxed">
               Our goal is to create a customer experience and relationship that lasts generations. Founded in 2021 with Grandpa Ron's vision and values in mind.
             </p>
