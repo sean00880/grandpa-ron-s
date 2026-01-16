@@ -19,9 +19,10 @@ export interface QuoteFormData {
  * Submit quote request via EmailJS
  */
 export const submitQuoteRequest = async (data: QuoteFormData): Promise<void> => {
-  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  // Trim environment variables to handle any trailing whitespace/newlines from deployment
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim();
+  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID?.trim();
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim();
 
   if (!serviceId || !templateId || !publicKey) {
     throw new Error('EmailJS not configured. Please add credentials to .env file.');
