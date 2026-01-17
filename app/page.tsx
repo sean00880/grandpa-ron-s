@@ -6,6 +6,7 @@ import { Gallery } from "@/components/Gallery";
 import { ToolsSection } from "@/components/ToolsSection";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
 import { TailarkSection } from "@/components/TailarkSection";
+import { BlogSection } from "@/components/BlogSection";
 import Link from "next/link";
 
 const ReviewsSection = () => {
@@ -51,6 +52,7 @@ export default function HomePage() {
         <Services />
         <ToolsSection />
         <Gallery />
+        <BlogSection />
         <ReviewsSection />
         <CtaSection />
         <TailarkSection />

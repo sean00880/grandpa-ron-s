@@ -1,6 +1,3 @@
-
-import emailjs from '@emailjs/browser';
-
 export interface QuoteFormData {
   name: string;
   email: string;
@@ -16,37 +13,35 @@ export interface QuoteFormData {
 }
 
 /**
- * Submit quote request via EmailJS
+ * Submit quote request via server-side API route
+ * Uses EmailJS with private key on the server (bypasses domain whitelist issues)
  */
 export const submitQuoteRequest = async (data: QuoteFormData): Promise<void> => {
-  // Trim environment variables to handle any trailing whitespace/newlines from deployment
-  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim();
-  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID?.trim();
-  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim();
-
-  if (!serviceId || !templateId || !publicKey) {
-    throw new Error('EmailJS not configured. Please add credentials to .env file.');
-  }
-
-  // Prepare template parameters
-  const templateParams = {
-    to_name: 'Grandpa Ron\'s Team',
-    from_name: data?.name ?? 'Unknown',
-    from_email: data?.email ?? '',
-    phone: data?.phone ?? '',
-    service: data?.service ?? '',
-    property_size: data?.propertySize ?? '',
-    location: data?.location ?? '',
-    address: data?.address ?? '',
-    contact_method: data?.contactMethod ?? '',
-    preferred_date: data?.preferredDate ?? '',
-    message: data?.message ?? '',
-    submission_date: new Date().toLocaleDateString(),
-    submission_time: new Date().toLocaleTimeString(),
-  };
-
   try {
-    await emailjs.send(serviceId, templateId, templateParams, publicKey);
+    const response = await fetch('/api/send-quote', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: data?.name ?? '',
+        email: data?.email ?? '',
+        phone: data?.phone ?? '',
+        service: data?.service ?? '',
+        propertySize: data?.propertySize ?? '',
+        location: data?.location ?? '',
+        address: data?.address ?? '',
+        contactMethod: data?.contactMethod ?? '',
+        preferredDate: data?.preferredDate ?? '',
+        message: data?.message ?? '',
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('Quote API error:', errorData);
+      throw new Error(errorData.error || 'Failed to send quote request');
+    }
   } catch (error) {
     console.error('Failed to send quote request:', error);
     throw new Error('Failed to send quote request. Please try again or call us directly.');
