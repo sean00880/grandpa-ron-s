@@ -6,10 +6,10 @@ generator client {
     output   = "./generated/client"
 }
 
-// Use SQLite for local development, PostgreSQL for production
-// Set DATABASE_URL in .env.local:
-// - Local: "file:./dev.db"
-// - Production: "postgresql://user:password@host:5432/db"
+// Local: SQLite (default), Production: Configure PostgreSQL
+// DATABASE_URL examples:
+// - Local SQLite: "file:./dev.db"
+// - Production PostgreSQL: "postgresql://user:password@host:5432/db?sslmode=require"
 datasource db {
     provider = "sqlite"
     url      = env("DATABASE_URL")

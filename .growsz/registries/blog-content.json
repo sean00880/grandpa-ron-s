@@ -1,0 +1,111 @@
+{
+  "$schema": "../../.growsz/schemas/blog-registry.schema.json",
+  "_metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-01-17",
+    "author": "GROWSZ Agent OS",
+    "seoStrategy": "Local lawn care SEO targeting Ohio/Kentucky region with seasonal topic clusters"
+  },
+  "categories": [
+    {
+      "slug": "seasonal-guides",
+      "name": "Seasonal Guides",
+      "description": "Comprehensive guides for lawn care throughout the year in Ohio and Kentucky"
+    },
+    {
+      "slug": "lawn-care-tips",
+      "name": "Lawn Care Tips",
+      "description": "Expert advice for maintaining a healthy, beautiful lawn"
+    },
+    {
+      "slug": "diy-projects",
+      "name": "DIY Projects",
+      "description": "Budget-friendly landscaping projects you can do yourself"
+    },
+    {
+      "slug": "local-guides",
+      "name": "Local Guides",
+      "description": "Region-specific lawn care advice for Ohio and Kentucky homeowners"
+    }
+  ],
+  "tags": [
+    { "slug": "spring", "name": "Spring" },
+    { "slug": "summer", "name": "Summer" },
+    { "slug": "fall", "name": "Fall" },
+    { "slug": "winter", "name": "Winter" },
+    { "slug": "grass-types", "name": "Grass Types" },
+    { "slug": "mowing", "name": "Mowing" },
+    { "slug": "fertilizing", "name": "Fertilizing" },
+    { "slug": "edging", "name": "Edging" },
+    { "slug": "ohio", "name": "Ohio" },
+    { "slug": "kentucky", "name": "Kentucky" },
+    { "slug": "weed-control", "name": "Weed Control" },
+    { "slug": "soil-health", "name": "Soil Health" }
+  ],
+  "posts": [
+    {
+      "slug": "spring-lawn-preparation-guide",
+      "title": "Complete Spring Lawn Preparation Guide for Ohio & Kentucky",
+      "excerpt": "Get your lawn ready for the growing season with our comprehensive spring preparation checklist. Expert tips from Grandpa Ron's 40+ years of experience.",
+      "coverImage": "/img/grass.jpg",
+      "author": "Grandpa Ron",
+      "categorySlug": "seasonal-guides",
+      "tagSlugs": ["spring", "fertilizing", "weed-control", "ohio", "kentucky"],
+      "readTime": 8,
+      "seo": {
+        "metaTitle": "Spring Lawn Preparation Guide 2026 | Ohio & Kentucky Lawn Care",
+        "metaDescription": "Complete spring lawn preparation checklist for Ohio and Kentucky homeowners. Learn when to fertilize, dethatch, and apply pre-emergent. Expert tips from local pros.",
+        "keywords": "spring lawn care ohio, lawn preparation kentucky, spring fertilizer schedule, pre-emergent herbicide timing, dethatching lawn spring"
+      },
+      "content": "## Why Spring Lawn Care Matters in Ohio & Kentucky\n\nAfter a long Ohio winter, your lawn needs some TLC to bounce back strong. Spring is the perfect time to set your lawn up for success throughout the growing season. Here in the Ohio Valley, we typically see soil temperatures reach the critical 55°F threshold by mid-March to early April.\n\n## Step 1: Clean Up Winter Debris\n\nStart by removing any fallen branches, leaves, and debris that accumulated over winter. This allows your grass to breathe and receive sunlight.\n\n**Pro Tip from Grandpa Ron:** Walk your property on a dry day after the last frost. Look for matted grass areas—these can develop snow mold if not addressed.\n\n## Step 2: Rake and Dethatch Your Lawn\n\nLight raking helps remove thatch buildup and stimulates grass growth. Be gentle to avoid damaging new growth.\n\n**When to Dethatch:**\n- If thatch layer exceeds ½ inch\n- Best done when grass is actively growing\n- For Ohio/Kentucky: Late April to early May\n\n## Step 3: Test Your Soil\n\nA soil test tells you exactly what nutrients your lawn needs. Most Ohio and Kentucky lawns benefit from lime applications to balance pH levels.\n\n**Local Insight:** Ohio State University Extension offers affordable soil testing. Kentucky homeowners can use the University of Kentucky Cooperative Extension.\n\n## Step 4: Apply Pre-Emergent Herbicide\n\nApply pre-emergent herbicide before soil temperatures reach 55°F consistently. This prevents crabgrass and other weeds from taking hold.\n\n**Timing for Our Region:**\n- Cincinnati area: March 15-April 1\n- Columbus area: March 20-April 5\n- Lexington area: March 10-March 25\n\n## Step 5: Fertilize at the Right Time\n\nWait until your lawn is actively growing before applying fertilizer. Early spring fertilization can encourage weed growth.\n\n**Best Practice:** Apply a balanced fertilizer (like 20-5-10) once grass has been mowed 2-3 times.\n\n## Step 6: Overseed Bare Spots\n\nSpring is an excellent time for seeding cool-season grasses in Kentucky and Ohio.\n\n**Best Grass Seed Mixes for Our Region:**\n- Kentucky Bluegrass (primary)\n- Tall Fescue (drought-tolerant areas)\n- Perennial Ryegrass (quick germination)\n\n## Step 7: Service Your Mower\n\nBefore the first cut, sharpen your mower blade and change the oil. A dull blade tears grass, creating brown tips and inviting disease.\n\n## Need Professional Help?\n\nContact Grandpa Ron's Lawncare for professional spring cleanup and preparation services. We've been serving Ohio and Kentucky families for over 40 years. Our team knows exactly what your lawn needs to thrive in our unique climate.\n\n**Services include:**\n- Spring cleanup and debris removal\n- Core aeration\n- Dethatching\n- Fertilizer application\n- Pre-emergent weed treatment\n- Overseeding and bare spot repair"
+    },
+    {
+      "slug": "best-grass-types-kentucky",
+      "title": "Best Grass Types for Ohio & Kentucky Lawns in 2026",
+      "excerpt": "Discover which grass varieties thrive in Ohio and Kentucky's climate and how to choose the right one for your yard. Complete guide with pros, cons, and care tips.",
+      "coverImage": "/img/IMG_1960.JPG",
+      "author": "Grandpa Ron",
+      "categorySlug": "lawn-care-tips",
+      "tagSlugs": ["grass-types", "ohio", "kentucky", "soil-health"],
+      "readTime": 6,
+      "seo": {
+        "metaTitle": "Best Grass Types for Ohio & Kentucky Lawns 2026 | Expert Guide",
+        "metaDescription": "Find the perfect grass for your Ohio or Kentucky lawn. Compare Kentucky Bluegrass, Tall Fescue, and Perennial Ryegrass. Local expert recommendations.",
+        "keywords": "best grass type ohio, kentucky bluegrass lawn, tall fescue ohio, grass seed kentucky, cool season grass ohio valley"
+      },
+      "content": "## Understanding Ohio & Kentucky's Climate for Grass Selection\n\nOhio and Kentucky sit in the transition zone between warm and cool-season grasses, which means we have unique challenges—and opportunities—when choosing lawn grass. Our humid summers, cold winters, and variable rainfall create the perfect environment for cool-season grasses.\n\n## Top 5 Grass Types for Our Region\n\n### 1. Kentucky Bluegrass (Poa pratensis)\n\n**Best For:** Full sun lawns, high-traffic areas, premium appearance\n\n**Pros:**\n- Beautiful dark green color\n- Self-repairing through rhizomes\n- Cold-hardy for Ohio winters\n- Dense growth chokes out weeds\n\n**Cons:**\n- Requires more water than other varieties\n- Slow to establish from seed\n- Goes dormant in summer drought\n\n**Care Level:** Moderate to High\n\n**Grandpa Ron's Take:** \"Kentucky Bluegrass is the gold standard for a reason. If you're willing to put in the work, nothing looks better in a Cincinnati or Lexington front yard.\"\n\n### 2. Tall Fescue (Festuca arundinacea)\n\n**Best For:** Low-maintenance lawns, partial shade, drought-prone areas\n\n**Pros:**\n- Deep root system (drought tolerant)\n- Handles shade better than bluegrass\n- Low fertilizer requirements\n- Stays green longer in summer\n\n**Cons:**\n- Bunch-type growth (doesn't spread)\n- Can look coarse compared to bluegrass\n- Requires overseeding to fill gaps\n\n**Care Level:** Low to Moderate\n\n**Best Varieties for 2026:** Titan Rx, Regenerate, Raptor II\n\n### 3. Perennial Ryegrass (Lolium perenne)\n\n**Best For:** Quick establishment, overseeding, high-traffic sports areas\n\n**Pros:**\n- Germinates in 5-7 days\n- Fine texture, dark green color\n- Excellent wear tolerance\n- Perfect for overseeding bare spots\n\n**Cons:**\n- Shallow roots (drought sensitive)\n- Less cold-hardy than bluegrass\n- Won't spread to fill gaps\n\n**Care Level:** Moderate\n\n### 4. Fine Fescues (Creeping Red, Chewings, Hard)\n\n**Best For:** Deep shade, low-maintenance areas, slopes\n\n**Pros:**\n- Best shade tolerance of cool-season grasses\n- Very low fertilizer needs\n- Drought tolerant once established\n- Fine, soft texture\n\n**Cons:**\n- Doesn't handle heavy foot traffic\n- Can thin out in full sun\n- May require specialized care\n\n**Care Level:** Low\n\n### 5. Grass Seed Blends (Our Top Recommendation)\n\n**Best For:** Most Ohio and Kentucky lawns\n\n**Why Blends Work Best:**\nA quality blend combines the strengths of multiple grass types. For our region, look for:\n- 50-60% Kentucky Bluegrass\n- 30-40% Tall Fescue\n- 10-20% Perennial Ryegrass\n\n## Choosing Based on Your Yard Conditions\n\n| Condition | Best Choice |\n|-----------|-------------|\n| Full Sun (6+ hours) | Kentucky Bluegrass or KBG/Fescue blend |\n| Partial Shade (4-6 hours) | Tall Fescue or Fine Fescue blend |\n| Deep Shade (under 4 hours) | Fine Fescues |\n| High Traffic (kids, pets) | Perennial Ryegrass + Kentucky Bluegrass |\n| Drought-Prone / No Irrigation | Tall Fescue |\n| Premium Appearance | Kentucky Bluegrass (pure or dominant blend) |\n\n## When to Plant in Ohio & Kentucky\n\n**Fall (Best Time):** September 1 - October 15\n- Soil still warm for germination\n- Cooler air reduces stress on seedlings\n- Fewer weed competition\n\n**Spring (Second Best):** April 15 - May 15\n- Apply pre-emergent 6-8 weeks before seeding\n- Be ready to water frequently\n\n## Need Help Choosing?\n\nGrandpa Ron's Lawncare offers free lawn consultations. We'll assess your soil, sun exposure, and usage patterns to recommend the perfect grass type for your property. Call us at (220) 666-2520 or request a quote online."
+    },
+    {
+      "slug": "diy-garden-bed-edging",
+      "title": "DIY Garden Bed Edging Ideas: 12 Budget-Friendly Projects",
+      "excerpt": "Transform your garden beds with these creative and budget-friendly edging projects you can do yourself. Step-by-step instructions with local material sourcing tips.",
+      "coverImage": "/img/IMG_1974.JPG",
+      "author": "Grandpa Ron",
+      "categorySlug": "diy-projects",
+      "tagSlugs": ["edging", "spring", "summer"],
+      "readTime": 10,
+      "seo": {
+        "metaTitle": "12 DIY Garden Bed Edging Ideas 2026 | Budget-Friendly Projects",
+        "metaDescription": "Create beautiful garden bed edges on a budget. 12 DIY edging projects with step-by-step instructions. Tips for Ohio and Kentucky soil conditions.",
+        "keywords": "diy garden edging ideas, cheap garden border, lawn edging diy, flower bed edging ohio, landscape edging ideas budget"
+      },
+      "content": "## Why Garden Bed Edging Matters\n\nClean garden bed edges do more than look great—they prevent grass from invading your flower beds, reduce maintenance time, and increase your home's curb appeal. Here are 12 DIY edging projects ranging from free to under $100.\n\n## Budget-Friendly Edging Ideas\n\n### 1. Trench Edging (FREE)\n\n**Cost:** Free (just labor)\n**Difficulty:** Easy\n**Time:** 1-2 hours per 20 feet\n\n**How to Create:**\n1. Use a half-moon edger or flat shovel\n2. Cut a 4-6 inch deep V-shaped trench\n3. Angle the bed-side wall at 45 degrees\n4. Remove grass and debris from trench\n\n**Grandpa Ron's Tip:** \"This is what we used back in the day, and it's still the cleanest look. Just re-cut edges twice a year in spring and fall.\"\n\n### 2. Recycled Brick Edging ($0-50)\n\n**Cost:** Free if salvaged, $0.50-1.00 per brick new\n**Difficulty:** Easy\n**Time:** 2-3 hours per 20 feet\n\n**How to Create:**\n1. Dig a trench 4 inches deep, width of brick + 1 inch\n2. Add 1 inch of sand for leveling\n3. Set bricks end-to-end or at 45-degree angle\n4. Tap into place with rubber mallet\n\n**Local Tip:** Check Facebook Marketplace in Columbus, Cincinnati, and Lexington for free salvaged bricks from demolitions.\n\n### 3. Natural Stone Border ($20-80)\n\n**Cost:** $20-80 depending on stone type\n**Difficulty:** Easy\n**Time:** 2-4 hours per 20 feet\n\n**Ohio/Kentucky Stone Options:**\n- Fieldstone (often free from farmers)\n- Ohio limestone ($30-50 per project)\n- River rock from local suppliers\n\n### 4. Steel Landscape Edging ($40-80)\n\n**Cost:** $40-80 for 20 feet\n**Difficulty:** Moderate\n**Time:** 2-3 hours per 20 feet\n\n**Pros:** Clean modern look, lasts 20+ years, easy curves\n**Cons:** Requires cutting, can be sharp during installation\n\n**Installation Tips:**\n1. Use heavy gloves—steel edges are sharp\n2. Overlap connectors 6 inches minimum\n3. Drive stakes every 4 feet and at connections\n\n### 5. Wood Log Edging ($0-30)\n\n**Cost:** Free with fallen logs, $20-30 for cedar\n**Difficulty:** Easy\n**Time:** 1-2 hours per 20 feet\n\n**Best Woods for Our Climate:**\n- Cedar (rot-resistant, 10-15 years)\n- Black locust (extremely durable)\n- Avoid pine without treatment\n\n### 6. Concrete Paver Edge ($50-100)\n\n**Cost:** $50-100 for 20 feet\n**Difficulty:** Moderate\n**Time:** 3-4 hours per 20 feet\n\n**Modern Options:**\n- Tumbled pavers (antique look)\n- Bullnose pavers (smooth curves)\n- Interlocking styles (easy install)\n\n### 7. Plastic Pound-In Edging ($15-30)\n\n**Cost:** $15-30 for 20 feet\n**Difficulty:** Very Easy\n**Time:** 30 minutes - 1 hour per 20 feet\n\n**Best For:** Quick solutions, rental properties\n**Note:** Less durable than other options (3-5 years)\n\n### 8. Mulch Moat Edging (FREE)\n\n**Cost:** Free (uses existing mulch)\n**Difficulty:** Easy\n**Time:** 1 hour per 20 feet\n\nCreate a 3-4 inch \"moat\" of mulch between lawn and beds. Re-apply mulch annually.\n\n### 9. Aluminum Edging ($60-100)\n\n**Cost:** $60-100 for 20 feet\n**Difficulty:** Moderate\n**Time:** 2-3 hours per 20 feet\n\n**Pros:** Never rusts, professional look, tight curves possible\n\n### 10. Woven Willow/Branch Border ($0-20)\n\n**Cost:** Free with yard materials, $20 for purchased willow\n**Difficulty:** Moderate (requires weaving skill)\n**Time:** 4-6 hours per 20 feet\n\n**Cottage Garden Style:** Creates a charming, rustic look perfect for Ohio farmhouse aesthetics.\n\n### 11. Concrete Curb (Poured) ($80-150)\n\n**Cost:** $80-150 for 20 feet\n**Difficulty:** Advanced\n**Time:** Full day project\n\n**Permanent Solution:** Lasts 30+ years with proper installation\n\n### 12. Rubber Mulch Border ($40-70)\n\n**Cost:** $40-70 for 20 feet\n**Difficulty:** Very Easy\n**Time:** 30 minutes per 20 feet\n\n**Eco-Friendly:** Made from recycled tires, won't decompose\n\n## Tools You'll Need\n\n**Basic Edging Kit:**\n- Half-moon edger or flat spade\n- Rubber mallet\n- Level (4-foot)\n- Garden stakes and string\n- Work gloves\n\n## When to Edge in Ohio & Kentucky\n\n**Best Times:**\n- **Spring (April-May):** Ideal—soil is workable, grass hasn't spread\n- **Fall (September-October):** Good for preparation before winter\n\n**Avoid:** Frozen ground (winter), extremely wet soil (early spring)\n\n## Professional Edging Services\n\nNot ready for a DIY project? Grandpa Ron's Lawncare offers professional edging installation and maintenance. We can create clean, lasting edges that require minimal upkeep.\n\n**Our edging services include:**\n- Consultation on best materials for your style\n- Professional installation\n- Annual edge maintenance programs\n- Mulch and bed renovation"
+    },
+    {
+      "slug": "lawn-mowing-height-guide",
+      "title": "The Ultimate Lawn Mowing Height Guide for Ohio & Kentucky",
+      "excerpt": "Learn the optimal mowing heights for different grass types and seasons to keep your lawn healthy. Plus: the one-third rule explained.",
+      "coverImage": "/img/IMG_1971.JPG",
+      "author": "Grandpa Ron",
+      "categorySlug": "lawn-care-tips",
+      "tagSlugs": ["mowing", "grass-types", "summer", "ohio", "kentucky"],
+      "readTime": 5,
+      "seo": {
+        "metaTitle": "Lawn Mowing Height Guide 2026 | Ohio & Kentucky Grass Types",
+        "metaDescription": "Optimal mowing heights for Kentucky Bluegrass, Tall Fescue, and more. Seasonal adjustments for Ohio and Kentucky lawns. The one-third rule explained.",
+        "keywords": "lawn mowing height ohio, grass cutting height guide, how tall to cut kentucky bluegrass, best mowing height summer, tall fescue mowing height"
+      },
+      "content": "## Why Mowing Height Matters\n\nMowing at the correct height is one of the most important—and most often ignored—aspects of lawn care. Cut too short, and you stress your grass, invite weeds, and create a patchy lawn. Cut too high, and your lawn looks unkempt and can develop thatch problems.\n\n## The One-Third Rule\n\n**Never remove more than one-third of the grass blade in a single mowing.**\n\nThis rule prevents stress on your lawn and keeps it healthy. Here's what that looks like:\n\n| If You Want This Height | Mow When Grass Reaches |\n|------------------------|------------------------|\n| 2.5 inches | 3.75 inches |\n| 3 inches | 4.5 inches |\n| 3.5 inches | 5.25 inches |\n| 4 inches | 6 inches |\n\n## Optimal Heights by Grass Type\n\n### Kentucky Bluegrass\n\n**Recommended Height:** 2.5 - 3.5 inches\n\n| Season | Height | Why |\n|--------|--------|-----|\n| Spring | 2.5-3\" | Encourages density |\n| Summer | 3-3.5\" | Shades roots, retains moisture |\n| Fall | 2.5-3\" | Prepares for winter |\n| Last Mow | 2-2.5\" | Prevents snow mold |\n\n### Tall Fescue\n\n**Recommended Height:** 3 - 4 inches\n\n| Season | Height | Why |\n|--------|--------|-----|\n| Spring | 3\" | Promotes tillering |\n| Summer | 3.5-4\" | Deep roots = drought survival |\n| Fall | 3\" | Prepares for dormancy |\n\n**Grandpa Ron's Tip:** \"Tall fescue's deep roots are its superpower. Keep it taller in summer, and you won't need to water as often.\"\n\n### Perennial Ryegrass\n\n**Recommended Height:** 2 - 3 inches\n\n- More tolerant of shorter cuts\n- Maintain 2.5\" for dense, dark green appearance\n- Don't cut below 1.5\" or you'll weaken the plant\n\n### Fine Fescues\n\n**Recommended Height:** 2.5 - 4 inches\n\n- Can be left unmowed for natural meadow look\n- For manicured appearance, keep at 2.5-3\"\n\n## Seasonal Mowing Guide for Ohio & Kentucky\n\n### Spring (April - May)\n\n**Start mowing when grass reaches 3-4 inches**\n\n1. First mow: Remove no more than 1/3\n2. Gradually lower height over 2-3 mowings\n3. Target: 2.5-3\" for most lawns\n\n### Summer (June - August)\n\n**Raise your mower deck!**\n\n- Increase height by 0.5-1 inch\n- Taller grass shades soil, reducing water needs\n- Never mow during drought stress\n\n**Summer Heat Advisory:** When temps exceed 90°F for multiple days, consider skipping a mowing session rather than stressing your lawn.\n\n### Fall (September - October)\n\n**Return to spring heights**\n\n- Gradually lower mowing height\n- Keep up with falling leaves\n- Last mow: Drop to 2-2.5\" to prevent snow mold\n\n### Winter (November - March)\n\n**No mowing needed in Ohio/Kentucky**\n\n- Grass goes dormant below 50°F\n- Avoid walking on frozen grass\n\n## Common Mowing Mistakes\n\n### 1. Scalping the Lawn\n\n**Problem:** Cutting more than 1/3 of blade, exposing soil\n**Solution:** Raise mower deck, mow more frequently\n\n### 2. Mowing Wet Grass\n\n**Problems:**\n- Uneven cut\n- Clumps that smother grass\n- Disease spread\n- Slipping hazard\n\n**Solution:** Wait until grass is dry (late morning best)\n\n### 3. Dull Mower Blades\n\n**Problem:** Tears grass instead of cutting, brown tips\n**Solution:** Sharpen blades every 8-10 mowing hours\n\n### 4. Same Pattern Every Time\n\n**Problem:** Soil compaction, grass leans one direction\n**Solution:** Alternate mowing direction each time\n\n## Mowing Frequency by Season\n\n| Season | Ohio/Kentucky Frequency |\n|--------|------------------------|\n| Spring (peak growth) | Every 4-5 days |\n| Early Summer | Every 5-7 days |\n| Mid-Summer (heat) | Every 7-10 days |\n| Fall | Every 5-7 days |\n\n## Should You Bag or Mulch Clippings?\n\n**Mulch (leave clippings) in most cases:**\n- Returns nitrogen to soil\n- Reduces fertilizer needs by 25%\n- Saves time\n\n**Bag when:**\n- Grass is diseased\n- Clippings are excessive (wet or overgrown)\n- You're seeding (clippings can smother seed)\n\n## Professional Mowing Services\n\nGrandpa Ron's Lawncare offers weekly and bi-weekly mowing services throughout Ohio and Kentucky. Our crews are trained in proper mowing height and techniques for our regional grass types.\n\n**What's included:**\n- Proper height adjustment for season\n- Sharp blade cutting\n- Mulching or bagging (your choice)\n- Edging and trimming\n- Debris cleanup"
+    }
+  ]
+}

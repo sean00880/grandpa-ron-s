@@ -23,25 +23,30 @@ export interface GetAllPostsOptions {
 export async function getAllPosts(
   options?: GetAllPostsOptions
 ): Promise<BlogPostWithRelations[]> {
-  const { limit, status } = options ?? {};
+  try {
+    const { limit, status } = options ?? {};
 
-  const posts = await prisma.blogPost.findMany({
-    where: status ? { status } : undefined,
-    take: limit,
-    orderBy: {
-      publishedAt: 'desc',
-    },
-    include: {
-      category: true,
-      tags: {
-        include: {
-          tag: true,
+    const posts = await prisma.blogPost.findMany({
+      where: status ? { status } : undefined,
+      take: limit,
+      orderBy: {
+        publishedAt: 'desc',
+      },
+      include: {
+        category: true,
+        tags: {
+          include: {
+            tag: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return posts;
+    return posts;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
 }
 
 /**
@@ -52,19 +57,24 @@ export async function getAllPosts(
 export async function getPostBySlug(
   slug: string
 ): Promise<BlogPostWithRelations | null> {
-  const post = await prisma.blogPost.findUnique({
-    where: { slug },
-    include: {
-      category: true,
-      tags: {
-        include: {
-          tag: true,
+  try {
+    const post = await prisma.blogPost.findUnique({
+      where: { slug },
+      include: {
+        category: true,
+        tags: {
+          include: {
+            tag: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return post;
+    return post;
+  } catch (error) {
+    console.error('Error fetching post by slug:', error);
+    return null;
+  }
 }
 
 /**
@@ -75,27 +85,32 @@ export async function getPostBySlug(
 export async function getPostsByCategory(
   categorySlug: string
 ): Promise<BlogPostWithRelations[]> {
-  const posts = await prisma.blogPost.findMany({
-    where: {
-      category: {
-        slug: categorySlug,
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: {
+        category: {
+          slug: categorySlug,
+        },
+        status: 'published',
       },
-      status: 'published',
-    },
-    orderBy: {
-      publishedAt: 'desc',
-    },
-    include: {
-      category: true,
-      tags: {
-        include: {
-          tag: true,
+      orderBy: {
+        publishedAt: 'desc',
+      },
+      include: {
+        category: true,
+        tags: {
+          include: {
+            tag: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return posts;
+    return posts;
+  } catch (error) {
+    console.error('Error fetching posts by category:', error);
+    return [];
+  }
 }
 
 /**
@@ -103,13 +118,18 @@ export async function getPostsByCategory(
  * @returns Array of all blog categories
  */
 export async function getAllCategories(): Promise<BlogCategory[]> {
-  const categories = await prisma.blogCategory.findMany({
-    orderBy: {
-      name: 'asc',
-    },
-  });
+  try {
+    const categories = await prisma.blogCategory.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
 
-  return categories;
+    return categories;
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
 }
 
 /**
@@ -117,13 +137,18 @@ export async function getAllCategories(): Promise<BlogCategory[]> {
  * @returns Array of all blog tags
  */
 export async function getAllTags(): Promise<BlogTag[]> {
-  const tags = await prisma.blogTag.findMany({
-    orderBy: {
-      name: 'asc',
-    },
-  });
+  try {
+    const tags = await prisma.blogTag.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
 
-  return tags;
+    return tags;
+  } catch (error) {
+    console.error('Error fetching tags:', error);
+    return [];
+  }
 }
 
 /**
@@ -131,14 +156,18 @@ export async function getAllTags(): Promise<BlogTag[]> {
  * @param postId - The ID of the post to increment views for
  */
 export async function incrementViewCount(postId: string): Promise<void> {
-  await prisma.blogPost.update({
-    where: { id: postId },
-    data: {
-      viewCount: {
-        increment: 1,
+  try {
+    await prisma.blogPost.update({
+      where: { id: postId },
+      data: {
+        viewCount: {
+          increment: 1,
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.error('Error incrementing view count:', error);
+  }
 }
 
 /**
@@ -149,31 +178,36 @@ export async function incrementViewCount(postId: string): Promise<void> {
 export async function getPostsByTag(
   tagSlug: string
 ): Promise<BlogPostWithRelations[]> {
-  const posts = await prisma.blogPost.findMany({
-    where: {
-      tags: {
-        some: {
-          tag: {
-            slug: tagSlug,
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: {
+        tags: {
+          some: {
+            tag: {
+              slug: tagSlug,
+            },
+          },
+        },
+        status: 'published',
+      },
+      orderBy: {
+        publishedAt: 'desc',
+      },
+      include: {
+        category: true,
+        tags: {
+          include: {
+            tag: true,
           },
         },
       },
-      status: 'published',
-    },
-    orderBy: {
-      publishedAt: 'desc',
-    },
-    include: {
-      category: true,
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
-    },
-  });
+    });
 
-  return posts;
+    return posts;
+  } catch (error) {
+    console.error('Error fetching posts by tag:', error);
+    return [];
+  }
 }
 
 /**
@@ -184,27 +218,32 @@ export async function getPostsByTag(
 export async function searchPosts(
   query: string
 ): Promise<BlogPostWithRelations[]> {
-  const posts = await prisma.blogPost.findMany({
-    where: {
-      OR: [
-        { title: { contains: query } },
-        { content: { contains: query } },
-        { excerpt: { contains: query } },
-      ],
-      status: 'published',
-    },
-    orderBy: {
-      publishedAt: 'desc',
-    },
-    include: {
-      category: true,
-      tags: {
-        include: {
-          tag: true,
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: {
+        OR: [
+          { title: { contains: query } },
+          { content: { contains: query } },
+          { excerpt: { contains: query } },
+        ],
+        status: 'published',
+      },
+      orderBy: {
+        publishedAt: 'desc',
+      },
+      include: {
+        category: true,
+        tags: {
+          include: {
+            tag: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return posts;
+    return posts;
+  } catch (error) {
+    console.error('Error searching posts:', error);
+    return [];
+  }
 }
