@@ -20,8 +20,8 @@
  *   - Sub-surface tabs fixed at bottom (mobile nav)
  */
 
-import { useEffect, useState, type ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
+import { type ReactNode } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   SidebarProvider,
@@ -30,6 +30,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
+import { SurfaceHeader } from '@growsz/arcorc-layout';
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -108,45 +109,49 @@ function LayoutSocketInner({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-  const sidebar = useSidebar();
-  const isSidebarOpen = sidebar.open;
+  const router = useRouter();
+
+  // Determine active tab from pathname (prefix matching for deep nesting)
+  const activeTabId = surfaceTabs?.reduce<string | null>((best, tab) => {
+    if (pathname === tab.href) return tab.id;
+    if (tab.href !== '/' && tab.href !== '/dashboard' && pathname.startsWith(tab.href)) {
+      // Prefer longer prefix match (deeper nesting)
+      const bestTab = surfaceTabs.find(t => t.id === best);
+      if (!bestTab || tab.href.length > bestTab.href.length) return tab.id;
+    }
+    return best;
+  }, null) ?? surfaceTabs?.[0]?.id ?? '';
 
   return (
     <div className="flex flex-col h-screen">
-      {/* ═══ Surface Header (sticky at top of main — always visible) ═══ */}
-      <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur-sm shrink-0">
-        {/* Row 1: Surface title + trigger */}
-        <div className="flex h-11 items-center gap-2 px-4">
+      {/* ═══ Surface Header (sticky — uses arcorc-layout SurfaceHeader for tabs) ═══ */}
+      <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm shrink-0" style={{ viewTransitionName: 'surface-header' }}>
+        {/* Row 1: Sidebar trigger + title */}
+        <div className="flex h-11 items-center gap-2 px-4 border-b">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
           <span className="text-sm font-semibold">{surfaceTitle}</span>
         </div>
 
-        {/* Row 2: Surface tabs (only when sidebar collapsed on desktop) */}
+        {/* Row 2: Surface tabs (deep nesting aware — uses prefix matching) */}
         {surfaceTabs && surfaceTabs.length > 0 && (
-          <nav className="hidden md:flex items-center gap-1 px-4 pb-2">
-            {surfaceTabs.map((tab) => {
-              const isActive = pathname === tab.href || (tab.href !== '/dashboard' && pathname.startsWith(tab.href));
-              return (
-                <Link
-                  key={tab.id}
-                  href={tab.href}
-                  className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
-                    isActive
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                  }`}
-                >
-                  {tab.label}
-                </Link>
-              );
-            })}
-          </nav>
+          <div className="hidden md:block">
+            <SurfaceHeader
+              title=""
+              tabs={surfaceTabs.map(t => ({ id: t.id, label: t.label }))}
+              activeTab={activeTabId}
+              onTabChange={(tabId) => {
+                const tab = surfaceTabs.find(t => t.id === tabId);
+                if (tab) router.push(tab.href);
+              }}
+              className="border-b"
+            />
+          </div>
         )}
       </header>
 
       {/* ═══ Main Content (scrollable, fills remaining space) ═══ */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto" style={{ viewTransitionName: 'main-content' }}>
         {children}
       </main>
 

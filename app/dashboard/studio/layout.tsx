@@ -17,7 +17,7 @@
  * as stateless interaction layers over one canonical WCG Core.
  */
 
-import { useState, useMemo, useCallback, createContext, useContext, type ReactNode } from 'react';
+import { useState, useMemo, useCallback, type ReactNode } from 'react';
 import { useSurfaceTab } from '@growsz/arcorc-layout';
 import {
   WCGStore,
@@ -29,6 +29,19 @@ import {
   type WCGMutationResult,
   type InterfaceOrigin,
 } from '@growsz/wcg-core';
+import {
+  StudioContext,
+  type StudioContextValue,
+  type StudioMode,
+  type ProjectView,
+  type SidebarTab,
+  type RenderTab,
+} from './studio-context';
+
+// NOTE: Do NOT add named exports here. Next.js App Router layout files
+// must only export: default, metadata, viewport, generateMetadata,
+// generateViewport, runtime, revalidate, dynamic, fetchCache, dynamicParams.
+// Import useStudio and types from './studio-context' instead.
 
 // ---------------------------------------------------------------------------
 // Canonical Core — Singleton (LAW-WCG-002: only core owns state)
@@ -64,50 +77,10 @@ wcgStore.subscribe((e) => {
 });
 
 // ---------------------------------------------------------------------------
-// Studio Context — Shared across all Studio components
-// ---------------------------------------------------------------------------
-
-export type StudioMode = 'regular' | 'dev';
-export type ProjectView = 'core' | 'cms' | 'pipelines' | 'workflows' | 'automations';
-export type SidebarTab = 'files' | 'chat' | 'tasks';
-export type RenderTab = 'code' | 'preview';
-
-interface StudioContextValue {
-  // Mode & navigation
-  mode: StudioMode;
-  setMode: (m: StudioMode) => void;
-  projectView: ProjectView;
-  setProjectView: (v: ProjectView) => void;
-  sidebarTab: SidebarTab;
-  setSidebarTab: (t: SidebarTab) => void;
-  renderTab: RenderTab;
-  setRenderTab: (t: RenderTab) => void;
-  sidebarCollapsed: boolean;
-  toggleSidebar: () => void;
-
-  // Canonical core (read-only access)
-  wcg: WCGStore;
-  snapshot: WCGSnapshot;
-  refreshSnapshot: () => void;
-  hyperList: HyperListStore;
-  dualLane: DualLaneExecutor;
-
-  // Mutation API (the ONLY way to change state)
-  applyMutation: (mutation: WCGMutation) => WCGMutationResult;
-  createBuilder: (origin: InterfaceOrigin) => MutationBuilder;
-}
-
-const StudioContext = createContext<StudioContextValue | null>(null);
-
-export function useStudio(): StudioContextValue {
-  const ctx = useContext(StudioContext);
-  if (!ctx) throw new Error('useStudio must be used within StudioLayout');
-  return ctx;
-}
-
-// ---------------------------------------------------------------------------
 // Layout
 // ---------------------------------------------------------------------------
+
+const MAX_UNDO_HISTORY = 50;
 
 export default function StudioLayout({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<StudioMode>('dev');
@@ -116,15 +89,43 @@ export default function StudioLayout({ children }: { children: ReactNode }) {
   const [renderTab, setRenderTab] = useState<RenderTab>('code');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [snapshot, setSnapshot] = useState<WCGSnapshot>(wcgStore.exportSnapshot());
+  const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
+
+  // Undo/redo: track mutation history as snapshots
+  const [undoStack, setUndoStack] = useState<WCGSnapshot[]>([]);
+  const [redoStack, setRedoStack] = useState<WCGSnapshot[]>([]);
 
   const refreshSnapshot = useCallback(() => setSnapshot(wcgStore.exportSnapshot()), []);
   const toggleSidebar = useCallback(() => setSidebarCollapsed(p => !p), []);
 
   const applyMutation = useCallback((mutation: WCGMutation) => {
+    // Save current state to undo stack before applying
+    const currentSnap = wcgStore.exportSnapshot();
+    setUndoStack(prev => [...prev.slice(-(MAX_UNDO_HISTORY - 1)), currentSnap]);
+    setRedoStack([]); // Clear redo on new mutation
+
     const result = wcgStore.applyMutation(mutation);
     refreshSnapshot();
     return result;
   }, [refreshSnapshot]);
+
+  const undo = useCallback(() => {
+    if (undoStack.length === 0) return;
+    const prevSnap = undoStack[undoStack.length - 1];
+    setRedoStack(prev => [...prev, wcgStore.exportSnapshot()]);
+    setUndoStack(prev => prev.slice(0, -1));
+    wcgStore.loadSnapshot(prevSnap);
+    refreshSnapshot();
+  }, [undoStack, refreshSnapshot]);
+
+  const redo = useCallback(() => {
+    if (redoStack.length === 0) return;
+    const nextSnap = redoStack[redoStack.length - 1];
+    setUndoStack(prev => [...prev, wcgStore.exportSnapshot()]);
+    setRedoStack(prev => prev.slice(0, -1));
+    wcgStore.loadSnapshot(nextSnap);
+    refreshSnapshot();
+  }, [redoStack, refreshSnapshot]);
 
   const createBuilder = useCallback((origin: InterfaceOrigin) =>
     new MutationBuilder(origin, { scope_id: 'grandpa-ron' }), []);
@@ -133,11 +134,16 @@ export default function StudioLayout({ children }: { children: ReactNode }) {
     mode, setMode, projectView, setProjectView,
     sidebarTab, setSidebarTab, renderTab, setRenderTab,
     sidebarCollapsed, toggleSidebar,
+    selectedPageId, setSelectedPageId,
     wcg: wcgStore, snapshot, refreshSnapshot,
     hyperList, dualLane,
     applyMutation, createBuilder,
+    undo, redo,
+    canUndo: undoStack.length > 0,
+    canRedo: redoStack.length > 0,
   }), [mode, projectView, sidebarTab, renderTab, sidebarCollapsed, snapshot,
-       toggleSidebar, refreshSnapshot, applyMutation, createBuilder]);
+       selectedPageId, undoStack.length, redoStack.length,
+       toggleSidebar, refreshSnapshot, applyMutation, createBuilder, undo, redo]);
 
   return (
     <StudioContext value={value}>

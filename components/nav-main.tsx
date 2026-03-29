@@ -3,7 +3,7 @@
 import { ChevronRight, type LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useTransition } from "react"
 
 import {
   Collapsible,
@@ -38,10 +38,23 @@ export function NavMain({
 }) {
   const { isActive, isActiveGroup, hasActiveChild, currentPath } = useActiveNav()
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+
+  // Optimistic path — shows instant highlight before route resolves
+  const [optimisticPath, setOptimisticPath] = useState<string | null>(null)
 
   // Track manual toggle overrides (cleared on route change)
   const [manualOverrides, setManualOverrides] = useState<Record<string, boolean | undefined>>({})
-  useEffect(() => { setManualOverrides({}) }, [currentPath])
+  useEffect(() => {
+    setManualOverrides({})
+    setOptimisticPath(null) // Clear optimistic state when route settles
+  }, [currentPath])
+
+  // Optimistic navigation — instant visual feedback
+  const navigateOptimistic = (href: string) => {
+    setOptimisticPath(href)
+    startTransition(() => { router.push(href) })
+  }
 
   return (
     <SidebarGroup>
@@ -74,10 +87,8 @@ export function NavMain({
                       tooltip={item.title}
                       isActive={groupIsActive}
                       onClick={() => {
-                        // Navigate to first sub-item's URL (supports both ?tab= and legacy #)
                         const firstSubUrl = item.items![0]?.url ?? item.url
-                        router.push(firstSubUrl)
-                        // Open the submenu
+                        navigateOptimistic(firstSubUrl)
                         setManualOverrides(prev => ({ ...prev, [item.title]: true }))
                       }}
                     >
@@ -95,27 +106,26 @@ export function NavMain({
                         {item.items!.map((subItem) => {
                           const hasQueryParam = subItem.url.includes('?')
                           const hasHash = subItem.url.includes('#')
+                          // Deep nesting: if no sibling has exact match but this item is the
+                          // parent path prefix, highlight it (e.g., /blog active on /blog/post-slug)
+                          const isSubActive = optimisticPath === subItem.url || isActive(subItem.url) || (
+                            !hasQueryParam && !hasHash &&
+                            currentPath.startsWith(subItem.url + '/') &&
+                            !item.items!.some(s => s.url !== subItem.url && currentPath.startsWith(s.url))
+                          )
                           return (
                             <SidebarMenuSubItem key={subItem.title}>
                               <SidebarMenuSubButton
                                 asChild
-                                isActive={isActive(subItem.url)}
+                                isActive={isSubActive}
                               >
                                 <Link
                                   href={subItem.url}
-                                  onClick={hasQueryParam ? (e) => {
-                                    // For ?tab= URLs on the same base path, use router.push to avoid full reload
-                                    const [basePath] = subItem.url.split('?')
+                                  onClick={(hasQueryParam || hasHash) ? (e) => {
+                                    const [basePath] = subItem.url.split(/[?#]/)
                                     if (window.location.pathname === basePath) {
                                       e.preventDefault()
-                                      router.push(subItem.url)
-                                    }
-                                  } : hasHash ? (e) => {
-                                    // Legacy hash URLs: set hash directly when on same page
-                                    const [basePath, hash] = subItem.url.split('#')
-                                    if (window.location.pathname === basePath) {
-                                      e.preventDefault()
-                                      window.location.hash = hash
+                                      navigateOptimistic(subItem.url)
                                     }
                                   } : undefined}
                                 >

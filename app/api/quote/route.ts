@@ -17,6 +17,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/orcbase';
+import { validateRequest } from '@/lib/auth';
 import {
   generateQuoteContext,
   validateQuotePromoCode,
@@ -68,6 +69,10 @@ function calculateFollowUpDate(priority: string, urgency?: string): Date {
 
 export async function POST(request: NextRequest) {
   try {
+    // Optional auth: capture user identity when available (public forms still work)
+    const session = await validateRequest(request);
+    const submittedBy = session?.subject_id ?? null;
+
     const body = await request.json();
 
     const {
@@ -170,6 +175,9 @@ export async function POST(request: NextRequest) {
       usedAudit,
       pageViewCount,
       isReturnVisit,
+
+      // Identity (SIWX — optional, captured when user is authenticated)
+      ...(submittedBy ? { assignedTo: submittedBy } : {}),
 
       // Pricing Context
       estimatedValue: quoteContext.leadScore.clvEstimate.firstYearValue,

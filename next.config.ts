@@ -2,7 +2,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // JIT resolution for @growsz/* workspace packages (LAW-PKG-001)
+  // pnpm workspace packages — resolved via workspace:* + transpilePackages
   transpilePackages: ['@growsz/wcg-core', '@growsz/core', '@growsz/dbity-runtime', '@growsz/orcbase-core', '@growsz/dbity-core', '@growsz/arcorc-layout'],
   experimental: {
     viewTransition: true,

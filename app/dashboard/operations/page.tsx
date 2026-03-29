@@ -24,7 +24,7 @@ export default function OperationsPage() {
         titleColor="#f97316"
         tabs={OPS_TABS}
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={setActiveTab as (tabId: string) => void}
         rightContent={
           <span className="text-[10px] text-muted-foreground/50">
             {operationsConfig.crews.length} crews

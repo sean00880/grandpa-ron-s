@@ -3,11 +3,15 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/orcbase';
+import { validateRequest } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
+    // Optional auth: capture user identity when available
+    const session = await validateRequest(request);
+
     const body = await request.json();
-    
+
     const { name, email, subject, message } = body;
 
     // Validate required fields

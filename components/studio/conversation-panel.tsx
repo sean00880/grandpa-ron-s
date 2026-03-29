@@ -18,7 +18,7 @@
  */
 
 import { useState, useRef, useCallback } from 'react';
-import { useStudio } from '@/app/dashboard/studio/layout';
+import { useStudio } from '@/app/dashboard/studio/studio-context';
 import { MutationBuilder } from '@growsz/wcg-core';
 
 // ---------------------------------------------------------------------------

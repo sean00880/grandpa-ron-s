@@ -9,7 +9,7 @@
  * Tasks: HyperList items (active/pending/completed with subtasks + steps)
  */
 
-import { useStudio, type SidebarTab } from '@/app/dashboard/studio/layout';
+import { useStudio, type SidebarTab } from '@/app/dashboard/studio/studio-context';
 
 const SIDEBAR_TABS: Array<{ id: SidebarTab; label: string }> = [
   { id: 'files', label: 'Files' },

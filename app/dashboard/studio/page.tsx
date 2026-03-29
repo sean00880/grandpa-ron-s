@@ -18,8 +18,9 @@
  * No interface owns state. All mutations via MutationBuilder.
  */
 
-import { useState } from 'react';
-import { useStudio } from './layout';
+import React, { useState } from 'react';
+import { useStudio } from './studio-context';
+import type { WCGNodeId } from '@growsz/wcg-core';
 import { StudioTopBar } from '@/components/studio/studio-top-bar';
 import { WorkspaceSidebar } from '@/components/studio/workspace-sidebar';
 import { ConversationPanel } from '@/components/studio/conversation-panel';
@@ -68,14 +69,19 @@ export default function StudioPage() {
 // ---------------------------------------------------------------------------
 
 function CMSView() {
-  const { snapshot, applyMutation, createBuilder } = useStudio();
+  const { snapshot, applyMutation, createBuilder, undo, redo, canUndo, canRedo, selectedPageId, setSelectedPageId } = useStudio();
   const pages = Object.values(snapshot.nodes).filter(n => n.type === 'page');
   const layouts = Object.values(snapshot.nodes).filter(n => n.type === 'layout');
   const components = Object.values(snapshot.nodes).filter(n => n.type === 'component');
   const blocks = Object.values(snapshot.nodes).filter(n => n.type === 'block');
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
-  const [selectedPageId, setSelectedPageId] = useState<string | null>(pages[0]?.id ?? null);
-  const selectedNode = selectedNodeId ? snapshot.nodes[selectedNodeId] : null;
+  // snapshot.nodes is keyed by WCGNodeId (a branded string). Cast is safe
+  // because selectedNodeId was set from node IDs returned by the WCG store.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const selectedNode = selectedNodeId ? (snapshot.nodes as any)[selectedNodeId] : null;
+
+  // Set default page on first render
+  if (!selectedPageId && pages.length > 0) setSelectedPageId(pages[0].id);
 
   const handleAddPage = () => {
     const builder = createBuilder('cms');
@@ -95,7 +101,7 @@ function CMSView() {
       type: blockType === 'integration' ? 'component' : 'block',
       name: `${blockType}-${Date.now().toString(36)}`,
       display_name: displayName,
-      parent_id: selectedPageId,
+      parent_id: selectedPageId as WCGNodeId,
       props: { block_type: blockType, ...extraProps },
     }));
     if (result.status === 'applied' && result.affected_nodes[0]) setSelectedNodeId(result.affected_nodes[0]);
@@ -110,6 +116,62 @@ function CMSView() {
       applyMutation(builder.updateProps(selectedNode.id, { ...selectedNode.props, [key]: value }));
     }
   };
+
+  const handleDeleteBlock = () => {
+    if (!selectedNode) return;
+    const builder = createBuilder('cms');
+    applyMutation(builder.deleteNode(selectedNode.id));
+    setSelectedNodeId(null);
+  };
+
+  const handleDuplicateBlock = () => {
+    if (!selectedNode || !selectedPageId) return;
+    const builder = createBuilder('cms');
+    const result = applyMutation(builder.createNode({
+      type: selectedNode.type as any,
+      name: `${selectedNode.name}-copy-${Date.now().toString(36)}`,
+      display_name: `${selectedNode.display_name ?? selectedNode.name} (copy)`,
+      parent_id: selectedPageId as WCGNodeId,
+      props: { ...selectedNode.props },
+    }));
+    if (result.status === 'applied' && result.affected_nodes[0]) setSelectedNodeId(result.affected_nodes[0]);
+  };
+
+  const handleMoveBlock = (blockId: string, direction: 'up' | 'down') => {
+    if (!selectedPageId) return;
+    const children = Object.values(snapshot.nodes).filter(n => n.parent_id === selectedPageId);
+    const idx = children.findIndex(n => n.id === blockId);
+    if (idx === -1) return;
+    const targetIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (targetIdx < 0 || targetIdx >= children.length) return;
+    const builder = createBuilder('cms');
+    applyMutation(builder.updateProps(blockId as WCGNodeId, {
+      ...(snapshot.nodes as Record<string, typeof snapshot.nodes[WCGNodeId]>)[blockId]?.props,
+      _order: targetIdx,
+    }));
+    applyMutation(builder.updateProps(children[targetIdx].id, {
+      ...children[targetIdx]?.props,
+      _order: idx,
+    }));
+  };
+
+  // Keyboard shortcuts
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey) {
+        if (e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+        if (e.key === 'z' && e.shiftKey) { e.preventDefault(); redo(); }
+        if (e.key === 'd' && selectedNode) { e.preventDefault(); handleDuplicateBlock(); }
+      }
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (selectedNode && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+          e.preventDefault(); handleDeleteBlock();
+        }
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  });
 
   // Blocks that belong to selected page
   const pageChildren = selectedPageId
@@ -212,7 +274,13 @@ function CMSView() {
             <div className="flex items-center gap-2 mb-4">
               <span className="rounded bg-purple-500/20 px-2 py-0.5 text-[10px] font-semibold text-purple-400">{selectedNode.type}</span>
               <span className="text-sm font-medium text-foreground/80">{selectedNode.display_name ?? selectedNode.name}</span>
-              <span className="ml-auto text-[10px] text-muted-foreground/30">v{selectedNode.version}</span>
+              <div className="ml-auto flex items-center gap-1">
+                <button onClick={() => handleMoveBlock(selectedNode.id, 'up')} className="rounded p-1 text-muted-foreground/50 hover:bg-muted hover:text-foreground" title="Move up">▲</button>
+                <button onClick={() => handleMoveBlock(selectedNode.id, 'down')} className="rounded p-1 text-muted-foreground/50 hover:bg-muted hover:text-foreground" title="Move down">▼</button>
+                <button onClick={handleDuplicateBlock} className="rounded p-1 text-muted-foreground/50 hover:bg-muted hover:text-cyan-400" title="Duplicate (Cmd+D)">⧉</button>
+                <button onClick={handleDeleteBlock} className="rounded p-1 text-muted-foreground/50 hover:bg-muted hover:text-red-400" title="Delete (Del)">✕</button>
+                <span className="text-[10px] text-muted-foreground/30 ml-1">v{selectedNode.version}</span>
+              </div>
             </div>
 
             {/* Editable properties */}

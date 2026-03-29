@@ -17,7 +17,7 @@ export default function CommercePage() {
 
   return (
     <div className="flex flex-col flex-1 h-[calc(100vh-7rem)]">
-      <SurfaceHeader title="COMMERCE" titleColor="#22c55e" tabs={COMMERCE_TABS} activeTab={activeTab} onTabChange={setActiveTab} />
+      <SurfaceHeader title="COMMERCE" titleColor="#22c55e" tabs={COMMERCE_TABS} activeTab={activeTab} onTabChange={setActiveTab as (tabId: string) => void} />
       <div className="flex-1 overflow-y-auto p-4">
         {activeTab === 'revenue' && (
           <div className="grid gap-4 md:grid-cols-3">

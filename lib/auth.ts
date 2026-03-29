@@ -34,11 +34,22 @@ const SESSION_CONFIG: SessionManagerConfig = {
   refresh_window_seconds: 3600,
 };
 
-// Singleton session manager + store
-const sessionStore = new InMemorySessionStore();
-const sessionManager = createLocalSessionManager(SESSION_CONFIG, sessionStore);
+// Lazy-init session manager (avoid instantiation at build time)
+let _sessionManager: ReturnType<typeof createLocalSessionManager> | null = null;
 
-export { sessionManager };
+function getSessionManager() {
+  if (!_sessionManager) {
+    const store = new InMemorySessionStore();
+    _sessionManager = createLocalSessionManager(SESSION_CONFIG, store);
+  }
+  return _sessionManager;
+}
+
+export const sessionManager = new Proxy({} as ReturnType<typeof createLocalSessionManager>, {
+  get(_, prop) {
+    return (getSessionManager() as any)[prop];
+  },
+});
 export type { Session };
 
 /**

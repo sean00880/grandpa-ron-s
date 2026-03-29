@@ -11,7 +11,7 @@
  */
 
 import { useState } from 'react';
-import { useStudio } from '@/app/dashboard/studio/layout';
+import { useStudio } from '@/app/dashboard/studio/studio-context';
 
 interface AgentCard {
   id: string;

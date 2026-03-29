@@ -65,7 +65,7 @@ export default function CRMPage() {
         titleColor="#8b5cf6"
         tabs={CRM_TABS}
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={setActiveTab as (tabId: string) => void}
         rightContent={
           <span className="text-[10px] text-muted-foreground/50">
             {data?.quotes.length ?? 0} leads · {stages.length} stages

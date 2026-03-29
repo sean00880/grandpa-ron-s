@@ -17,7 +17,7 @@ export default function MarketingPage() {
 
   return (
     <div className="flex flex-col flex-1 h-[calc(100vh-7rem)]">
-      <SurfaceHeader title="MARKETING" titleColor="#ec4899" tabs={MARKETING_TABS} activeTab={activeTab} onTabChange={setActiveTab} />
+      <SurfaceHeader title="MARKETING" titleColor="#ec4899" tabs={MARKETING_TABS} activeTab={activeTab} onTabChange={setActiveTab as (tabId: string) => void} />
       <div className="flex-1 overflow-y-auto p-4">
         {activeTab === 'campaigns' && (
           <div className="grid gap-3 md:grid-cols-2">

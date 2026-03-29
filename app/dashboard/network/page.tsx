@@ -16,7 +16,7 @@ export default function NetworkPage() {
 
   return (
     <div className="flex flex-col flex-1 h-[calc(100vh-7rem)]">
-      <SurfaceHeader title="NETWORK" titleColor="#06b6d4" tabs={NETWORK_TABS} activeTab={activeTab} onTabChange={setActiveTab} />
+      <SurfaceHeader title="NETWORK" titleColor="#06b6d4" tabs={NETWORK_TABS} activeTab={activeTab} onTabChange={setActiveTab as (tabId: string) => void} />
       <div className="flex-1 overflow-y-auto p-4">
         {activeTab === 'partners' && (
           <div className="space-y-3">

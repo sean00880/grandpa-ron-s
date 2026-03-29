@@ -35,17 +35,34 @@ export interface InboxMessage {
   sent_at: string;
 }
 
+export type ChannelProvider = 'gmail' | 'smtp' | 'manual';
+
 export interface EmailChannel {
   id: string;
-  workspace_id: string;
-  type: 'gmail_sync' | 'domain_email' | 'shared_inbox' | 'automated';
+  workspace_id?: string;
+  /** OAuth/SMTP provider type */
+  provider: ChannelProvider;
+  /** Primary email address for this channel */
+  email: string;
   display_name: string;
-  email_address: string;
   is_default: boolean;
-  sync_status: 'pending' | 'active' | 'error' | 'paused';
-  provider_config: Record<string, unknown>;
+  /** Current connectivity status */
+  status: 'active' | 'disconnected' | 'error';
+  connected_at: string;
+  // OAuth token fields (Gmail only)
+  access_token: string | null;
+  refresh_token: string | null;
+  token_expires_at: string | null;
+  // SMTP config fields (smtp provider only)
+  smtp_host: string | null;
+  smtp_port: number | null;
+  /** @deprecated Legacy fields kept for backwards compat with seeded channel */
+  type?: 'gmail_sync' | 'domain_email' | 'shared_inbox' | 'automated';
+  email_address?: string;
+  sync_status?: 'pending' | 'active' | 'error' | 'paused';
+  provider_config?: Record<string, unknown>;
   last_sync_at?: string;
-  created_at: string;
+  created_at?: string;
 }
 
 class InboxStore {
@@ -135,10 +152,20 @@ export const inboxStore = new InboxStore();
 inboxStore.addChannel({
   id: 'ch-default',
   workspace_id: 'grandpa-ron',
-  type: 'automated',
+  provider: 'manual',
+  email: 'info@grandparons.com',
   display_name: 'System Email',
-  email_address: 'info@grandparons.com',
   is_default: true,
+  status: 'active',
+  connected_at: new Date().toISOString(),
+  access_token: null,
+  refresh_token: null,
+  token_expires_at: null,
+  smtp_host: null,
+  smtp_port: null,
+  // Legacy fields for backwards compat
+  type: 'automated',
+  email_address: 'info@grandparons.com',
   sync_status: 'active',
   provider_config: { provider: 'emailjs' },
   created_at: new Date().toISOString(),

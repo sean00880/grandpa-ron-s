@@ -311,3 +311,45 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+/* ═══ View Transitions (WebDevOS Frontend Suite) ═══ */
+
+/* Sidebar active state morph — smooth highlight transition */
+::view-transition-old(sidebar-active),
+::view-transition-new(sidebar-active) {
+  animation-duration: 120ms;
+  animation-timing-function: ease-in-out;
+}
+
+/* Main content cross-fade between surfaces */
+::view-transition-old(main-content) {
+  animation: vt-fade-out 150ms ease-in forwards;
+}
+::view-transition-new(main-content) {
+  animation: vt-fade-in 200ms ease-out;
+}
+
+/* Surface header tab morph */
+::view-transition-old(surface-header),
+::view-transition-new(surface-header) {
+  animation-duration: 100ms;
+  animation-timing-function: ease;
+}
+
+@keyframes vt-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(4px); }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Respect user motion preference */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+  }
+}
