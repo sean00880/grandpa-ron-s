@@ -16,7 +16,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { db } from '@/lib/orcbase';
 import {
   generateQuoteContext,
   validateQuotePromoCode,
@@ -146,47 +146,45 @@ export async function POST(request: NextRequest) {
     };
 
     // Save enhanced quote to database
-    const quote = await prisma.quote.create({
-      data: {
-        // Core fields
-        name,
-        email,
-        phone,
-        address,
-        propertySize,
-        services: serviceArray.join(','), // SQLite: comma-separated string
-        additionalInfo: additionalInfo || null,
-        urgency: urgency || 'flexible',
-        status: 'pending',
+    const quote = await db.quotes.create({
+      // Core fields
+      name,
+      email,
+      phone,
+      address,
+      propertySize,
+      services: serviceArray.join(','), // SQLite: comma-separated string
+      additionalInfo: additionalInfo || null,
+      urgency: urgency || 'flexible',
+      status: 'pending',
 
-        // Lead Scoring
-        leadScore: quoteContext.leadScore.totalScore,
-        leadPriority: quoteContext.priority,
-        locationSlug,
-        customerType,
-        source,
+      // Lead Scoring
+      leadScore: quoteContext.leadScore.totalScore,
+      leadPriority: quoteContext.priority,
+      locationSlug,
+      customerType,
+      source,
 
-        // Engagement
-        usedAIPlanner,
-        usedAudit,
-        pageViewCount,
-        isReturnVisit,
+      // Engagement
+      usedAIPlanner,
+      usedAudit,
+      pageViewCount,
+      isReturnVisit,
 
-        // Pricing Context
-        estimatedValue: quoteContext.leadScore.clvEstimate.firstYearValue,
-        seasonalModifier: quoteContext.seasonalContext.pricingAdjustment,
-        promoCode: validatedPromoCode,
-        promoDiscount: promoDiscount > 0 ? promoDiscount : null,
+      // Pricing Context
+      estimatedValue: quoteContext.leadScore.clvEstimate.firstYearValue,
+      seasonalModifier: quoteContext.seasonalContext.pricingAdjustment,
+      promoCode: validatedPromoCode,
+      promoDiscount: promoDiscount > 0 ? promoDiscount : null,
 
-        // Business Intelligence
-        clvFirstYear: quoteContext.leadScore.clvEstimate.firstYearValue,
-        clvThreeYear: quoteContext.leadScore.clvEstimate.threeYearValue,
-        competitorContext: JSON.stringify(competitorSnapshot), // SQLite: JSON string
+      // Business Intelligence
+      clvFirstYear: quoteContext.leadScore.clvEstimate.firstYearValue,
+      clvThreeYear: quoteContext.leadScore.clvEstimate.threeYearValue,
+      competitorContext: JSON.stringify(competitorSnapshot), // SQLite: JSON string
 
-        // Follow-up
-        recommendedAction: quoteContext.recommendedFollowUp,
-        followUpDue
-      }
+      // Follow-up
+      recommendedAction: quoteContext.recommendedFollowUp,
+      followUpDue,
     });
 
     // Determine if immediate notification is needed
@@ -264,16 +262,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const quote = await prisma.quote.findUnique({
-      where: { id: quoteId },
-      select: {
-        id: true,
-        status: true,
-        createdAt: true,
-        leadPriority: true,
-        recommendedAction: true
-      }
-    });
+    const quote = await db.quotes.findUnique({ id: quoteId });
 
     if (!quote) {
       return NextResponse.json(

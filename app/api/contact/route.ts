@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { db } from '@/lib/orcbase';
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,14 +19,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Save to database
-    const contact = await prisma.contactSubmission.create({
-      data: {
-        name,
-        email,
-        subject: subject || null,
-        message,
-        status: 'new',
-      },
+    const contact = await db.contacts.create({
+      name,
+      email,
+      subject: subject || null,
+      message,
+      status: 'new',
     });
 
     return NextResponse.json({

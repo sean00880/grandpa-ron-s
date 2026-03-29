@@ -1,13 +1,61 @@
-# Grandpa Ron Next.js - Ecosystem Instructions
+# Grandpa Ron's — WorkGun + WebDevOS Ecosystem
 
-> **Last Updated**: 2026-01-01
-> **Version**: 2.0.0
-> **Status**: Production-Ready with E2E Testing
-> **Ecosystem**: Grandpa Ron Next.js Application
+> **Last Updated**: 2026-03-29
+> **Version**: 3.0.0
+> **Status**: Production-Ready with WebDevOS Integration
+> **Ecosystem**: @growsz/grandpa-ron (ecosystems/grandpa-ron-nextjs)
+> **Product**: WorkGun (Business Operations) + WebDevOS (Ecosystem Builder)
+> **Canonical Spec**: docs/arch/GRANDPA_RON_WEBDEVOS_INTEGRATION.md
 
-## What is Grandpa Ron?
+## What is Grandpa Ron's?
 
-**Grandpa Ron** is a Next.js-based application ecosystem within the GROWSZ Biosphere. This project uses Next.js 16, React 19, and modern web technologies to deliver a high-performance web application.
+**Grandpa Ron's** is the first **WorkGun** ecosystem — a field service management platform built on **WebDevOS**. It demonstrates the full GROWSZ product stack:
+
+```
+Grandpa Ron's (ecosystem — C2 consumer)
+  → WorkGun (business operations platform)
+    → WebDevOS (workspace development OS)
+      → ArcOrc (frontend suite: LayoutSocket, SurfaceHeader, Studio shell)
+      → TryLLM (agent suite: AgentOS, SPBVG, expertise systems)
+      → Backend Trinity (Dbity engine + Orcbase adapter + SIWX auth)
+```
+
+## Architecture (WebDevOS v1.0)
+
+### Frontend Suite (ArcOrc)
+- **LayoutSocket**: Centralized layout for all sidebar surfaces (blog, services, dashboard)
+- **SurfaceHeader**: Reusable route-specific tabs per Mission Control surface
+- **Studio Shell**: AI Core + CMS + Dev Mode with dedicated layout
+- **Theme**: Fully theme-aware via ShadCN CSS variables (0 hardcoded colors)
+
+### Backend Suite (Trinity)
+- **Orcbase**: All data access via `lib/orcbase.ts` — zero direct Prisma imports
+- **Dbity**: Dual-adapter (Prisma local ↔ Dbity production, controlled by DBITY_MODE)
+- **SIWX**: Auth ready (entitlements.ts reads workgun-entitlements.json per tier)
+
+### Agent Suite (TryLLM)
+- **WCG Core**: 12 files, ~3,500 LOC — composition graph + enforcement
+- **Knowledge Feed**: Multi-model generation (38 SSOT models from model-catalog.json)
+- **Workspace Context**: Business identity + preferences + rotating topics
+
+### Mission Control (8 surfaces with SurfaceHeader)
+| Surface | Tabs | Data Source |
+|---------|------|-------------|
+| Overview | — | Orcbase (real Prisma data) |
+| Studio | Core/CMS/Pipelines/Workflows/Automations | WCGStore |
+| Insights | Feed/Lead/Customer/Business/Industry | InsightsStore + Gemini |
+| CRM | Pipeline/Contacts/Invoices/Automations/Activity | Orcbase |
+| Operations | Schedule/Dispatch/Crews/Fleet/Timeline | workspaceContext |
+| Marketing | Campaigns/SEO/Reviews/Referrals/Social | registries |
+| Network | Partners/Listings/Integrations/Referrals | — |
+| Commerce | Revenue/Invoices/Subscriptions/Payouts/Promos | Stripe |
+
+### WorkGun Entitlements
+Feature gating via `.growsz/registries/product/workgun-entitlements.json`:
+- Free ($0): CRM pipeline, 50 contacts
+- Starter ($29): + Insights, Operations, Commerce
+- Professional ($79): All surfaces including Studio
+- Enterprise: White-label, SSO, unlimited
 
 ### Tech Stack
 

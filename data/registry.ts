@@ -9,7 +9,8 @@ import { serviceRegistry, type Service } from './serviceRegistry';
 import { projectRegistry, type Project } from './projectRegistry';
 import { teamRegistry, type TeamMember } from './teamRegistry';
 import { faqRegistry, type FAQ } from './faqRegistry';
-import { testimonials, type Testimonial } from './testimonials';
+import { testimonials } from './testimonials';
+import type { Testimonial } from '../types';
 import type { Location, PricingItem } from '../types';
 
 // ============================================
@@ -210,7 +211,7 @@ export const getNearbyLocations = (slug: string, limit?: number) => locationRegi
 // Services
 export const getServiceBySlug = (slug: string) => serviceRegistry.getServiceBySlug(slug);
 export const getAllServices = () => serviceRegistry.getAllServices();
-export const getServicesByCategory = (category: string) => serviceRegistry.getServicesByCategory(category);
+export const getServicesByCategory = (category: string) => serviceRegistry.getServicesByCategory(category as any);
 
 // Projects
 export const getProjectById = (id: string) => projectRegistry.getProjectById(id);
@@ -218,7 +219,7 @@ export const getFeaturedProjects = () => projectRegistry.getFeaturedProjects();
 export const getProjectsByService = (serviceSlug: string) => projectRegistry.getProjectsByService(serviceSlug);
 
 // FAQs
-export const getFAQsByCategory = (category: string) => faqRegistry.getFAQsByCategory(category);
+export const getFAQsByCategory = (category: string) => faqRegistry.getFAQsByCategory(category as any);
 export const getFAQsByService = (serviceSlug: string) => faqRegistry.getFAQsByService(serviceSlug);
 
 // Team

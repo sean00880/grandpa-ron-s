@@ -1,11 +1,28 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
+import { LayoutSocket } from "@/components/layout-socket"
 import { cookies } from "next/headers"
+
+/**
+ * Dashboard Layout — Uses centralized LayoutSocket.
+ *
+ * Surface tabs: Overview, Studio, Insights, CRM, Operations, Marketing, Network, Commerce
+ * These appear sticky in the main header when sidebar is collapsed.
+ * When sidebar is expanded, they move into the sidebar (handled by AppSidebar).
+ *
+ * Sub-surface tabs: Used by child routes (e.g., Studio has Core/CMS/Pipelines).
+ * These are always visible on desktop and become mobile bottom nav.
+ */
+
+const SURFACE_TABS = [
+  { id: 'overview', label: 'Overview', href: '/dashboard' },
+  { id: 'studio', label: 'Studio', href: '/dashboard/studio' },
+  { id: 'insights', label: 'Insights', href: '/dashboard/insights' },
+  { id: 'crm', label: 'CRM', href: '/dashboard/crm' },
+  { id: 'operations', label: 'Operations', href: '/dashboard/operations' },
+  { id: 'marketing', label: 'Marketing', href: '/dashboard/marketing' },
+  { id: 'network', label: 'Network', href: '/dashboard/network' },
+  { id: 'commerce', label: 'Commerce', href: '/dashboard/commerce' },
+]
 
 export default async function DashboardLayout({
   children,
@@ -16,25 +33,13 @@ export default async function DashboardLayout({
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
 
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <span className="text-sm font-medium text-muted-foreground">
-              Dashboard
-            </span>
-          </div>
-        </header>
-        <main className="flex flex-1 flex-col">
-          {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <LayoutSocket
+      surfaceTitle="Mission Control"
+      surfaceTabs={SURFACE_TABS}
+      sidebar={<AppSidebar />}
+      defaultOpen={defaultOpen}
+    >
+      {children}
+    </LayoutSocket>
   )
 }

@@ -12,7 +12,8 @@ import {
   type MonthlyForecast,
   type Season
 } from '@/.growsz/registries';
-import { pricingRegistry, getPricingSummary, type PricingItem } from './pricingRegistry';
+import { pricingRegistry, getPricingSummary } from './pricingRegistry';
+import type { PricingItem } from '../types';
 
 export interface SeasonalPriceResult {
   originalPrice: number;

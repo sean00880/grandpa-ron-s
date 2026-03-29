@@ -164,7 +164,7 @@ export const Header: React.FC = () => {
                 </Link>
                 {isDashboard && user?.avatar && (
                    <div className="flex items-center gap-2 pl-2 border-l border-gray-200 dark:border-gray-700">
-                       <Image src={user?.avatar ?? ''} alt="" className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700" />
+                       <Image src={user?.avatar ?? ''} alt="" width={32} height={32} className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700" />
                    </div>
                 )}
               </div>
@@ -257,7 +257,7 @@ export const Header: React.FC = () => {
                    <div className="space-y-3">
                       {user?.avatar && (
                         <div className="flex items-center gap-3 mb-4">
-                           <Image src={user.avatar} alt="" className="w-10 h-10 rounded-full" />
+                           <Image src={user.avatar} alt="" width={40} height={40} className="w-10 h-10 rounded-full" />
                            <div>
                               <p className="font-bold text-zinc-900 dark:text-white">{user.name}</p>
                               <p className="text-xs text-zinc-500">{user.email}</p>

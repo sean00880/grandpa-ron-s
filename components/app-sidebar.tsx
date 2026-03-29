@@ -10,6 +10,15 @@ import {
   Scissors,
   Sprout,
   Users,
+  LayoutDashboard,
+  BarChart3,
+  Code2,
+  Lightbulb,
+  UserCircle,
+  Truck,
+  Megaphone,
+  Network,
+  ShoppingCart,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -20,8 +29,10 @@ import {
   SidebarContent,
   SidebarHeader,
   SidebarRail,
+  SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { locationSeoRegistry } from "@/.growsz/registries/locationSeoRegistry"
+import { usePathname } from "next/navigation"
 
 // Get top priority locations from registry (limit to 5)
 const getTopLocations = () => {
@@ -44,7 +55,85 @@ const getTopLocations = () => {
   }))
 }
 
-// Grandpa Ron's Lawncare navigation data
+// Dashboard surface menu (with submenus per item)
+const dashboardSurfaceNav = [
+  {
+    title: "Overview",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+    items: [],
+  },
+  {
+    title: "Studio",
+    url: "/dashboard/studio",
+    icon: Code2,
+    items: [
+      { title: "AI Core", url: "/dashboard/studio?tab=core" },
+      { title: "CMS", url: "/dashboard/studio?tab=cms" },
+      { title: "Pipelines", url: "/dashboard/studio?tab=pipelines" },
+      { title: "Workflows", url: "/dashboard/studio?tab=workflows" },
+      { title: "Automations", url: "/dashboard/studio?tab=automations" },
+    ],
+  },
+  {
+    title: "Insights",
+    url: "/dashboard/insights",
+    icon: Lightbulb,
+    items: [
+      { title: "Knowledge Feed", url: "/dashboard/insights?tab=feed" },
+      { title: "Lead Insights", url: "/dashboard/insights?tab=leads" },
+      { title: "Customer Insights", url: "/dashboard/insights?tab=customers" },
+    ],
+  },
+  {
+    title: "CRM",
+    url: "/dashboard/crm",
+    icon: UserCircle,
+    items: [
+      { title: "Pipeline", url: "/dashboard/crm?tab=pipeline" },
+      { title: "Contacts", url: "/dashboard/crm?tab=contacts" },
+      { title: "Invoices", url: "/dashboard/crm?tab=invoices" },
+    ],
+  },
+  {
+    title: "Operations",
+    url: "/dashboard/operations",
+    icon: Truck,
+    items: [
+      { title: "Schedule", url: "/dashboard/operations?tab=schedule" },
+      { title: "Dispatch", url: "/dashboard/operations?tab=dispatch" },
+    ],
+  },
+  {
+    title: "Marketing",
+    url: "/dashboard/marketing",
+    icon: Megaphone,
+    items: [
+      { title: "Campaigns", url: "/dashboard/marketing" },
+      { title: "SEO", url: "/dashboard/marketing" },
+    ],
+  },
+  {
+    title: "Network",
+    url: "/dashboard/network",
+    icon: Network,
+    items: [
+      { title: "Partners", url: "/dashboard/network" },
+      { title: "Listings", url: "/dashboard/network" },
+    ],
+  },
+  {
+    title: "Commerce",
+    url: "/dashboard/commerce",
+    icon: ShoppingCart,
+    items: [
+      { title: "Revenue", url: "/dashboard/commerce" },
+      { title: "Stripe", url: "/dashboard/commerce" },
+    ],
+  },
+]
+
+// Grandpa Ron's global navigation data
 const data = {
   teams: [
     {
@@ -175,12 +264,23 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname()
+  const isDashboard = pathname.startsWith('/dashboard')
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
+        {/* Surface menu (above global nav) — only on dashboard routes */}
+        {isDashboard && (
+          <>
+            <NavMain items={dashboardSurfaceNav} />
+            <SidebarSeparator />
+          </>
+        )}
+        {/* Global navigation */}
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>

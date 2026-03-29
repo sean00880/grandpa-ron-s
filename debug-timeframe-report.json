@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-01-03T21:57:45.499Z",
+  "containerInfo": {
+    "found": true,
+    "container": {
+      "tag": "DIV",
+      "className": "relative w-full overflow-hidden rounded-lg",
+      "id": "",
+      "width": 1170.666748046875,
+      "height": 550,
+      "selector": ".relative.w-full.overflow-hidden.rounded-lg"
+    },
+    "canvas": {
+      "width": 300,
+      "height": 150,
+      "actualWidth": 300,
+      "actualHeight": 150
+    },
+    "allCanvases": [
+      {
+        "width": 300,
+        "height": 150,
+        "parent": "relative w-full overflow-hidden rounded-lg"
+      }
+    ]
+  },
+  "before": {
+    "container": {
+      "className": "relative w-full overflow-hidden rounded-lg",
+      "width": 1170.666748046875,
+      "height": 550,
+      "top": 276,
+      "left": 603.6666870117188,
+      "display": "block",
+      "position": "relative",
+      "overflow": "hidden",
+      "flexGrow": "0",
+      "flexShrink": "1"
+    },
+    "canvas": {
+      "width": 300,
+      "height": 150,
+      "actualWidth": 300,
+      "actualHeight": 150,
+      "top": 276,
+      "left": 603.6666870117188,
+      "position": "static"
+    },
+    "timestamp": 1767477462759
+  },
+  "after": {
+    "container": {
+      "className": "relative w-full overflow-hidden rounded-lg",
+      "width": 1170.666748046875,
+      "height": 550,
+      "top": 276,
+      "left": 603.6666870117188,
+      "display": "block",
+      "position": "relative",
+      "overflow": "hidden",
+      "flexGrow": "0",
+      "flexShrink": "1"
+    },
+    "canvas": {
+      "width": 300,
+      "height": 150,
+      "actualWidth": 300,
+      "actualHeight": 150,
+      "top": 276,
+      "left": 603.6666870117188,
+      "position": "static"
+    },
+    "timestamp": 1767477465186
+  },
+  "changes": {
+    "containerWidth": false,
+    "containerHeight": false,
+    "containerPosition": false,
+    "canvasDisplayWidth": false,
+    "canvasDisplayHeight": false,
+    "canvasActualWidth": false,
+    "canvasActualHeight": false,
+    "canvasPosition": false
+  },
+  "issues": []
+}

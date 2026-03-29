@@ -2,61 +2,79 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
-    output   = "./generated/client"
+  provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
-// Local: SQLite (default), Production: Configure PostgreSQL
-// DATABASE_URL examples:
-// - Local SQLite: "file:./dev.db"
-// - Production PostgreSQL: "postgresql://user:password@host:5432/db?sslmode=require"
+// ============================================
+// DATABASE CONFIGURATION
+// ============================================
+// Neon PostgreSQL (Serverless) - RECOMMENDED for production
+//
+// CONNECTION STRINGS:
+// ┌─────────────────────────────────────────────────────────────────────────────┐
+// │ Environment    │ DATABASE_URL                                              │
+// ├─────────────────────────────────────────────────────────────────────────────┤
+// │ Production     │ postgresql://...neon.tech/db?sslmode=require&pgbouncer=true│
+// │ Local (Neon)   │ postgresql://...neon.tech/dev_db?sslmode=require          │
+// │ Local (SQLite) │ Change provider below to "sqlite" + file:./dev.db         │
+// └─────────────────────────────────────────────────────────────────────────────┘
+//
+// TO USE SQLITE LOCALLY:
+// 1. Change provider below from "postgresql" to "sqlite"
+// 2. Comment out directUrl line
+// 3. Set DATABASE_URL="file:./dev.db" in .env
+//
+// DIRECT_URL: Required for Prisma Migrate with pooled connections
+// ============================================
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Quote {
-  id            String   @id @default(cuid())
-  name          String
-  email         String
-  phone         String
-  address       String
-  propertySize  String
-  services      String   // Comma-separated service IDs (SQLite compatible)
+  id             String   @id @default(cuid())
+  name           String
+  email          String
+  phone          String
+  address        String
+  propertySize   String
+  services       String // Comma-separated service IDs (can be migrated to String[] for PostgreSQL)
   additionalInfo String?
-  urgency       String?  // immediate, within-week, flexible
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  status        String   @default("pending") // pending, contacted, quoted, completed
+  urgency        String? // immediate, within-week, flexible
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  status         String   @default("pending") // pending, contacted, quoted, completed
 
   // Lead Scoring Fields (v2)
-  leadScore       Int?      // 0-100 composite score
-  leadPriority    String?   // hot, warm, standard, low
-  locationSlug    String?   // Matched location from registry
-  customerType    String?   // new, existing
-  source          String?   // organic, google-ads, referral, etc.
+  leadScore    Int? // 0-100 composite score
+  leadPriority String? // hot, warm, standard, low
+  locationSlug String? // Matched location from registry
+  customerType String? // new, existing
+  source       String? // organic, google-ads, referral, etc.
 
   // Engagement Tracking
-  usedAIPlanner   Boolean   @default(false)
-  usedAudit       Boolean   @default(false)
-  pageViewCount   Int       @default(1)
-  isReturnVisit   Boolean   @default(false)
+  usedAIPlanner Boolean @default(false)
+  usedAudit     Boolean @default(false)
+  pageViewCount Int     @default(1)
+  isReturnVisit Boolean @default(false)
 
   // Pricing Context
-  estimatedValue    Float?    // AI-generated estimate
-  seasonalModifier  Float?    // Applied seasonal adjustment
-  promoCode         String?   // Applied promo code
-  promoDiscount     Float?    // Discount amount from promo
+  estimatedValue   Float? // AI-generated estimate
+  seasonalModifier Float? // Applied seasonal adjustment
+  promoCode        String? // Applied promo code
+  promoDiscount    Float? // Discount amount from promo
 
   // Business Intelligence
-  clvFirstYear      Float?    // Estimated first year value
-  clvThreeYear      Float?    // Estimated 3-year value
-  competitorContext String?   // JSON string - Competitor analysis snapshot
+  clvFirstYear      Float? // Estimated first year value
+  clvThreeYear      Float? // Estimated 3-year value
+  competitorContext String? // JSON string - Competitor analysis snapshot
 
   // Follow-up Management
-  recommendedAction String?   // CRM action recommendation
+  recommendedAction String? // CRM action recommendation
   followUpDue       DateTime? // When follow-up is due
-  assignedTo        String?   // Sales rep assignment
+  assignedTo        String? // Sales rep assignment
 
   @@index([email])
   @@index([createdAt])
@@ -74,20 +92,20 @@ model ContactSubmission {
   message   String
   createdAt DateTime @default(now())
   status    String   @default("new") // new, read, responded
-  
+
   @@index([email])
   @@index([createdAt])
   @@index([status])
 }
 
 model Review {
-  id          String   @id @default(cuid())
-  authorName  String
-  rating      Int
-  text        String?
-  time        DateTime
-  photoUrl    String?
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  authorName String
+  rating     Int
+  text       String?
+  time       DateTime
+  photoUrl   String?
+  createdAt  DateTime @default(now())
 
   @@index([rating])
   @@index([time])
@@ -98,33 +116,33 @@ model Review {
 // ============================================
 
 model BlogPost {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  excerpt     String?
-  content     String   // MDX content
-  coverImage  String?  // URL to cover image
+  id         String  @id @default(cuid())
+  slug       String  @unique
+  title      String
+  excerpt    String?
+  content    String // MDX content
+  coverImage String? // URL to cover image
 
   // Metadata
-  author      String   @default("Grandpa Ron")
+  author      String    @default("Grandpa Ron")
   publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  status      String   @default("draft") // draft, published, archived
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  status      String    @default("draft") // draft, published, archived
 
   // SEO
   metaTitle       String?
   metaDescription String?
-  keywords        String?  // Comma-separated keywords
+  keywords        String? // Comma-separated keywords
 
   // Engagement
-  viewCount   Int      @default(0)
-  readTime    Int?     // Estimated read time in minutes
+  viewCount Int  @default(0)
+  readTime  Int? // Estimated read time in minutes
 
   // Relations
-  categoryId  String?
-  category    BlogCategory? @relation(fields: [categoryId], references: [id])
-  tags        BlogPostTag[]
+  categoryId String?
+  category   BlogCategory? @relation(fields: [categoryId], references: [id])
+  tags       BlogPostTag[]
 
   @@index([slug])
   @@index([status])
@@ -133,8 +151,8 @@ model BlogPost {
 }
 
 model BlogCategory {
-  id          String   @id @default(cuid())
-  slug        String   @unique
+  id          String     @id @default(cuid())
+  slug        String     @unique
   name        String
   description String?
   posts       BlogPost[]
@@ -143,8 +161,8 @@ model BlogCategory {
 }
 
 model BlogTag {
-  id    String   @id @default(cuid())
-  slug  String   @unique
+  id    String        @id @default(cuid())
+  slug  String        @unique
   name  String
   posts BlogPostTag[]
 

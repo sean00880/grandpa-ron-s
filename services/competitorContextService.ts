@@ -75,14 +75,10 @@ export function getCompetitorAnalysis(
   else if (priceGapPercent > 5) pricePosition = 'above';
   else pricePosition = 'at';
 
-  // Aggregate advantages and weaknesses
-  const advantagesSet = new Set<string>();
-  const weaknessesSet = new Set<string>();
-
-  gapAnalyses.forEach(analysis => {
-    analysis.ourAdvantages.forEach(a => advantagesSet.add(a));
-    analysis.ourWeaknesses.forEach(w => weaknessesSet.add(w));
-  });
+  // Aggregate advantages and weaknesses from SWOT summary
+  const swot = competitorRegistry.getSWOTSummary();
+  const advantagesSet = new Set<string>(swot.ourOpportunities);
+  const weaknessesSet = new Set<string>(swot.ourThreats);
 
   // Generate talking points based on position and advantages
   const talkingPoints = generateTalkingPoints(
@@ -211,7 +207,7 @@ export function getObjectionHandlers(
   }
 
   // Rating-based handlers
-  if (competitor.rating < 4.5) {
+  if ((competitor.rating ?? 0) < 4.5) {
     handlers.push(
       `We maintain a higher customer satisfaction rating, which means fewer callbacks and better results.`
     );
@@ -264,8 +260,9 @@ export function getPricingRecommendation(
     confidence = 'high';
   }
 
-  // Adjust based on our advantages
-  if (gapAnalysis.ourAdvantages.length > 3) {
+  // Adjust based on our advantages (derived from SWOT opportunities)
+  const swotForPricing = competitorRegistry.getSWOTSummary();
+  if (swotForPricing.ourOpportunities.length > 3) {
     adjustment += 0.03; // Can price higher with many advantages
     reason = `Strong competitive advantages support premium pricing`;
   }
@@ -283,7 +280,9 @@ export function getPricingRecommendation(
 
 function estimateCompetitorPrice(ourPrice: number, competitors: Competitor[]): number {
   // Rough estimate: competitors average about 5-10% different from us
-  const avgRating = competitors.reduce((sum, c) => sum + c.rating, 0) / competitors.length;
+  const avgRating = competitors.length > 0
+    ? competitors.reduce((sum, c) => sum + (c.rating ?? 0), 0) / competitors.length
+    : 0;
 
   // Higher rated competitors tend to charge more
   const ratingFactor = avgRating > 4.5 ? 1.05 : avgRating > 4.0 ? 1.0 : 0.95;
@@ -307,14 +306,16 @@ function estimateServicePrice(competitor: Competitor, serviceId: string): number
   };
 
   const base = basePrices[serviceId] || 100;
-  const ratingMultiplier = competitor.rating > 4.5 ? 1.1 : competitor.rating > 4.0 ? 1.0 : 0.9;
+  const rating = competitor.rating ?? 0;
+  const ratingMultiplier = rating > 4.5 ? 1.1 : rating > 4.0 ? 1.0 : 0.9;
 
   return Math.round(base * ratingMultiplier);
 }
 
 function getCompetitorQualityLevel(competitor: Competitor): 'budget' | 'standard' | 'premium' {
-  if (competitor.rating >= 4.7) return 'premium';
-  if (competitor.rating >= 4.0) return 'standard';
+  const rating = competitor.rating ?? 0;
+  if (rating >= 4.7) return 'premium';
+  if (rating >= 4.0) return 'standard';
   return 'budget';
 }
 

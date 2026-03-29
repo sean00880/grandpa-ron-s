@@ -1,0 +1,215 @@
+{
+  "$schema": "expertise-manifest.v1",
+  "id": "expertise-knowledge-feed",
+  "name": "Knowledge Feed Expertise System",
+  "version": "1.0.0",
+  "description": "Agent team-driven content generation for workspace Knowledge Feed. Uses CEO orchestrator with specialist agents for research, writing, SEO, and quality assurance.",
+  "domain": "content-intelligence",
+  "scope_id": "grandpa-ron",
+  "quality_score": 85,
+
+  "team": {
+    "ceo": {
+      "role": "orchestrator",
+      "displayName": "Content Director",
+      "responsibilities": [
+        "Select topics based on workspace context + seasonal relevance",
+        "Assign research and writing tasks to specialist agents",
+        "Review quality gates before publication",
+        "Manage rotating topic schedule",
+        "Decide content format (article, guide, FAQ, comparison, case study)"
+      ],
+      "model_preference": "claude-sonnet-4-6",
+      "fallback": "gemini-2.5-pro"
+    },
+    "researcher": {
+      "role": "specialist",
+      "displayName": "Industry Researcher",
+      "responsibilities": [
+        "Research current trends via Perplexity MCP",
+        "Gather OSU Extension data for Ohio-specific insights",
+        "Find competitor content gaps",
+        "Identify seasonal timing data",
+        "Source local statistics and references"
+      ],
+      "model_preference": "gemini-3.1-pro-preview",
+      "fallback": "gemini-2.5-pro",
+      "tools": ["perplexity_search", "web_search"]
+    },
+    "writer": {
+      "role": "specialist",
+      "displayName": "Content Writer",
+      "responsibilities": [
+        "Write workspace-contextual articles",
+        "Apply tone and audience preferences",
+        "Include local references and seasonal notes",
+        "Generate structured output (title, summary, body, whyItMatters, actions, localTip, seasonalNote)",
+        "Create multiple content formats"
+      ],
+      "model_preference": "claude-sonnet-4-6",
+      "fallback": "gemini-2.5-flash"
+    },
+    "seo_specialist": {
+      "role": "specialist",
+      "displayName": "SEO Optimizer",
+      "responsibilities": [
+        "Optimize titles for search intent",
+        "Suggest meta descriptions",
+        "Identify keyword opportunities",
+        "Recommend internal linking to service pages",
+        "Score content for search visibility"
+      ],
+      "model_preference": "gemini-2.5-flash",
+      "fallback": "gpt-5-mini"
+    },
+    "quality_reviewer": {
+      "role": "reviewer",
+      "displayName": "Quality Assurer",
+      "responsibilities": [
+        "Verify factual accuracy",
+        "Check Ohio-specific claims",
+        "Ensure no competitor mentions (per policy)",
+        "Validate CTA alignment",
+        "Score readability and engagement potential"
+      ],
+      "model_preference": "claude-haiku-4-5-20251001",
+      "fallback": "gemini-2.5-flash-lite"
+    }
+  },
+
+  "pipeline": {
+    "phases": [
+      {
+        "name": "SCOUT",
+        "agent": "researcher",
+        "action": "Research topic, gather current data, find content gaps",
+        "output": "research_brief"
+      },
+      {
+        "name": "PLAN",
+        "agent": "ceo",
+        "action": "Review research, decide content format, assign writing brief",
+        "output": "writing_brief"
+      },
+      {
+        "name": "BUILD",
+        "agent": "writer",
+        "action": "Generate article with workspace context, local references, structured output",
+        "output": "draft_post"
+      },
+      {
+        "name": "OPTIMIZE",
+        "agent": "seo_specialist",
+        "action": "Optimize title, suggest keywords, recommend internal links",
+        "output": "optimized_post"
+      },
+      {
+        "name": "VALIDATE",
+        "agent": "quality_reviewer",
+        "action": "Verify accuracy, check policy compliance, score quality",
+        "output": "quality_report"
+      },
+      {
+        "name": "GOVERN",
+        "agent": "ceo",
+        "action": "Final approval or revision request based on quality score",
+        "output": "published_post | revision_request"
+      }
+    ],
+    "quality_threshold": 70,
+    "max_revisions": 2
+  },
+
+  "content_formats": [
+    {
+      "id": "article",
+      "name": "Expert Article",
+      "description": "In-depth article with practical advice",
+      "sections": ["title", "summary", "body", "whyItMatters", "suggestedActions", "localTip", "seasonalNote"],
+      "minWords": 400,
+      "maxWords": 1200
+    },
+    {
+      "id": "guide",
+      "name": "Step-by-Step Guide",
+      "description": "Numbered steps with clear instructions",
+      "sections": ["title", "summary", "steps", "proTips", "whyItMatters", "timeline"],
+      "minWords": 500,
+      "maxWords": 1500
+    },
+    {
+      "id": "faq",
+      "name": "FAQ Collection",
+      "description": "Common questions with expert answers",
+      "sections": ["title", "questions", "summary", "relatedServices"],
+      "minWords": 300,
+      "maxWords": 800
+    },
+    {
+      "id": "comparison",
+      "name": "Product Comparison",
+      "description": "Compare options with pros/cons",
+      "sections": ["title", "options", "comparisonTable", "recommendation", "whyItMatters"],
+      "minWords": 400,
+      "maxWords": 1000
+    },
+    {
+      "id": "case_study",
+      "name": "Project Showcase",
+      "description": "Before/after with results",
+      "sections": ["title", "challenge", "solution", "results", "testimonial", "suggestedActions"],
+      "minWords": 300,
+      "maxWords": 800
+    }
+  ],
+
+  "generative_ui_tools": [
+    {
+      "id": "weather_data",
+      "name": "Ohio Weather Data",
+      "description": "Fetch current and forecast weather for seasonal content",
+      "output_type": "data_card"
+    },
+    {
+      "id": "service_pricing",
+      "name": "Service Pricing Lookup",
+      "description": "Pull pricing from serviceRegistry for inline quotes",
+      "output_type": "pricing_table"
+    },
+    {
+      "id": "location_map",
+      "name": "Service Area Map",
+      "description": "Generate map showing service coverage",
+      "output_type": "map_embed"
+    },
+    {
+      "id": "seasonal_calendar",
+      "name": "Ohio Lawn Care Calendar",
+      "description": "Generate month-by-month care schedule",
+      "output_type": "timeline_chart"
+    },
+    {
+      "id": "soil_type_guide",
+      "name": "Central Ohio Soil Guide",
+      "description": "Clay soil characteristics and amendments",
+      "output_type": "info_card"
+    },
+    {
+      "id": "before_after",
+      "name": "Before/After Gallery",
+      "description": "Reference project gallery images",
+      "output_type": "image_gallery"
+    }
+  ],
+
+  "capabilities": [
+    { "type": "skill", "ref": "research", "required": true },
+    { "type": "mcp", "ref": "perplexity", "required": false },
+    { "type": "mcp", "ref": "context7", "required": false },
+    { "type": "pipeline", "ref": "spbvg", "required": true },
+    { "type": "prompt", "ref": "workspace-context-prompt", "required": true }
+  ],
+
+  "dependencies": [],
+  "created_at": "2026-03-29T00:00:00Z"
+}

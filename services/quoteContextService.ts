@@ -201,7 +201,7 @@ export function generateQuoteContext(input: QuoteInput): EnhancedQuoteContext {
       rating: socialProof.ratingDisplay.stars,
       reviewCount: socialProof.ratingDisplay.count,
       trustSignals: socialProof.trustSignals,
-      relevantTestimonial: socialProof.relevantReviews[0]?.text
+      relevantTestimonial: socialProof.relevantReviews[0]?.content
     },
 
     generatedAt: new Date().toISOString(),

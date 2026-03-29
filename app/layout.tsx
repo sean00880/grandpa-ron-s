@@ -1,12 +1,10 @@
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
+import { LayoutRouter } from "@/components/layout-router";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,9 +41,9 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <AuthProvider>
           <ThemeProvider>
-            <Header />
-            {children}
-            <Footer />
+            <LayoutRouter>
+              {children}
+            </LayoutRouter>
             <Toaster position="top-right" />
           </ThemeProvider>
         </AuthProvider>

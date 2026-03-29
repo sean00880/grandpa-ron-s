@@ -391,7 +391,7 @@ class ReviewRegistry {
       .map(([theme, counts]) => ({
         theme,
         count: counts.positive + counts.negative,
-        sentiment: counts.positive >= counts.negative ? 'positive' : 'negative' as const
+        sentiment: (counts.positive >= counts.negative ? 'positive' : 'negative') as 'positive' | 'negative'
       }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);

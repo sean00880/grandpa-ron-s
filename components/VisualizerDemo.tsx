@@ -366,13 +366,14 @@ export const VisualizerDemo: React.FC = () => {
                       className="absolute inset-0 overflow-hidden"
                       style={{ width: `${sliderPosition}%` }}
                     >
-                      <Image
-                        src={DEMO_DATA.originalImage}
-                        alt="Original landscape"
-                        fill
-                        className="object-cover"
-                        style={{ width: `${100 / (sliderPosition / 100)}%`, maxWidth: 'none' }}
-                      />
+                      <div className="absolute inset-0" style={{ width: `${100 / (sliderPosition / 100)}%`, maxWidth: 'none' }}>
+                        <Image
+                          src={DEMO_DATA.originalImage}
+                          alt="Original landscape"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
                     </div>
 
                     {/* Slider Line */}

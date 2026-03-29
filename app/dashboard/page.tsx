@@ -1,23 +1,91 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CalendarDays, ClipboardList, DollarSign, Users } from "lucide-react"
+import { CalendarDays, ClipboardList, DollarSign, Users, BarChart3, CreditCard } from "lucide-react"
+import { db } from "@/lib/orcbase"
+import Link from "next/link"
 
 export const metadata = {
-  title: "Dashboard",
+  title: "Mission Control",
 }
 
-export default function DashboardPage() {
+/**
+ * Dashboard Overview — Real Prisma data replacing mock values.
+ * Section 22: Business/Lead/Customer insights.
+ * Section 25: Intent-oriented Mission Control.
+ */
+export default async function DashboardPage() {
+  // Real data from Prisma
+  // Orcbase adapter — gracefully returns defaults when DB unavailable
+  let pendingQuotes = 0, totalQuotes = 0, hotLeads = 0, monthlyRevenue = 0, uniqueCustomerCount = 0;
+  let recentQuotes: Awaited<ReturnType<typeof db.quotes.findMany>> = [];
+
+  try {
+    [pendingQuotes, totalQuotes, hotLeads, recentQuotes] = await Promise.all([
+      db.quotes.count({ where: { status: 'pending' } }),
+      db.quotes.count(),
+      db.quotes.count({ where: { leadPriority: 'hot' } }),
+      db.quotes.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+        select: {
+          id: true,
+          name: true,
+          services: true,
+          locationSlug: true,
+          status: true,
+          leadPriority: true,
+          leadScore: true,
+          estimatedValue: true,
+          createdAt: true,
+        },
+      }),
+    ]);
+
+    const revenueData = await db.quotes.aggregate({
+      _sum: { estimatedValue: true },
+      where: {
+        status: { in: ['quoted', 'completed', 'invoiced', 'paid'] },
+        createdAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) },
+      },
+    });
+    monthlyRevenue = revenueData._sum?.estimatedValue ?? 0;
+
+    const customers = await db.quotes.groupBy({
+      by: ['email'],
+      _count: true,
+    });
+    uniqueCustomerCount = customers.length;
+  } catch {
+    // DB unavailable — render with zeros (Orcbase adapter handles gracefully)
+  }
+
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Mission Control</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here&apos;s an overview of your business.
+            Business intelligence powered by WebDevOS.
           </p>
+        </div>
+        <div className="flex gap-2">
+          <Link
+            href="/dashboard/insights"
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
+          >
+            <BarChart3 className="h-3.5 w-3.5" />
+            Insights
+          </Link>
+          <Link
+            href="/dashboard/crm"
+            className="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium"
+          >
+            <Users className="h-3.5 w-3.5" />
+            CRM
+          </Link>
         </div>
       </div>
 
-      {/* Stats Grid */}
+      {/* Stats Grid — Real data */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -25,21 +93,21 @@ export default function DashboardPage() {
             <ClipboardList className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
+            <div className="text-2xl font-bold">{pendingQuotes}</div>
             <p className="text-xs text-muted-foreground">
-              +3 new this week
+              {totalQuotes} total quotes
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Customers</CardTitle>
+            <CardTitle className="text-sm font-medium">Customers</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">48</div>
+            <div className="text-2xl font-bold">{uniqueCustomerCount}</div>
             <p className="text-xs text-muted-foreground">
-              +5 new this month
+              unique by email
             </p>
           </CardContent>
         </Card>
@@ -49,74 +117,98 @@ export default function DashboardPage() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$8,450</div>
+            <div className="text-2xl font-bold">
+              ${monthlyRevenue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+            </div>
             <p className="text-xs text-muted-foreground">
-              +12% from last month
+              from quoted estimates
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Jobs This Week</CardTitle>
-            <CalendarDays className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Hot Leads</CardTitle>
+            <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24</div>
+            <div className="text-2xl font-bold">{hotLeads}</div>
             <p className="text-xs text-muted-foreground">
-              8 scheduled today
+              high-priority follow-ups
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Content Area */}
+      {/* Recent Quotes — Real Prisma data */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4">
           <CardHeader>
             <CardTitle>Recent Quotes</CardTitle>
             <CardDescription>
-              Latest quote requests that need attention.
+              Latest quote requests from the database.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[
-                { name: "John Smith", service: "Lawn Mowing", location: "Louisville", status: "New" },
-                { name: "Sarah Johnson", service: "Landscaping", location: "Lexington", status: "Pending" },
-                { name: "Mike Williams", service: "Leaf Removal", location: "Bowling Green", status: "Quoted" },
-              ].map((quote, i) => (
-                <div key={i} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
-                  <div>
-                    <p className="font-medium">{quote.name}</p>
-                    <p className="text-sm text-muted-foreground">{quote.service} - {quote.location}</p>
+              {recentQuotes.length > 0 ? (
+                recentQuotes.map((quote) => (
+                  <div key={quote.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+                    <div>
+                      <p className="font-medium">{quote.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {quote.services.split(',').slice(0, 2).join(', ')}
+                        {quote.locationSlug ? ` — ${quote.locationSlug}` : ''}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {quote.leadScore !== null && (
+                        <span className="text-xs text-muted-foreground">
+                          Score: {quote.leadScore}
+                        </span>
+                      )}
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        quote.leadPriority === 'hot'
+                          ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                          : quote.leadPriority === 'warm'
+                            ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+                            : 'bg-primary/10 text-primary'
+                      }`}>
+                        {quote.status}
+                      </span>
+                    </div>
                   </div>
-                  <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                    {quote.status}
-                  </span>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground">No quotes yet. Share your quote page to get started.</p>
+              )}
             </div>
           </CardContent>
         </Card>
+
+        {/* Quick Actions — Replace mock schedule with actionable cards */}
         <Card className="col-span-3">
           <CardHeader>
-            <CardTitle>Today&apos;s Schedule</CardTitle>
+            <CardTitle>Quick Actions</CardTitle>
             <CardDescription>
-              Jobs scheduled for today.
+              Common tasks and navigation.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[
-                { time: "8:00 AM", job: "Lawn Mowing - 123 Main St" },
-                { time: "10:30 AM", job: "Tree Trimming - 456 Oak Ave" },
-                { time: "1:00 PM", job: "Garden Design - 789 Elm Dr" },
-                { time: "3:30 PM", job: "Snow Prep - 321 Pine Ln" },
-              ].map((schedule, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <span className="w-20 text-sm font-medium text-muted-foreground">{schedule.time}</span>
-                  <span className="text-sm">{schedule.job}</span>
-                </div>
+                { label: 'View All Quotes', href: '/dashboard/crm', icon: ClipboardList },
+                { label: 'Lead Insights', href: '/dashboard/insights', icon: BarChart3 },
+                { label: 'Operations', href: '/dashboard/operations', icon: CalendarDays },
+                { label: 'AI Property Audit', href: '/quote', icon: Users },
+              ].map((action) => (
+                <Link
+                  key={action.label}
+                  href={action.href}
+                  className="flex items-center gap-3 rounded-lg border p-3 text-sm transition-colors hover:bg-muted"
+                >
+                  <action.icon className="h-4 w-4 text-muted-foreground" />
+                  {action.label}
+                </Link>
               ))}
             </div>
           </CardContent>

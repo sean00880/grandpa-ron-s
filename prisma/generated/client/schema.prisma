@@ -6,13 +6,31 @@ generator client {
   output   = "./generated/client"
 }
 
-// Use SQLite for local development, PostgreSQL for production
-// Set DATABASE_URL in .env.local:
-// - Local: "file:./dev.db"
-// - Production: "postgresql://user:password@host:5432/db"
+// ============================================
+// DATABASE CONFIGURATION
+// ============================================
+// Neon PostgreSQL (Serverless) - RECOMMENDED for production
+//
+// CONNECTION STRINGS:
+// ┌─────────────────────────────────────────────────────────────────────────────┐
+// │ Environment    │ DATABASE_URL                                              │
+// ├─────────────────────────────────────────────────────────────────────────────┤
+// │ Production     │ postgresql://...neon.tech/db?sslmode=require&pgbouncer=true│
+// │ Local (Neon)   │ postgresql://...neon.tech/dev_db?sslmode=require          │
+// │ Local (SQLite) │ Change provider below to "sqlite" + file:./dev.db         │
+// └─────────────────────────────────────────────────────────────────────────────┘
+//
+// TO USE SQLITE LOCALLY:
+// 1. Change provider below from "postgresql" to "sqlite"
+// 2. Comment out directUrl line
+// 3. Set DATABASE_URL="file:./dev.db" in .env
+//
+// DIRECT_URL: Required for Prisma Migrate with pooled connections
+// ============================================
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Quote {
@@ -22,7 +40,7 @@ model Quote {
   phone          String
   address        String
   propertySize   String
-  services       String // Comma-separated service IDs (SQLite compatible)
+  services       String // Comma-separated service IDs (can be migrated to String[] for PostgreSQL)
   additionalInfo String?
   urgency        String? // immediate, within-week, flexible
   createdAt      DateTime @default(now())

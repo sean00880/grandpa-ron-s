@@ -676,4 +676,4 @@ class LocationSeoRegistry {
 export const locationSeoRegistry = LocationSeoRegistry.getInstance();
 
 // Export types
-export type { Location as SeoLocation, ServiceDefinition, LocationServicePage, SitemapEntry };
+export type { Location as SeoLocation };

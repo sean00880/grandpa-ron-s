@@ -78,7 +78,7 @@ export function getSocialProofPackage(
     .slice(0, 5);
 
   // Get featured/highlighted reviews
-  const featuredReviews = reviewRegistry.getHighlightedReviews().slice(0, 3);
+  const featuredReviews = reviewRegistry.getAllReviews().filter(r => r.featured).slice(0, 3);
 
   // Generate trust badges
   const trustBadges = generateTrustBadges(summary);
@@ -149,8 +149,8 @@ export function getServiceTestimonials(serviceId: string, limit: number = 3): Re
     .filter(r => r.rating >= 4.5)
     .sort((a, b) => {
       // Prioritize reviews with text and high ratings
-      const aScore = a.rating + (a.text && a.text.length > 50 ? 1 : 0);
-      const bScore = b.rating + (b.text && b.text.length > 50 ? 1 : 0);
+      const aScore = a.rating + (a.content && a.content.length > 50 ? 1 : 0);
+      const bScore = b.rating + (b.content && b.content.length > 50 ? 1 : 0);
       return bScore - aScore;
     })
     .slice(0, limit);
@@ -184,16 +184,16 @@ export function formatReviewForDisplay(review: Review): {
   serviceDisplay: string;
 } {
   // Get author initials
-  const nameParts = review.authorName.split(' ');
+  const nameParts = review.customerName.split(' ');
   const authorInitials = nameParts.length > 1
     ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`.toUpperCase()
     : nameParts[0][0].toUpperCase();
 
   // Truncate text
   const maxLength = 150;
-  const shortText = review.text && review.text.length > maxLength
-    ? review.text.substring(0, maxLength) + '...'
-    : review.text || '';
+  const shortText = review.content && review.content.length > maxLength
+    ? review.content.substring(0, maxLength) + '...'
+    : review.content || '';
 
   // Format date
   const date = new Date(review.date);
@@ -212,8 +212,8 @@ export function formatReviewForDisplay(review: Review): {
     : 'Columbus Area';
 
   // Format service
-  const serviceDisplay = review.serviceId
-    ? formatServiceName(review.serviceId)
+  const serviceDisplay = review.serviceIds?.[0]
+    ? formatServiceName(review.serviceIds[0])
     : 'General Service';
 
   return {
