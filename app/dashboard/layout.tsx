@@ -22,6 +22,7 @@ const SURFACE_TABS = [
   { id: 'marketing', label: 'Marketing', href: '/dashboard/marketing' },
   { id: 'network', label: 'Network', href: '/dashboard/network' },
   { id: 'commerce', label: 'Commerce', href: '/dashboard/commerce' },
+  { id: 'hosting', label: 'Hosting', href: '/dashboard/hosting' },
 ]
 
 export default async function DashboardLayout({
