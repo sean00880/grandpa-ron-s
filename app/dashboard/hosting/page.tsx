@@ -1,8 +1,16 @@
 'use client';
 
 /**
- * Hosting Dashboard - DeployOS integration
- * Domain search, hosting status, deploy controls, DNS management.
+ * Hosting Dashboard — DeployOS via WebDevOS (ArcOrc UI) + TryLLM (Agent System)
+ *
+ * Architecture:
+ *   ArcOrc: SurfaceHeader + useSurfaceTab (layout primitives)
+ *   TryLLM: Agent-assisted deploy via /api/studio/chat
+ *   DeployOS: Coolify + Cloudflare + NameSilo (proprietary orchestration)
+ *   Dbity: Backend engine for all hosting data
+ *
+ * This is a WebDevOS surface — same architecture as Studio, CRM, Operations.
+ * Agent commands (via TryLLM): "deploy to production", "add domain", "check SSL"
  */
 
 import { useState, useEffect } from 'react';
@@ -13,6 +21,7 @@ const HOSTING_TABS = [
   { id: 'overview', label: 'Overview', color: '#8b5cf6' },
   { id: 'domains', label: 'Domains' },
   { id: 'deploys', label: 'Deploys' },
+  { id: 'assist', label: 'AI Assist' },
   { id: 'settings', label: 'Settings' },
 ];
 
@@ -176,6 +185,10 @@ export default function HostingPage() {
           </div>
         )}
 
+        {activeTab === 'assist' && (
+          <AgentAssistTab />
+        )}
+
         {activeTab === 'settings' && (
           <div className="space-y-4">
             <h2 className="text-lg font-semibold">Hosting Settings</h2>
@@ -199,6 +212,103 @@ export default function HostingPage() {
         {!config && activeTab === 'overview' && (
           <div className="text-center py-16 text-muted-foreground">Loading hosting configuration...</div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * AI Assist Tab — TryLLM Agent for REASONING ONLY (not execution).
+ *
+ * Separation of concerns (LAW-DEPLOY-AGENT-001):
+ *   AUTOMATED (deterministic): Deploy, DNS, SSL, build — Coolify webhooks + Cloudflare API
+ *   AGENTIC (TryLLM): Failure triage, domain suggestions, migration planning — reasoning only
+ *
+ * The agent PROPOSES actions. The user clicks buttons to EXECUTE via deterministic APIs.
+ * The agent NEVER directly triggers deploys, DNS changes, or purchases.
+ */
+function AgentAssistTab() {
+  const [prompt, setPrompt] = useState('');
+  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([
+    { role: 'assistant', content: 'I can help you reason about hosting decisions. I analyze and suggest — you execute via the automated controls.\n\nTry asking:\n- "Why did my last deploy fail?"\n- "What domain names work for a lawn care business?"\n- "Plan my migration from Vercel to Coolify"\n- "Compare hosting costs for my setup"\n- "What SSL configuration do I need?"\n\nNote: I suggest actions. You execute them via the Overview/Domains/Deploys tabs (deterministic automation).' },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSend = async () => {
+    if (!prompt.trim() || loading) return;
+    const userMsg = prompt.trim();
+    setPrompt('');
+    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/studio/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, { role: 'user', content: userMsg }].map(m => ({
+            role: m.role as 'user' | 'assistant',
+            content: m.content,
+          })),
+          origin: 'ai_core',
+          scope_id: 'grandpa-ron',
+        }),
+      });
+      const data = await res.json();
+      const assistantContent = data.parts?.map((p: any) => p.content).join('\n') ?? data.error ?? 'No response';
+      setMessages(prev => [...prev, { role: 'assistant', content: assistantContent }]);
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Failed to reach AI agent. Ensure /api/studio/chat is available.' }]);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-14rem)]">
+      <div className="flex items-center gap-2 mb-3">
+        <span className="text-[10px] rounded bg-purple-500/15 text-purple-400 px-2 py-0.5">TryLLM Agent</span>
+        <span className="text-[10px] text-muted-foreground">AI-assisted deployment via DeployOS</span>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto space-y-3 mb-3">
+        {messages.map((msg, i) => (
+          <div key={i} className={`rounded-lg p-3 text-sm ${
+            msg.role === 'user'
+              ? 'bg-purple-500/10 border border-purple-500/20 ml-12'
+              : 'bg-card border border-border mr-12'
+          }`}>
+            <div className="text-[10px] text-muted-foreground mb-1 font-medium">
+              {msg.role === 'user' ? 'You' : 'DeployOS Agent'}
+            </div>
+            <div className="whitespace-pre-wrap text-foreground/80">{msg.content}</div>
+          </div>
+        ))}
+        {loading && (
+          <div className="bg-card border border-border rounded-lg p-3 mr-12">
+            <div className="text-[10px] text-muted-foreground mb-1">DeployOS Agent</div>
+            <div className="text-sm text-muted-foreground animate-pulse">Thinking...</div>
+          </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <div className="flex gap-2">
+        <input
+          value={prompt}
+          onChange={e => setPrompt(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleSend()}
+          placeholder="Ask the deploy agent... (e.g. &quot;deploy to production&quot;)"
+          className="flex-1 rounded-lg border border-border bg-card px-4 py-2.5 text-sm focus:outline-none focus:border-purple-500/50"
+          disabled={loading}
+        />
+        <button
+          onClick={handleSend}
+          disabled={loading || !prompt.trim()}
+          className="rounded-lg bg-purple-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-purple-500 disabled:opacity-50"
+        >
+          Send
+        </button>
       </div>
     </div>
   );
