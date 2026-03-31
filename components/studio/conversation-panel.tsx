@@ -62,10 +62,11 @@ export function ConversationPanel() {
   const [input, setInput] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = useCallback(() => {
-    if (!input.trim()) return;
+  const [loading, setLoading] = useState(false);
 
-    // User message
+  const handleSend = useCallback(async () => {
+    if (!input.trim() || loading) return;
+
     const userMsg: AgentMessage = {
       id: `u-${Date.now()}`,
       role: 'user',
@@ -75,42 +76,142 @@ export function ConversationPanel() {
     setMessages(prev => [...prev, userMsg]);
     const prompt = input;
     setInput('');
+    setLoading(true);
 
-    // Create WCG mutation
-    const builder = createBuilder(projectView === 'cms' ? 'cms' : 'ai_core');
-    const result = applyMutation(
-      builder.createNode({
-        type: 'block',
-        name: `block-${Date.now().toString(36)}`,
-        display_name: prompt.slice(0, 40),
-        props: { block_type: 'ai-generated', prompt },
-      }),
-    );
+    try {
+      // Call /api/studio/chat — routes to Claude API (real) or mock based on ANTHROPIC_API_KEY
+      const res = await fetch('/api/studio/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, { role: 'user', content: prompt }].map(m => ({
+            role: m.role as 'user' | 'assistant',
+            content: m.parts.map(p => p.content).join('\n'),
+          })),
+          origin: projectView === 'cms' ? 'cms' : 'ai_core',
+          scope_id: 'grandpa-ron',
+        }),
+      });
 
-    // Agent response with structured parts
-    setTimeout(() => {
-      const parts: MessagePart[] = [
-        { type: 'reasoning', content: `Analyzing request: "${prompt.slice(0, 60)}"\nDetermining optimal mutation strategy...\nChecking WCG graph integrity...`, metadata: { duration: 1200 } },
-        { type: 'tool_call', content: 'wcg.createNode', metadata: { state: 'completed', input: { type: 'block', name: prompt.slice(0, 30) }, output: { mutation_id: result.mutation_id, status: result.status } } },
-        { type: 'text', content: `Created WCG node via mutation protocol.\n\n**Mutation**: \`${result.mutation_id}\`\n**Status**: ${result.status}\n**Affected**: ${result.affected_nodes.length} nodes` },
-        { type: 'task', content: prompt.slice(0, 40), metadata: { status: 'in_progress', subtasks: ['WCG node created', 'Rendering sync pending', 'Validation pending'], activeStep: 'Rendering sync pending' } },
-      ];
+      const contentType = res.headers.get('content-type') ?? '';
 
-      if (result.status === 'rejected') {
-        parts.push({ type: 'evidence', content: 'FAIL', metadata: { reason: result.rejection_reason } });
+      if (contentType.includes('text/event-stream')) {
+        // Real Claude streaming — read SSE chunks
+        const reader = res.body?.getReader();
+        const decoder = new TextDecoder();
+        let fullText = '';
+
+        const streamMsg: AgentMessage = {
+          id: `a-${Date.now()}`,
+          role: 'assistant',
+          parts: [{ type: 'text', content: '' }],
+          timestamp: new Date().toISOString(),
+        };
+        setMessages(prev => [...prev, streamMsg]);
+
+        if (reader) {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const chunk = decoder.decode(value, { stream: true });
+            // Parse SSE events for content_block_delta
+            const lines = chunk.split('\n');
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                try {
+                  const data = JSON.parse(line.slice(6));
+                  if (data.type === 'content_block_delta' && data.delta?.text) {
+                    fullText += data.delta.text;
+                    setMessages(prev => {
+                      const updated = [...prev];
+                      const last = updated[updated.length - 1];
+                      if (last?.role === 'assistant') {
+                        last.parts = [{ type: 'text', content: fullText }];
+                      }
+                      return [...updated];
+                    });
+                  }
+                } catch { /* skip non-JSON lines */ }
+              }
+            }
+          }
+        }
+
+        // Apply any WCG mutations found in the response
+        applyMutationsFromResponse(fullText);
+      } else {
+        // Mock/JSON response
+        const data = await res.json();
+        const parts: MessagePart[] = data.parts ?? [{ type: 'text', content: data.error ?? 'No response' }];
+
+        // Apply mutations if present
+        if (data.mutations?.length) {
+          const builder = createBuilder(projectView === 'cms' ? 'cms' : 'ai_core');
+          for (const m of data.mutations) {
+            applyMutation(builder.createNode({
+              type: 'block',
+              name: `${m.block_type}-${Date.now().toString(36)}`,
+              display_name: m.display_name,
+              props: { block_type: m.block_type, content: m.content },
+            }));
+          }
+          parts.push({
+            type: 'tool_call',
+            content: 'wcg.createNode',
+            metadata: { state: 'completed', input: { mutations: data.mutations.length }, output: { applied: true } },
+          });
+        }
+
+        const assistantMsg: AgentMessage = {
+          id: `a-${Date.now()}`,
+          role: 'assistant',
+          parts,
+          timestamp: new Date().toISOString(),
+        };
+        setMessages(prev => [...prev, assistantMsg]);
       }
-
-      const assistantMsg: AgentMessage = {
-        id: `a-${Date.now()}`,
+    } catch (err) {
+      setMessages(prev => [...prev, {
+        id: `e-${Date.now()}`,
         role: 'assistant',
-        agent: 'claude-opus-4-6',
-        parts,
+        parts: [{ type: 'text', content: `Error: ${err instanceof Error ? err.message : 'Failed to reach AI agent'}` }],
         timestamp: new Date().toISOString(),
-      };
-      setMessages(prev => [...prev, assistantMsg]);
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 600);
-  }, [input, applyMutation, createBuilder, projectView]);
+      }]);
+    }
+    setLoading(false);
+  }, [input, loading, messages, projectView, applyMutation, createBuilder]);
+
+  // Parse agent response for WCG mutation JSON blocks
+  const applyMutationsFromResponse = useCallback((text: string) => {
+    const jsonRegex = /```json\s*(\{[\s\S]*?\})\s*```/g;
+    let match;
+    while ((match = jsonRegex.exec(text)) !== null) {
+      try {
+        const mutation = JSON.parse(match[1]);
+        if (mutation.type === 'create_node' && mutation.display_name) {
+          const builder = createBuilder(projectView === 'cms' ? 'cms' : 'ai_core');
+          applyMutation(builder.createNode({
+            type: mutation.node_type ?? 'block',
+            name: `ai-${Date.now().toString(36)}`,
+            display_name: mutation.display_name,
+            props: mutation.props ?? {},
+          }));
+        }
+      } catch { /* skip invalid JSON */ }
+    }
+  }, [applyMutation, createBuilder, projectView]);
+
+  // Auto-scroll on new messages
+  const scrollToBottom = useCallback(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  // Scroll when messages change
+  const prevMsgCount = useRef(0);
+  if (messages.length !== prevMsgCount.current) {
+    prevMsgCount.current = messages.length;
+    setTimeout(scrollToBottom, 100);
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -124,16 +225,23 @@ export function ConversationPanel() {
 
       {/* Prompt Input */}
       <div className="border-t border-border p-3">
+        {loading && (
+          <div className="flex items-center gap-2 mb-2 text-[10px] text-purple-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-purple-400 animate-pulse" />
+            Agent is thinking...
+          </div>
+        )}
         <div className="flex items-center gap-2 rounded-lg border border-border bg-muted px-3 py-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Describe what to build..."
-            className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/50"
+            onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
+            placeholder={loading ? 'Waiting for agent...' : 'Describe what to build...'}
+            disabled={loading}
+            className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/50 disabled:opacity-50"
           />
-          <button onClick={handleSend} className="rounded-full bg-purple-600 p-1.5 text-white hover:bg-purple-500">
+          <button onClick={handleSend} disabled={loading || !input.trim()} className="rounded-full bg-purple-600 p-1.5 text-white hover:bg-purple-500 disabled:opacity-50">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
           </button>
         </div>

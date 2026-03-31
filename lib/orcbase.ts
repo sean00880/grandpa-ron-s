@@ -387,6 +387,11 @@ export interface InsightsRun {
 // The Orcbase adapter pattern means zero code changes when we swap to Dbity.
 // ---------------------------------------------------------------------------
 
+/**
+ * InsightsStore — Dual mode: Prisma persistence when available, in-memory fallback.
+ * Prisma models: InsightsTopic, InsightsQuery, InsightsPost, InsightsRun (see schema.prisma)
+ * In-memory: Map-based (survives hot reload but not server restart)
+ */
 class InsightsStore {
   private topics: Map<string, InsightsTopic> = new Map();
   private queries: Map<string, InsightsQuery> = new Map();
