@@ -1,0 +1,8 @@
+# Cloudflare Pages deployment config for Grandpa Ron's (WorkGun)
+# Endgame Tier 1: Edge-first, infinite scale, $0/mo at rest
+name = "grandpa-rons"
+compatibility_date = "2026-03-31"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+WORKGUN_TIER = "professional"
