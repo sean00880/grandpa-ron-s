@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 
 import React, { useState, useRef } from 'react';
 import { Upload, Loader2, TrendingUp, DollarSign, AlertCircle, RefreshCw } from 'lucide-react';
@@ -79,7 +78,7 @@ export const PropertyAudit: React.FC = () => {
                 <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
                 
                 {image ? (
-                    <Image src={image} alt="Audit Subject" className="w-full h-full object-cover" />
+                    <img src={image} alt="Audit Subject" className="w-full h-full object-cover" />
                 ) : (
                     <div className="text-center p-4">
                     <div className="w-12 h-12 bg-green-50 dark:bg-zinc-800 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">

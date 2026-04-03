@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSurfaceTab, SurfaceHeader } from '@growsz/arcorc-layout';
 import { Card, CardContent } from '@/components/ui/card';
+import { CheckCircle2, Circle, Wifi } from 'lucide-react';
 
 const NETWORK_TABS = [
   { id: 'partners', label: 'Partners', color: '#06b6d4' },
@@ -11,12 +12,51 @@ const NETWORK_TABS = [
   { id: 'referrals', label: 'Referrals' },
 ];
 
+interface Integration {
+  id: string;
+  name: string;
+  description: string;
+  connected: boolean;
+}
+
 export default function NetworkPage() {
   const [activeTab, setActiveTab] = useSurfaceTab('partners', ['partners', 'listings', 'integrations', 'referrals'] as const);
+  const [integrations, setIntegrations] = useState<Integration[]>([]);
+  const [connectedCount, setConnectedCount] = useState(0);
+
+  useEffect(() => {
+    fetch('/api/integrations/status')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data) {
+          setIntegrations(data.integrations);
+          setConnectedCount(data.connectedCount);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const icons: Record<string, string> = {
+    stripe: '💳', 'google-places': '📍', emailjs: '📧', gemini: '🤖',
+    anthropic: '🧠', recaptcha: '🛡️', database: '🗄️', gmail: '📬',
+  };
 
   return (
     <div className="flex flex-col flex-1 h-[calc(100vh-7rem)]">
-      <SurfaceHeader title="NETWORK" titleColor="#06b6d4" tabs={NETWORK_TABS} activeTab={activeTab} onTabChange={setActiveTab as (tabId: string) => void} />
+      <SurfaceHeader
+        title="NETWORK"
+        titleColor="#06b6d4"
+        tabs={NETWORK_TABS}
+        activeTab={activeTab}
+        onTabChange={setActiveTab as (tabId: string) => void}
+        rightContent={
+          integrations.length > 0 ? (
+            <span className="text-[10px] text-muted-foreground/50 flex items-center gap-1">
+              <Wifi size={10} /> {connectedCount}/{integrations.length} connected
+            </span>
+          ) : null
+        }
+      />
       <div className="flex-1 overflow-y-auto p-4">
         {activeTab === 'partners' && (
           <div className="space-y-3">
@@ -61,28 +101,34 @@ export default function NetworkPage() {
         )}
         {activeTab === 'integrations' && (
           <div className="space-y-3">
-            <h2 className="text-lg font-semibold">Connected Integrations</h2>
-            {[
-              { name: 'Stripe', desc: 'Payments & invoicing', status: 'connected', icon: '💳' },
-              { name: 'Google Places', desc: 'Reviews & ratings', status: 'connected', icon: '📍' },
-              { name: 'EmailJS', desc: 'Transactional email', status: 'connected', icon: '📧' },
-              { name: 'Gemini AI', desc: 'Knowledge Feed generation', status: 'connected', icon: '🤖' },
-              { name: 'Gmail', desc: 'CRM inbox sync', status: 'not_connected', icon: '📬' },
-              { name: 'QuickBooks', desc: 'Accounting sync', status: 'not_connected', icon: '📊' },
-            ].map(i => (
-              <Card key={i.name}>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Connected Integrations</h2>
+              <span className="text-xs text-muted-foreground">{connectedCount} of {integrations.length} active</span>
+            </div>
+            {integrations.length > 0 ? integrations.map(i => (
+              <Card key={i.id}>
                 <CardContent className="p-4 flex items-center gap-4">
-                  <span className="text-2xl">{i.icon}</span>
+                  <span className="text-2xl">{icons[i.id] ?? '🔌'}</span>
                   <div className="flex-1">
                     <div className="font-medium text-sm">{i.name}</div>
-                    <div className="text-xs text-muted-foreground">{i.desc}</div>
+                    <div className="text-xs text-muted-foreground">{i.description}</div>
                   </div>
-                  <span className={`text-[10px] px-2 py-1 rounded ${i.status === 'connected' ? 'bg-green-500/15 text-green-500' : 'bg-muted text-muted-foreground cursor-pointer hover:bg-cyan-500/10 hover:text-cyan-400'}`}>
-                    {i.status === 'connected' ? 'Connected' : 'Connect'}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {i.connected ? (
+                      <span className="flex items-center gap-1 text-[10px] px-2 py-1 rounded bg-green-500/15 text-green-500">
+                        <CheckCircle2 size={10} /> Connected
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1 text-[10px] px-2 py-1 rounded bg-muted text-muted-foreground">
+                        <Circle size={10} /> Not configured
+                      </span>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
-            ))}
+            )) : (
+              <div className="text-center py-8 text-sm text-muted-foreground">Loading integration status...</div>
+            )}
           </div>
         )}
         {activeTab === 'referrals' && (

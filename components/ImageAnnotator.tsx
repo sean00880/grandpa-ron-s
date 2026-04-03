@@ -1,7 +1,7 @@
 'use client';
-import Image from 'next/image';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { Region } from '../types';
 import { MousePointer2, X } from 'lucide-react';
 
@@ -76,10 +76,12 @@ export const ImageAnnotator: React.FC<ImageAnnotatorProps> = ({
       onMouseUp={handleMouseUp}
       onTouchEnd={handleMouseUp}
     >
-      <Image 
-        src={imageSrc} 
-        alt="Annotate" 
-        className="w-full h-full object-contain rounded-lg"
+      <Image
+        src={imageSrc}
+        alt="Annotate"
+        fill
+        unoptimized
+        className="object-contain rounded-lg"
         draggable={false}
       />
       

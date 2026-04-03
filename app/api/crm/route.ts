@@ -15,6 +15,11 @@ export async function GET(request: Request) {
     const view = searchParams.get('view') ?? searchParams.get('type') ?? 'pipeline';
 
     switch (view) {
+      case 'quotes': {
+        const quotes = await db.quotes.findMany({ orderBy: { createdAt: 'desc' }, take: 100 });
+        return Response.json(quotes);
+      }
+
       case 'pipeline': {
         const quotes = await db.quotes.findMany({ orderBy: { createdAt: 'desc' }, take: 100 });
         const stages = ['pending', 'contacted', 'quoted', 'negotiating', 'invoiced', 'paid', 'lost'];

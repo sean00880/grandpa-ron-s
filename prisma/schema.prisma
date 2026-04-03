@@ -177,3 +177,141 @@ model BlogPostTag {
 
   @@id([postId, tagId])
 }
+
+// ============================================
+// INSIGHTS MODELS (Wave 3 — Persistence)
+// ============================================
+// Replaces the in-memory InsightsStore in lib/orcbase.ts
+// Generated content survives server restarts.
+
+model InsightsTopic {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String
+  source      String  @default("programmatic") // programmatic, manual
+  serviceId   String?
+  enabled     Boolean @default(true)
+  createdAt   DateTime @default(now())
+
+  queries InsightsQuery[]
+  posts   InsightsPost[]
+  runs    InsightsRun[]
+
+  @@index([slug])
+  @@index([enabled])
+}
+
+model InsightsQuery {
+  id        String   @id @default(cuid())
+  topicId   String
+  topic     InsightsTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  query     String
+  createdAt DateTime @default(now())
+
+  @@index([topicId])
+}
+
+model InsightsPost {
+  id               String   @id @default(cuid())
+  topicId          String
+  topic            InsightsTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  queryId          String?
+  title            String
+  summary          String
+  body             String
+  whyItMatters     String
+  suggestedActions String   @default("[]") // JSON array of strings
+  localTip         String?
+  seasonalNote     String?
+  source           String   @default("gemini")
+  generatedBy      String   @default("gemini-2.0-flash")
+  createdAt        DateTime @default(now())
+
+  @@index([topicId])
+  @@index([createdAt])
+}
+
+model InsightsRun {
+  id             String   @id @default(cuid())
+  topicId        String
+  topic          InsightsTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  status         String   @default("pending") // pending, running, completed, failed
+  postsGenerated Int      @default(0)
+  error          String?
+  startedAt      DateTime @default(now())
+  completedAt    DateTime?
+
+  @@index([topicId])
+  @@index([status])
+}
+
+// ============================================
+// INBOX MODELS (Wave 3 — CRM Email Persistence)
+// ============================================
+// Replaces the in-memory InboxStore in lib/inbox-store.ts
+
+model EmailChannel {
+  id          String   @id @default(cuid())
+  workspaceId String?
+  provider    String   @default("manual") // gmail, smtp, manual
+  email       String
+  displayName String?
+  isDefault   Boolean  @default(false)
+  status      String   @default("active") // active, disconnected, error
+  connectedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  // OAuth (Gmail)
+  accessToken   String?
+  refreshToken  String?
+  tokenExpiresAt DateTime?
+
+  // SMTP
+  smtpHost String?
+  smtpPort Int?
+
+  @@index([email])
+  @@index([provider])
+}
+
+model EmailThread {
+  id             String   @id @default(cuid())
+  workspaceId    String?
+  channelId      String?
+  subject        String
+  participants   String   @default("[]") // JSON array of email addresses
+  snippet        String?
+  linkedQuoteId  String?
+  linkedContactId String?
+  assignedTo     String?
+  status         String   @default("unread") // unread, read, replied, snoozed, archived
+  priority       String   @default("normal") // urgent, normal, low
+  tags           String   @default("[]") // JSON array of strings
+  messageCount   Int      @default(0)
+  lastMessageAt  DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  messages EmailMessage[]
+
+  @@index([status])
+  @@index([priority])
+  @@index([lastMessageAt])
+  @@index([channelId])
+}
+
+model EmailMessage {
+  id          String   @id @default(cuid())
+  threadId    String
+  thread      EmailThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  fromAddress String
+  fromName    String?
+  toAddresses String   @default("[]") // JSON array
+  subject     String
+  bodyText    String
+  direction   String   @default("inbound") // inbound, outbound
+  sentAt      DateTime @default(now())
+
+  @@index([threadId])
+  @@index([sentAt])
+}

@@ -41,13 +41,15 @@ export default function CRMPage() {
   const fetchData = useCallback(async () => {
     try {
       const [quotesRes, contactsRes] = await Promise.all([
-        fetch('/api/crm?type=quotes'),
-        fetch('/api/crm?type=contacts'),
+        fetch('/api/crm?view=quotes'),
+        fetch('/api/crm?view=contacts'),
       ]);
-      // Fallback: if CRM API doesn't exist yet, use empty arrays
-      const quotes = quotesRes.ok ? await quotesRes.json() : [];
-      const contacts = contactsRes.ok ? await contactsRes.json() : [];
-      setData({ quotes: Array.isArray(quotes) ? quotes : [], contacts: Array.isArray(contacts) ? contacts : [] });
+      const quotesJson = quotesRes.ok ? await quotesRes.json() : [];
+      const contactsJson = contactsRes.ok ? await contactsRes.json() : { contacts: [] };
+      setData({
+        quotes: Array.isArray(quotesJson) ? quotesJson : [],
+        contacts: Array.isArray(contactsJson) ? contactsJson : (contactsJson.contacts ?? []),
+      });
     } catch {
       setData({ quotes: [], contacts: [] });
     }
@@ -74,10 +76,10 @@ export default function CRMPage() {
       />
 
       <div className="flex-1 overflow-hidden">
-        {activeTab === 'pipeline' && <PipelineView quotes={data?.quotes ?? []} stages={stages} />}
+        {activeTab === 'pipeline' && <PipelineView quotes={data?.quotes ?? []} stages={stages} onRefresh={fetchData} />}
         {activeTab === 'contacts' && <ContactsView contacts={data?.contacts ?? []} quotes={data?.quotes ?? []} />}
-        {activeTab === 'invoices' && <InvoicesView quotes={data?.quotes ?? []} />}
-        {activeTab === 'automations' && <AutomationsView />}
+        {activeTab === 'invoices' && <InvoicesView quotes={data?.quotes ?? []} onRefresh={fetchData} />}
+        {activeTab === 'automations' && <AutomationsView quotes={data?.quotes ?? []} />}
         {activeTab === 'activity' && <ActivityView quotes={data?.quotes ?? []} />}
       </div>
     </div>
@@ -88,7 +90,10 @@ export default function CRMPage() {
 // Pipeline View — Kanban board
 // ---------------------------------------------------------------------------
 
-function PipelineView({ quotes, stages }: { quotes: Quote[]; stages: typeof workspaceContext.crmConfig.pipelineStages }) {
+function PipelineView({ quotes, stages, onRefresh }: { quotes: Quote[]; stages: typeof workspaceContext.crmConfig.pipelineStages; onRefresh: () => void }) {
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [dropTarget, setDropTarget] = useState<string | null>(null);
+
   // Map quotes to pipeline stages
   const stageMap = new Map<string, Quote[]>();
   for (const stage of stages) {
@@ -100,10 +105,49 @@ function PipelineView({ quotes, stages }: { quotes: Quote[]; stages: typeof work
     mapped.push(quote);
   }
 
+  const handleDragStart = (e: React.DragEvent, quoteId: string) => {
+    e.dataTransfer.setData('text/plain', quoteId);
+    e.dataTransfer.effectAllowed = 'move';
+    setDraggingId(quoteId);
+  };
+
+  const handleDragOver = (e: React.DragEvent, stageId: string) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDropTarget(stageId);
+  };
+
+  const handleDragLeave = () => {
+    setDropTarget(null);
+  };
+
+  const handleDrop = async (e: React.DragEvent, newStatus: string) => {
+    e.preventDefault();
+    setDropTarget(null);
+    setDraggingId(null);
+    const quoteId = e.dataTransfer.getData('text/plain');
+    if (!quoteId) return;
+
+    const quote = quotes.find(q => q.id === quoteId);
+    if (!quote || quote.status === newStatus) return;
+
+    try {
+      await fetch(`/api/quote/${quoteId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      onRefresh();
+    } catch (err) {
+      console.error('Failed to update quote status:', err);
+    }
+  };
+
   return (
     <div className="flex gap-3 p-4 overflow-x-auto h-full">
       {stages.map((stage) => {
         const stageQuotes = stageMap.get(stage.id) ?? [];
+        const isDropping = dropTarget === stage.id;
         return (
           <div key={stage.id} className="flex flex-col min-w-[260px] max-w-[300px]">
             {/* Column header */}
@@ -117,15 +161,30 @@ function PipelineView({ quotes, stages }: { quotes: Quote[]; stages: typeof work
               </span>
             </div>
 
-            {/* Column body */}
-            <div className="flex-1 space-y-2 overflow-y-auto rounded-lg bg-muted/30 p-2">
+            {/* Column body — drop zone */}
+            <div
+              className={`flex-1 space-y-2 overflow-y-auto rounded-lg p-2 transition-colors ${
+                isDropping ? 'bg-primary/10 ring-2 ring-primary/30' : 'bg-muted/30'
+              }`}
+              onDragOver={(e) => handleDragOver(e, stage.id)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDrop(e, stage.id)}
+            >
               {stageQuotes.length === 0 && (
-                <div className="text-center py-8 text-xs text-muted-foreground/50">
-                  No leads
+                <div className={`text-center py-8 text-xs ${isDropping ? 'text-primary/70' : 'text-muted-foreground/50'}`}>
+                  {isDropping ? 'Drop here' : 'No leads'}
                 </div>
               )}
               {stageQuotes.map((quote) => (
-                <Card key={quote.id} className="cursor-pointer hover:shadow-md transition-shadow">
+                <Card
+                  key={quote.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, quote.id)}
+                  onDragEnd={() => { setDraggingId(null); setDropTarget(null); }}
+                  className={`cursor-grab active:cursor-grabbing hover:shadow-md transition-all ${
+                    draggingId === quote.id ? 'opacity-40 scale-95' : ''
+                  }`}
+                >
                   <CardContent className="p-3">
                     <div className="flex items-start justify-between">
                       <div>
@@ -246,8 +305,26 @@ function ContactsView({ contacts, quotes }: { contacts: CRMData['contacts']; quo
 // Invoices View
 // ---------------------------------------------------------------------------
 
-function InvoicesView({ quotes }: { quotes: Quote[] }) {
+function InvoicesView({ quotes, onRefresh }: { quotes: Quote[]; onRefresh: () => void }) {
+  const [sendingId, setSendingId] = useState<string | null>(null);
   const quotedOrWon = quotes.filter(q => q.status === 'quoted' || q.status === 'won' || q.status === 'invoiced' || q.status === 'paid');
+
+  const handleSendInvoice = async (quoteId: string) => {
+    setSendingId(quoteId);
+    try {
+      const res = await fetch('/api/invoices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quoteId }),
+      });
+      if (!res.ok) throw new Error('Invoice creation failed');
+      onRefresh();
+    } catch (err) {
+      console.error('Failed to send invoice:', err);
+    } finally {
+      setSendingId(null);
+    }
+  };
 
   return (
     <div className="p-4 overflow-y-auto">
@@ -276,8 +353,12 @@ function InvoicesView({ quotes }: { quotes: Quote[] }) {
                   {q.status}
                 </span>
                 {q.status === 'quoted' && (
-                  <button className="rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
-                    Send Invoice
+                  <button
+                    onClick={() => handleSendInvoice(q.id)}
+                    disabled={sendingId === q.id}
+                    className="rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground disabled:opacity-50"
+                  >
+                    {sendingId === q.id ? 'Sending...' : 'Send Invoice'}
                   </button>
                 )}
               </div>
@@ -296,8 +377,20 @@ function InvoicesView({ quotes }: { quotes: Quote[] }) {
 // Automations View
 // ---------------------------------------------------------------------------
 
-function AutomationsView() {
+function AutomationsView({ quotes }: { quotes: Quote[] }) {
   const { crmConfig } = workspaceContext;
+
+  // Compute overdue follow-ups from real quote data
+  const now = new Date();
+  const followUpStats = Object.entries(crmConfig.autoFollowUpDays).map(([priority, days]) => {
+    const priorityQuotes = quotes.filter(q => q.leadPriority === priority && q.status === 'pending');
+    const overdue = priorityQuotes.filter(q => {
+      const created = new Date(q.createdAt?.toString() ?? 0);
+      const dueDate = new Date(created.getTime() + (days as number) * 24 * 60 * 60 * 1000);
+      return now > dueDate;
+    });
+    return { priority, days, total: priorityQuotes.length, overdue: overdue.length };
+  });
 
   return (
     <div className="p-4 overflow-y-auto">
@@ -308,16 +401,24 @@ function AutomationsView() {
           <CardHeader><CardTitle className="text-sm">Auto Follow-Up Rules</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {Object.entries(crmConfig.autoFollowUpDays).map(([priority, days]) => (
+              {followUpStats.map(({ priority, days, total, overdue }) => (
                 <div key={priority} className="flex items-center justify-between text-sm">
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                    priority === 'hot' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
-                    priority === 'warm' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                    'bg-muted text-muted-foreground'
-                  }`}>
-                    {priority}
-                  </span>
-                  <span className="text-muted-foreground">Follow up within {days} day{days > 1 ? 's' : ''}</span>
+                  <div className="flex items-center gap-2">
+                    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                      priority === 'hot' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
+                      priority === 'warm' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                      'bg-muted text-muted-foreground'
+                    }`}>
+                      {priority}
+                    </span>
+                    <span className="text-muted-foreground">within {days} day{days > 1 ? 's' : ''}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground">{total} pending</span>
+                    {overdue > 0 && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/15 text-red-500 font-medium">{overdue} overdue</span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

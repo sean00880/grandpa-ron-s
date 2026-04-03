@@ -28,6 +28,8 @@
   "dependencies": {
     "@growsz/arcorc-layout": "workspace:*",
     "@growsz/wcg-core": "workspace:*",
+    "@growsz/webdevos-core": "workspace:*",
+    "@growsz/workgun-core": "workspace:*",
     "@growsz/core": "workspace:*",
     "@growsz/dbity-runtime": "workspace:*",
     "@growsz/orcbase-core": "workspace:*",

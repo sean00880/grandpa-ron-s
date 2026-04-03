@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { ChevronsLeftRight } from 'lucide-react';
 
 interface BeforeAfterSliderProps {
@@ -57,10 +58,12 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     >
       {/* After Image (Background) */}
       <div className="absolute inset-0">
-        <img 
-          src={afterImage} 
-          alt="After" 
-          className="w-full h-full object-cover"
+        <Image
+          src={afterImage}
+          alt="After"
+          fill
+          unoptimized
+          className="object-cover"
         />
         <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg z-10">
           AI Render
@@ -72,10 +75,12 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         className="absolute inset-0 overflow-hidden"
         style={{ width: `${sliderPosition}%` }}
       >
-        <img 
-          src={beforeImage} 
-          alt="Before" 
-          className="absolute top-0 left-0 h-full w-auto max-w-none" 
+        <Image
+          src={beforeImage}
+          alt="Before"
+          fill
+          unoptimized
+          className="object-cover"
           style={{ width: containerRef.current ? containerRef.current.offsetWidth : '100%' }}
         />
         <div className="absolute top-4 left-4 bg-white/80 text-gray-800 px-3 py-1 rounded-full text-sm font-bold shadow-lg backdrop-blur-sm">
